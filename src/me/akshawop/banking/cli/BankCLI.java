@@ -13,6 +13,7 @@ public final class BankCLI extends BankDAO {
 
     private static void help() {
         System.out.println("        --HELP MENU--");
+        System.out.println("[options -> descriptions]\n");
         System.out.println("exit -> logout");
         System.out.println("updatebank -> Update the bank info");
         System.out.println("createbranch -> Create a new Branch");
@@ -21,72 +22,81 @@ public final class BankCLI extends BankDAO {
         System.out.println("listbranches -> List all Branches");
         System.out.println("listcustomers -> List existing Customers");
         System.out.println("listaccounts -> List existing Accounts");
-        System.out.println("help -> To see this help menu again");
-        System.out.println();
+        System.out.println("help -> To see this help menu again\n");
     }
 
     public static void main(String[] args) {
-        Bank bank = null;
-        String input;
-
-        // checking for existing bank
-        if (doesBankAlreadyExists()) {
-            bank = BankDAO.getBank();
-        } else {
-            CreateBankForm.fillup(); // form
-
-            BankDAO.addBank(bank);
-            bank = BankDAO.getBank();
-        }
-
-        // start
-        BankDAO.bank = bank;
-        System.out.println("    " + bank.getBankName().toUpperCase());
-        help();
         Scanner in = new Scanner(System.in);
-        do {
-            System.out.print("bank> ");
-            input = in.next();
-            switch (input) {
-                case "updatebank":
-                    // update
-                    BankDAO.updateBankData(bank);
-                    break;
-                case "createbranch":
-                    // add branch
-                    BankDAO.addBranch(null);
-                    break;
-                case "closebranch":
-                    // remove branch
-                    BankDAO.removeBranch(null);
-                    break;
-                case "branchlogin":
-                    // get branch
-                    BankDAO.getBranch(null);
-                    break;
-                case "listbranches":
-                    // list branches
-                    BankDAO.listBranches();
-                    break;
-                case "listcustomers":
-                    // list customers
-                    BankDAO.listCustomers(0, 0);
-                    break;
-                case "listaccounts":
-                    // list accounts
-                    BankDAO.listAccounts(0, 0);
-                    break;
-                case "help":
-                    // show help menu
-                    help();
-                    break;
-                case "exit":
-                    // exit
-                    break;
-                default:
-                    System.out.println("invalid input!");
+        try {
+            Bank bank = null;
+
+            // checking for existing bank
+            if (doesBankAlreadyExists()) {
+                bank = BankDAO.getBank();
+            } else {
+                System.out.println("\nNo Bank exists, create a new one!");
+                Bank newBank = CreateBankForm.fillUp(); // form fill up
+                if (newBank == null) {
+                    System.out.println("Program stopped successfully");
+                    System.exit(0);
+                }
+                BankDAO.addBank(newBank);
+                bank = BankDAO.getBank();
             }
-        } while (!input.equals("exit"));
-        in.close();
+
+            // start
+            BankDAO.bank = bank;
+            System.out.println("\n    " + bank.getBankName().toUpperCase() + "\n");
+            help();
+
+            String input;
+            do {
+                System.out.print("bank> ");
+                input = in.next();
+                switch (input) {
+                    case "updatebank":
+                        // update
+                        BankDAO.updateBankData(bank);
+                        break;
+                    case "createbranch":
+                        // add branch
+                        BankDAO.addBranch(null);
+                        break;
+                    case "closebranch":
+                        // remove branch
+                        BankDAO.removeBranch(null);
+                        break;
+                    case "branchlogin":
+                        // get branch
+                        BankDAO.getBranch(null);
+                        break;
+                    case "listbranches":
+                        // list branches
+                        BankDAO.listBranches();
+                        break;
+                    case "listcustomers":
+                        // list customers
+                        BankDAO.listCustomers(0, 0);
+                        break;
+                    case "listaccounts":
+                        // list accounts
+                        BankDAO.listAccounts(0, 0);
+                        break;
+                    case "help":
+                        // show help menu
+                        help();
+                        break;
+                    case "exit":
+                        // exit
+                        break;
+                    default:
+                        System.out.println("invalid input!");
+                }
+            } while (!input.equals("exit"));
+        } catch (Exception e) {
+            System.out.println("\nProgram stopped Abnormally!");
+        } finally {
+            in.close();
+        }
     }
 }
