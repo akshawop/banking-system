@@ -37,8 +37,7 @@ public class CreateBankForm {
             // bank code input
             do {
                 System.out.print("Bank Code*: ");
-                bankCode = in.next().toLowerCase();
-                in.nextLine();
+                bankCode = in.nextLine().toLowerCase().trim();
                 if (!isValidBankCode(bankCode)) {
                     System.out.println("Wrong input: Has to be 4 characters long");
                     continue;
@@ -52,8 +51,7 @@ public class CreateBankForm {
             System.out.println("no -> To cancel");
             System.out.println("[anything else] -> To refill the form");
             System.out.print("form> ");
-            String input = in.next().toLowerCase();
-            in.nextLine();
+            String input = in.nextLine().toLowerCase().trim();
 
             switch (input) {
                 case "yes":
