@@ -15,10 +15,10 @@ public sealed class BankDAO permits BankCLI {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(SQLQueries.getBank());
             con.close();
-            rs.next();
-            if (rs.getInt("bank_id") == 0) {
+            if (rs.isClosed()) {
                 return null;
             } else {
+                rs.next();
                 String bankCode = rs.getString("bank_code");
                 String bankName = rs.getString("bank_name");
                 return new Bank(bankCode, bankName);
