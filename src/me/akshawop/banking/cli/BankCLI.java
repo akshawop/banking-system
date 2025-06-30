@@ -27,15 +27,16 @@ public final class BankCLI extends BankDAO {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+
         try {
-            Bank bank = null;
+            Bank bank;
 
             // checking for existing bank
             if (doesBankAlreadyExists()) {
                 bank = BankDAO.getBank();
             } else {
                 System.out.println("\nNo Bank exists, create a new one!");
-                Bank newBank = CreateBankForm.fillUp(); // form fill up
+                Bank newBank = CreateBankForm.fillUp(in); // form fill up
                 if (newBank == null) {
                     System.out.println("Program stopped successfully");
                     System.exit(0);
@@ -53,6 +54,8 @@ public final class BankCLI extends BankDAO {
             do {
                 System.out.print("bank> ");
                 input = in.next();
+                in.nextLine();
+
                 switch (input) {
                     case "updatebank":
                         // update
@@ -94,7 +97,8 @@ public final class BankCLI extends BankDAO {
                 }
             } while (!input.equals("exit"));
         } catch (Exception e) {
-            System.out.println("\nProgram stopped Abnormally!");
+            System.err.println(e);
+            System.err.println("\nProgram stopped Abnormally!");
         } finally {
             in.close();
         }
