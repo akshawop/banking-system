@@ -26,7 +26,7 @@ public class UpdateBankForm {
 
             // bank name input
             do {
-                System.out.print("Bank Name*: ");
+                System.out.print("Bank Name: ");
                 bankName = in.nextLine().toLowerCase().trim();
                 if (!isValidBankName(bankName)) {
                     System.out.println("Wrong input: Cannot be greater than 100 characters");
