@@ -37,7 +37,7 @@ public class SQLQueries {
 
     // MAIN CODE
     // BankDAO
-    public static String getBank() {
+    public static String fetchBankFromDB() {
         return "SELECT * FROM bank LIMIT 1";
     }
 
@@ -47,7 +47,7 @@ public class SQLQueries {
                 + ")";
     }
 
-    public static String updateBank(Bank bank) {
+    public static String updateBankInDB(Bank bank) {
         return "UPDATE bank SET bank_code = " + str(bank.getBankCode()) + ", bank_name = " + str(bank.getBankName())
                 + " WHERE bank_id = 1";
     }
@@ -59,11 +59,11 @@ public class SQLQueries {
                 + ")";
     }
 
-    public static String removeBranch(String branchCode) {
+    public static String removeBranchFromDB(String branchCode) {
         return "DELETE FROM branch WHERE branch_code = " + str(branchCode);
     }
 
-    public static String getBranch(String branchCode) {
+    public static String getBranchFromDB(String branchCode) {
         return "SELECT * FROM branch WHERE branch_code = " + str(branchCode);
     }
 
@@ -89,11 +89,11 @@ public class SQLQueries {
                 + data + ")";
     }
 
-    public static String getCustomer(int customerId) {
+    public static String getCustomerFromDB(int customerId) {
         return "SELECT * customer WHERE customer_id = " + customerId;
     }
 
-    public static String updateCustomer(Customer customer) {
+    public static String updateCustomerInDB(Customer customer) {
         String name = customer.getName();
         Address address = customer.getAddress();
 
@@ -112,7 +112,7 @@ public class SQLQueries {
                 + " WHERE customer_id = " + customer.getCustomerId();
     }
 
-    public static String accessAccount(int accountNumber) {
+    public static String accessAccountInDB(int accountNumber) {
         return "SELECT * FROM account WHERE account_number = " + accountNumber;
     }
 
@@ -129,14 +129,14 @@ public class SQLQueries {
                 + ")";
     }
 
-    public static String updateAccount(Account account) {
+    public static String updateAccountInDB(Account account) {
         return "UPDATE account SET "
                 + "branch_code = " + str(account.getBranchCode()) + ", "
                 + "account_status = " + str(account.getStatus())
                 + " WHERE account_number = " + account.getAccountNumber();
     }
 
-    public static String closeAccount(int accountNumber) {
+    public static String deleteAccountFromDB(int accountNumber) {
         return "DELETE FROM account WHERE account_number = " + accountNumber;
     }
 
@@ -145,11 +145,11 @@ public class SQLQueries {
     }
 
     // AccountDAO
-    public static String updateBalance(double balance, int accountNumber) {
+    public static String updateBalanceInDB(double balance, int accountNumber) {
         return "UPDATE account SET balance = " + balance + " WHERE account_number = " + accountNumber;
     }
 
-    public static String getTransactionHistory(int accountNumber, int offset, int limit) {
+    public static String getTransactionHistoryFromDB(int accountNumber, int offset, int limit) {
         return "SELECT * FROM account_transaction WHERE account = " + accountNumber + " LIMIT " + offset + ", " + limit;
     }
 
@@ -165,7 +165,7 @@ public class SQLQueries {
                 + ")";
     }
 
-    public static String getTransaction(Transaction transaction) {
+    public static String fetchTransactionFromDB(Transaction transaction) {
         return "SELECT * FROM account_transaction WHERE "
                 + "account = " + transaction.getAccountNumber() + " AND "
                 + "description = " + str(transaction.getDescription()) + " AND "
