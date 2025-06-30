@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS banking_system;
 USE banking_system;
 
 CREATE TABLE bank (
-    bank_id TINYINT PRIMARY KEY CHECK (bank_id = 1),
+    bank_id TINYINT PRIMARY KEY DEFAULT 1 CHECK (bank_id = 1),
     bank_code CHAR(4) NOT NULL,
     bank_name VARCHAR(100) NOT NULL,
     creation_date DATETIME NOT NULL DEFAULT (NOW()),
