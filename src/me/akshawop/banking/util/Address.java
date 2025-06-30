@@ -8,7 +8,7 @@ public class Address {
     public String pinCode;
 
     public Address() {
-        // form
+        // filled by form
     }
 
     public Address(String street, String city, String district, String state, String pinCode) {
