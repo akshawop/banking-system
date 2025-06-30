@@ -38,7 +38,7 @@ public class SQLQueries {
     // MAIN CODE
     // BankDAO
     public static String getBank() {
-        return "SELECT * FROM bank LIMIT = 1";
+        return "SELECT * FROM bank LIMIT 1";
     }
 
     public static String addBankToDB(Bank bank) {
