@@ -2,7 +2,7 @@ package me.akshawop.banking.sys;
 
 import java.sql.Date;
 
-import me.akshawop.banking.util.Address;
+import me.akshawop.banking.customtype.Address;
 
 public class Customer {
     private int customerId;

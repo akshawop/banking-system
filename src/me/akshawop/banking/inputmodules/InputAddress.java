@@ -2,7 +2,7 @@ package me.akshawop.banking.inputmodules;
 
 import java.util.Scanner;
 
-import me.akshawop.banking.util.Address;
+import me.akshawop.banking.customtype.Address;
 
 public class InputAddress {
     private static Address address = new Address();

@@ -1,11 +1,11 @@
 package me.akshawop.banking.sql;
 
+import me.akshawop.banking.customtype.Address;
 import me.akshawop.banking.sys.Account;
 import me.akshawop.banking.sys.Bank;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.sys.Transaction;
-import me.akshawop.banking.util.Address;
 
 public class SQLQueries {
     private static String str(String value) {

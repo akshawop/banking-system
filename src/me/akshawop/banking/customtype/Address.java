@@ -1,4 +1,4 @@
-package me.akshawop.banking.util;
+package me.akshawop.banking.customtype;
 
 public class Address {
     public String street;
