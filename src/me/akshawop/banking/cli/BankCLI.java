@@ -63,7 +63,10 @@ public final class BankCLI extends BankDAO {
             System.out.println("\nBranch creation cancelled!");
     }
 
-    private static void removeBranch() {
+    // TODO: add the verify before closing and accounts transfer to another branch
+    // feature while branch closing process
+    private static void closeBranch() {
+        System.out.print("\nBranch Code: ");
         String branchCode = in.nextLine().toLowerCase().trim();
         if (InputChecker.checkBranchCode(branchCode, 'c')) {
             if (dao.removeBranch(branchCode) == 0)
@@ -74,6 +77,10 @@ public final class BankCLI extends BankDAO {
             System.out.println("Invalid Branch Code!");
     }
 
+    // private static void branchLogin() {
+
+    // }
+
     private static void help() {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
@@ -82,7 +89,7 @@ public final class BankCLI extends BankDAO {
         System.out.println("updatebank -> Update the bank info");
         System.out.println("createbranch -> Create a new Branch");
         System.out.println("closebranch -> Close an existing Branch");
-        System.out.println("branchlogin -> Login to an existing Branch");
+        // System.out.println("branchlogin -> Login to an existing Branch");
         System.out.println("listbranches -> List all Branches");
         System.out.println("listcustomers -> List existing Customers");
         System.out.println("listaccounts -> List existing Accounts");
@@ -90,7 +97,6 @@ public final class BankCLI extends BankDAO {
     }
 
     public static void main(String[] args) {
-
         try {
             // start
             init();
@@ -108,48 +114,58 @@ public final class BankCLI extends BankDAO {
                         // update bank
                         updateBank();
                         break;
+
                     case "createbranch":
                         // add branch
                         createBranch();
                         break;
+
                     case "closebranch":
                         // remove branch
-                        removeBranch();
+                        closeBranch();
                         break;
-                    case "branchlogin":
-                        // get branch
-                        dao.getBranch(null);
-                        break;
+
+                    // case "branchlogin":
+                    // // get branch
+                    // branchLogin();
+                    // break;
+
                     case "listbranches":
                         // list branches
                         dao.listBranches();
                         break;
+
                     case "listcustomers":
                         // list customers
                         dao.listCustomers(0, 0);
                         break;
+
                     case "listaccounts":
                         // list accounts
                         dao.listAccounts(0, 0);
                         break;
+
                     case "info":
                         // print bank info
                         dao.showBankInfo();
                         break;
+
                     case "help":
                         // show help menu
                         help();
                         break;
+
                     case "exit":
                         // exit
                         break;
+
                     default:
                         System.out.println("Invalid input!");
                 }
             } while (!input.equals("exit"));
             System.out.println("Program stopped successfully");
         } catch (Exception e) {
-            System.err.println(e);
+            System.err.println("An Error Occurred!\n" + e);
             System.err.println("\nProgram stopped Abnormally!");
         } finally {
             in.close();

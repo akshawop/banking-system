@@ -21,5 +21,8 @@
             "username": "root"
         }
     ],
-    "java.dependency.syncWithFolderExplorer": true
+    "java.dependency.syncWithFolderExplorer": true,
+    "cSpell.words": [
+        "aadhaar"
+    ]
 }
