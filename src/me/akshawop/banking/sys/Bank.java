@@ -9,9 +9,9 @@ public class Bank {
         this.bankName = bankName;
     }
 
-    public Bank(Bank otherBank) {
-        this.bankCode = otherBank.getBankCode();
-        this.bankName = otherBank.getBankName();
+    public Bank(Bank recvBank) {
+        this.bankCode = recvBank.getBankCode();
+        this.bankName = recvBank.getBankName();
     }
 
     public String getBankCode() {
