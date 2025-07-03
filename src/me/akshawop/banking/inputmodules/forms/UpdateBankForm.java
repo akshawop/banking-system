@@ -29,7 +29,7 @@ public class UpdateBankForm {
             do {
                 System.out.print("Bank Name: ");
                 bankName = in.nextLine().toLowerCase().trim();
-                if (!InputChecker.checkBankName(bankName, 'u')) {
+                if (!InputChecker.checkBankName(bankName, 'o')) {
                     System.out.println("Wrong input: Cannot be greater than 100 characters");
                     continue;
                 }
@@ -42,7 +42,7 @@ public class UpdateBankForm {
             do {
                 System.out.print("Bank Code: ");
                 bankCode = in.nextLine().toLowerCase().trim();
-                if (!InputChecker.checkBankCode(bankCode, 'u')) {
+                if (!InputChecker.checkBankCode(bankCode, 'o')) {
                     System.out.println("Wrong input: Has to be 4 characters long");
                     continue;
                 }
