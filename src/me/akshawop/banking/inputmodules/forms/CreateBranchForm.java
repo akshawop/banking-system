@@ -61,7 +61,7 @@ public class CreateBranchForm {
             System.out.println("\nSubmit the form?");
             System.out.println("yes -> To confirm");
             System.out.println("no -> To cancel");
-            System.out.println("[anything else] -> To refill the form");
+            System.out.println("[anything else] -> To refill the form\n");
             System.out.print("form> ");
             String input = in.nextLine().toLowerCase().trim();
 
