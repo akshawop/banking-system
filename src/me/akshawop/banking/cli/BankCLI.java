@@ -6,6 +6,7 @@ import me.akshawop.banking.inputmodules.forms.*;
 import me.akshawop.banking.sys.Bank;
 import me.akshawop.banking.sys.BankDAO;
 import me.akshawop.banking.sys.Branch;
+import me.akshawop.banking.util.InputChecker;
 
 public final class BankCLI extends BankDAO {
     static Scanner in = new Scanner(System.in);
@@ -45,7 +46,6 @@ public final class BankCLI extends BankDAO {
             if (dao.updateBankData(newBank) == 0) {
                 bank = dao.fetchBank();
                 System.out.println("\nBank update Successful!");
-                return;
             } else
                 System.err.println("\nUpdate unsuccessful!");
         } else
@@ -55,13 +55,23 @@ public final class BankCLI extends BankDAO {
     private static void createBranch() {
         Branch newBranch = CreateBranchForm.fillUp(in);
         if (newBranch != null) {
-            if (dao.addBranch(newBranch) == 0) {
+            if (dao.addBranch(newBranch) == 0)
                 System.out.println("\nBranch created Successfully!");
-                return;
-            } else
+            else
                 System.err.println("\nBranch creation unsuccessful!");
         } else
             System.out.println("\nBranch creation cancelled!");
+    }
+
+    private static void removeBranch() {
+        String branchCode = in.nextLine().toLowerCase().trim();
+        if (InputChecker.checkBranchCode(branchCode, 'c')) {
+            if (dao.removeBranch(branchCode) == 0)
+                System.out.println("Branch closed successfully!");
+            else
+                System.out.println("Branch closing unsuccessful!");
+        } else
+            System.out.println("Invalid Branch Code!");
     }
 
     private static void help() {
@@ -104,7 +114,7 @@ public final class BankCLI extends BankDAO {
                         break;
                     case "closebranch":
                         // remove branch
-                        dao.removeBranch(null);
+                        removeBranch();
                         break;
                     case "branchlogin":
                         // get branch
@@ -134,7 +144,7 @@ public final class BankCLI extends BankDAO {
                         // exit
                         break;
                     default:
-                        System.out.println("invalid input!");
+                        System.out.println("Invalid input!");
                 }
             } while (!input.equals("exit"));
             System.out.println("Program stopped successfully");

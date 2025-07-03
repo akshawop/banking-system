@@ -3,6 +3,7 @@ package me.akshawop.banking.sys;
 import java.sql.*;
 
 import me.akshawop.banking.cli.BankCLI;
+import me.akshawop.banking.customtype.Address;
 import me.akshawop.banking.sql.SQLQueries;
 
 public sealed class BankDAO permits BankCLI {
@@ -28,7 +29,7 @@ public sealed class BankDAO permits BankCLI {
     }
 
     protected Bank fetchBank() {
-        // getBank
+        // fetchBank
         try {
             Connection con = DB.connect();
             Statement st = con.createStatement();
@@ -68,16 +69,14 @@ public sealed class BankDAO permits BankCLI {
         } catch (SQLTimeoutException e) {
             System.err.println("Error: Database timeout!");
             System.err.println("More info:\n" + e);
-            return 1;
         } catch (SQLException e) {
             System.err.println("Error: Database Access Error!");
             System.err.println("More info:\n" + e);
-            return 1;
         } catch (Exception e) {
             System.err.println("Error: something went wrong!");
             System.err.println("More info:\n" + e);
-            return 1;
         }
+        return 1;
     }
 
     protected int updateBankData(Bank bank) {
@@ -92,16 +91,14 @@ public sealed class BankDAO permits BankCLI {
         } catch (SQLTimeoutException e) {
             System.err.println("Error: Database timeout!");
             System.err.println("More info:\n" + e);
-            return 1;
         } catch (SQLException e) {
             System.err.println("Error: Database Access Error!");
             System.err.println("More info:\n" + e);
-            return 1;
         } catch (Exception e) {
             System.err.println("Error: something went wrong!");
             System.err.println("More info:\n" + e);
-            return 1;
         }
+        return 1;
     }
 
     protected int addBranch(Branch branch) {
@@ -115,24 +112,69 @@ public sealed class BankDAO permits BankCLI {
         } catch (SQLTimeoutException e) {
             System.err.println("Error: Database timeout!");
             System.err.println("More info:\n" + e);
-            return 1;
         } catch (SQLException e) {
             System.err.println("Error: Database Access Error!");
             System.err.println("More info:\n" + e);
-            return 1;
         } catch (Exception e) {
             System.err.println("Error: something went wrong!");
             System.err.println("More info:\n" + e);
-            return 1;
         }
+        return 1;
     }
 
-    protected void removeBranch(String branchCode) {
+    protected int removeBranch(String branchCode) {
         // removeBranch
+        try {
+            if (getBranch(branchCode) == null)
+                throw new Exception("The branch '" + branchCode.toUpperCase() + "' doesn't exists!");
+
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.removeBranchFromDB(branchCode));
+            con.close();
+            return 0;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
     }
 
     protected Branch getBranch(String branchCode) {
         // getBranch
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.getBranchFromDB(branchCode));
+
+            if (!rs.next()) {
+                con.close();
+                return null;
+            } else {
+                int branchId = rs.getInt("branch_id");
+                String branchName = rs.getString("branch_name");
+                Address address = new Address(rs.getString("street"), rs.getString("city"), rs.getString("district"),
+                        rs.getString("state"), rs.getString("pin_code"));
+                Date openingDate = rs.getDate("opening_date");
+                con.close();
+                return new Branch(branchId, branchCode, branchName, address, openingDate);
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
         return null;
     }
 
