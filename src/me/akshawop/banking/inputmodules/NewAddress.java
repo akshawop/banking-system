@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import me.akshawop.banking.customtype.Address;
 
-public class InputAddress {
+public class NewAddress {
     private static Address address = new Address();
 
     private static boolean isValidAddress(String str) {
