@@ -25,4 +25,11 @@ public class Address {
                 + ", " + pinCode;
     }
 
+    public void formPrint() {
+        System.out.println("Street: " + street);
+        System.out.println("City: " + city);
+        System.out.println("District: " + district);
+        System.out.println("State: " + state);
+        System.out.println("Area PIN Code: " + pinCode);
+    }
 }
