@@ -5,6 +5,7 @@ import java.util.Scanner;
 import me.akshawop.banking.inputmodules.forms.*;
 import me.akshawop.banking.sys.Bank;
 import me.akshawop.banking.sys.BankDAO;
+import me.akshawop.banking.sys.Branch;
 
 public final class BankCLI extends BankDAO {
     static Scanner in = new Scanner(System.in);
@@ -52,7 +53,15 @@ public final class BankCLI extends BankDAO {
     }
 
     private static void createBranch() {
-        
+        Branch newBranch = CreateBranchForm.fillUp(in);
+        if (newBranch != null) {
+            if (dao.addBranch(newBranch) == 0) {
+                System.out.println("\nBranch created Successfully!");
+                return;
+            } else
+                System.err.println("\nBranch creation unsuccessful!");
+        } else
+            System.out.println("\nBranch creation cancelled!");
     }
 
     private static void help() {

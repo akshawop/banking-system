@@ -104,8 +104,27 @@ public sealed class BankDAO permits BankCLI {
         }
     }
 
-    protected void addBranch(Branch branch) {
+    protected int addBranch(Branch branch) {
         // addBranchToDB
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.addBranchToDB(branch));
+            con.close();
+            return 0;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+            return 1;
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+            return 1;
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+            return 1;
+        }
     }
 
     protected void removeBranch(String branchCode) {
