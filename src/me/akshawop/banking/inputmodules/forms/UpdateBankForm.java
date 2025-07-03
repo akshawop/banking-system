@@ -5,6 +5,10 @@ import java.util.Scanner;
 import me.akshawop.banking.sys.Bank;
 
 public class UpdateBankForm {
+    static Bank bank;
+    static String bankName;
+    static String bankCode;
+
     private static boolean isValidBankName(String bankName) {
         return bankName.length() <= 100;
     }
@@ -13,14 +17,18 @@ public class UpdateBankForm {
         return (bankCode.length() == 0 || bankCode.length() == 4);
     }
 
+    private static void verify() {
+        System.out.println("\n    --PLEASE VERIFY THE DETAILS--");
+        System.out.println("Bank Name: " + bankName);
+        System.out.println("Bank Code: " + bankCode);
+        System.out.println();
+    }
+
     public static Bank fillUp(Scanner in, Bank recBank) {
         boolean cancelForm = false;
-        Bank bank = new Bank(recBank);
+        bank = new Bank(recBank);
 
         do {
-            String bankName;
-            String bankCode;
-
             System.out.println("\n--Please fill up the following details--");
             System.out.println("[* -> COMPULSORY FIELD]\n");
 
@@ -49,6 +57,9 @@ public class UpdateBankForm {
                     bank.setBankCode(bankCode);
                 break;
             } while (true);
+
+            // verify before submission
+            verify();
 
             // submit confirmation
             System.out.println("\nSubmit the form?");

@@ -5,6 +5,9 @@ import java.util.Scanner;
 import me.akshawop.banking.sys.Bank;
 
 public class CreateBankForm {
+    static String bankName;
+    static String bankCode;
+
     private static boolean isValidBankName(String bankName) {
         return (bankName.length() > 0 && bankName.length() <= 100);
     }
@@ -13,13 +16,17 @@ public class CreateBankForm {
         return bankCode.length() == 4;
     }
 
+    private static void verify() {
+        System.out.println("\n    --PLEASE VERIFY THE DETAILS--");
+        System.out.println("Bank Name: " + bankName);
+        System.out.println("Bank Code: " + bankCode);
+        System.out.println();
+    }
+
     public static Bank fillUp(Scanner in) {
         boolean cancelForm = false;
 
         do {
-            String bankName;
-            String bankCode;
-
             System.out.println("\n--Please fill up the following details--");
             System.out.println("[* -> COMPULSORY FIELD]\n");
 
@@ -44,6 +51,9 @@ public class CreateBankForm {
                 }
                 break;
             } while (true);
+
+            // verify before submission
+            verify();
 
             // submit confirmation
             System.out.println("\nSubmit the form?");
