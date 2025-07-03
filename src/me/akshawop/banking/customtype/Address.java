@@ -19,6 +19,14 @@ public class Address {
         this.pinCode = pinCode;
     }
 
+    public Address(Address recvAddress) {
+        this.street = recvAddress.street;
+        this.city = recvAddress.city;
+        this.district = recvAddress.district;
+        this.state = recvAddress.state;
+        this.pinCode = recvAddress.pinCode;
+    }
+
     @Override
     public String toString() {
         return street + ", " + city + ", " + district + ", " + state
