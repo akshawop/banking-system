@@ -45,22 +45,22 @@ public final class BankCLI extends BankDAO {
         if (newBank != null) {
             if (dao.updateBankData(newBank) == 0) {
                 bank = dao.fetchBank();
-                System.out.println("\nBank update Successful!");
+                System.out.println("\nBank update Successful!\n");
             } else
-                System.err.println("\nUpdate unsuccessful!");
+                System.err.println("\nUpdate unsuccessful!\n");
         } else
-            System.out.println("\nUpdate cancelled!");
+            System.out.println("\nUpdate cancelled!\n");
     }
 
     private static void createBranch() {
         Branch newBranch = CreateBranchForm.fillUp(in);
         if (newBranch != null) {
             if (dao.addBranch(newBranch) == 0)
-                System.out.println("\nBranch created Successfully!");
+                System.out.println("\nBranch created Successfully!\n");
             else
-                System.err.println("\nBranch creation unsuccessful!");
+                System.err.println("\nBranch creation unsuccessful!\n");
         } else
-            System.out.println("\nBranch creation cancelled!");
+            System.out.println("\nBranch creation cancelled!\n");
     }
 
     // TODO: add the verify before closing and accounts transfer to another branch
@@ -70,16 +70,34 @@ public final class BankCLI extends BankDAO {
         String branchCode = in.nextLine().toLowerCase().trim();
         if (InputChecker.checkBranchCode(branchCode, 'c')) {
             if (dao.removeBranch(branchCode) == 0)
-                System.out.println("Branch closed successfully!");
+                System.out.println("\nBranch closed successfully!\n");
             else
-                System.out.println("Branch closing unsuccessful!");
+                System.out.println("\nBranch closing unsuccessful!\n");
         } else
-            System.out.println("Invalid Branch Code!");
+            System.out.println("\nInvalid Branch Code!\n");
     }
 
     // private static void branchLogin() {
 
     // }
+
+    private static void listCustomers() {
+        System.out.print("\nList from(Customer ID): ");
+        int from = in.nextInt();
+        in.nextLine();
+        if (from < 1) {
+            System.out.println("Invalid Customer ID!\n");
+            return;
+        }
+        System.out.print("Number of Customers to list: ");
+        int limit = in.nextInt();
+        in.nextLine();
+        if (limit < 1) {
+            System.out.println("Invalid limit, should be greater than 0!\n");
+            return;
+        }
+        dao.listCustomers(from, limit);
+    }
 
     private static void help() {
         System.out.println("        --HELP MENU--");
@@ -107,7 +125,6 @@ public final class BankCLI extends BankDAO {
             do {
                 System.out.print("bank> ");
                 input = in.nextLine().toLowerCase();
-                // in.nextLine();
 
                 switch (input) {
                     case "updatebank":
@@ -137,7 +154,7 @@ public final class BankCLI extends BankDAO {
 
                     case "listcustomers":
                         // list customers
-                        dao.listCustomers(0, 0);
+                        listCustomers();
                         break;
 
                     case "listaccounts":
@@ -157,6 +174,10 @@ public final class BankCLI extends BankDAO {
 
                     case "exit":
                         // exit
+                        break;
+
+                    case "":
+                        // retake input
                         break;
 
                     default:
