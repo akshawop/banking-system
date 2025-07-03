@@ -180,10 +180,71 @@ public sealed class BankDAO permits BankCLI {
 
     protected void listBranches() {
         // listBranches
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.listBranches());
+
+            if (!rs.next()) {
+                System.out.println("\nNo Branch found.\n");
+                con.close();
+            } else {
+                System.out.println("\nBranch Code    Branch Name");
+                System.out.println("-----------    -----------");
+                do {
+                    System.out.println(rs.getString("branch_code").toUpperCase() + "         "
+                            + rs.getString("branch_name").toUpperCase());
+                } while (rs.next());
+                System.out.println();
+                con.close();
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
     }
 
     protected void listCustomers(int from, int limit) {
+        // listCustomers
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.listCustomers(from, limit));
 
+            if (!rs.next()) {
+                System.out.println("\nNo Customer found.\n");
+                con.close();
+            } else {
+                System.out.println("Customer(s) found!\n");
+                do {
+                    System.out.println("Customer ID: " + rs.getInt("customer_id"));
+                    System.out.println("First Name: " + rs.getString("first_name").toUpperCase());
+                    System.out.println("Middle Name: " + rs.getString("mid_name").toUpperCase());
+                    System.out.println("Last Name: " + rs.getString("last_name").toUpperCase());
+                    System.out.println("Aadhaar No.: " + rs.getString("aadhaar"));
+                    System.out.println("PAN:    " + rs.getString("pan").toUpperCase());
+                    System.out.println("Phone:    " + rs.getString("phone"));
+                    System.out.println("Email:    " + rs.getString("email") + "\n");
+                } while (rs.next());
+                System.out.println();
+                con.close();
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
     }
 
     protected void listAccounts(int from, int limit) {
