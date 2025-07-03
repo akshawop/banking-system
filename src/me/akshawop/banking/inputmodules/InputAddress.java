@@ -65,7 +65,7 @@ public class InputAddress {
             System.out.print("Area PIN Code*: ");
             address.pinCode = in.nextLine().toLowerCase().trim();
             if (!isValidPinCode(address.pinCode)) {
-                System.out.println("Wrong input: Cannot be empty or greater than 50 characters");
+                System.out.println("Wrong input: Has to be 6 characters long");
                 continue;
             }
             break;
