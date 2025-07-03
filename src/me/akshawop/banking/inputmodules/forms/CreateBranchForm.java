@@ -3,21 +3,14 @@ package me.akshawop.banking.inputmodules.forms;
 import java.util.Scanner;
 
 import me.akshawop.banking.customtype.Address;
-import me.akshawop.banking.inputmodules.InputAddress;
+import me.akshawop.banking.inputmodules.NewAddress;
 import me.akshawop.banking.sys.Branch;
+import me.akshawop.banking.util.InputChecker;
 
 public class CreateBranchForm {
     static String branchName;
     static String branchCode;
     static Address address;
-
-    private static boolean isValidBranchName(String branchName) {
-        return (branchName.length() > 0 && branchName.length() <= 50);
-    }
-
-    private static boolean isValidBranchCode(String branchCode) {
-        return branchCode.length() == 6;
-    }
 
     private static void verify() {
         System.out.println("\n    --PLEASE VERIFY THE DETAILS--");
@@ -39,7 +32,7 @@ public class CreateBranchForm {
             do {
                 System.out.print("Branch Name*: ");
                 branchName = in.nextLine().toLowerCase().trim();
-                if (!isValidBranchName(branchName)) {
+                if (!InputChecker.checkBranchName(branchName, 'c')) {
                     System.out.println("Wrong input: Cannot be empty or greater than 50 characters");
                     continue;
                 }
@@ -50,7 +43,7 @@ public class CreateBranchForm {
             do {
                 System.out.print("Branch Code*: ");
                 branchCode = in.nextLine().toLowerCase().trim();
-                if (!isValidBranchCode(branchCode)) {
+                if (!InputChecker.checkBranchCode(branchCode, 'c')) {
                     System.out.println("Wrong input: Has to be 6 characters long");
                     continue;
                 }
@@ -59,7 +52,7 @@ public class CreateBranchForm {
 
             // branch address input
             System.out.println("Branch Address* -->");
-            address = InputAddress.input(in);
+            address = NewAddress.input(in);
 
             // verify before submission
             verify();

@@ -3,19 +3,12 @@ package me.akshawop.banking.inputmodules.forms;
 import java.util.Scanner;
 
 import me.akshawop.banking.sys.Bank;
+import me.akshawop.banking.util.InputChecker;
 
 public class UpdateBankForm {
     static Bank bank;
     static String bankName;
     static String bankCode;
-
-    private static boolean isValidBankName(String bankName) {
-        return bankName.length() <= 100;
-    }
-
-    private static boolean isValidBankCode(String bankCode) {
-        return (bankCode.length() == 0 || bankCode.length() == 4);
-    }
 
     private static void verify() {
         System.out.println("\n    --PLEASE VERIFY THE DETAILS--");
@@ -36,7 +29,7 @@ public class UpdateBankForm {
             do {
                 System.out.print("Bank Name: ");
                 bankName = in.nextLine().toLowerCase().trim();
-                if (!isValidBankName(bankName)) {
+                if (!InputChecker.checkBankName(bankName, 'u')) {
                     System.out.println("Wrong input: Cannot be greater than 100 characters");
                     continue;
                 }
@@ -49,7 +42,7 @@ public class UpdateBankForm {
             do {
                 System.out.print("Bank Code: ");
                 bankCode = in.nextLine().toLowerCase().trim();
-                if (!isValidBankCode(bankCode)) {
+                if (!InputChecker.checkBankCode(bankCode, 'u')) {
                     System.out.println("Wrong input: Has to be 4 characters long");
                     continue;
                 }
