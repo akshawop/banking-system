@@ -142,7 +142,7 @@ public final class BankCLI extends BankDAO {
             String input;
             do {
                 System.out.print("bank> ");
-                input = in.nextLine().toLowerCase();
+                input = in.nextLine().toLowerCase().trim();
 
                 switch (input) {
                     case "updatebank":
