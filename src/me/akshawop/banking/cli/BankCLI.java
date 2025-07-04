@@ -128,8 +128,73 @@ public final class BankCLI extends BankDAO {
         System.out.println("help -> To see this help menu again\n");
     }
 
+    private static void selectOption(String input) {
+        switch (input) {
+            case "updatebank":
+                // update bank
+                updateBank();
+                break;
+
+            case "createbranch":
+                // add branch
+                createBranch();
+                break;
+
+            case "closebranch":
+                // remove branch
+                closeBranch();
+                break;
+
+            // case "branchlogin":
+            // // get branch
+            // branchLogin();
+            // break;
+
+            case "listbranches":
+                // list branches
+                dao.listBranches();
+                break;
+
+            case "listcustomers":
+                // list customers
+                listCustomers();
+                break;
+
+            case "listaccounts":
+                // list accounts
+                listAccounts();
+                break;
+
+            case "info":
+                // print bank info
+                dao.showBankInfo();
+                break;
+
+            case "help":
+                // show help menu
+                help();
+                break;
+
+            case "exit":
+                // exit
+                break;
+
+            case "":
+                // retake input
+                break;
+
+            default:
+                System.out.println("Invalid input!");
+        }
+    }
+
     public static void main(String[] args) {
         try {
+            if (args.length != 0) {
+                selectOption(args[0].toLowerCase().trim());
+                return;
+            }
+
             // start
             init();
             System.out.println("\n    " + bank.getBankName().toUpperCase() + "\n");
@@ -140,63 +205,7 @@ public final class BankCLI extends BankDAO {
                 System.out.print("bank> ");
                 input = in.nextLine().toLowerCase().trim();
 
-                switch (input) {
-                    case "updatebank":
-                        // update bank
-                        updateBank();
-                        break;
-
-                    case "createbranch":
-                        // add branch
-                        createBranch();
-                        break;
-
-                    case "closebranch":
-                        // remove branch
-                        closeBranch();
-                        break;
-
-                    // case "branchlogin":
-                    // // get branch
-                    // branchLogin();
-                    // break;
-
-                    case "listbranches":
-                        // list branches
-                        dao.listBranches();
-                        break;
-
-                    case "listcustomers":
-                        // list customers
-                        listCustomers();
-                        break;
-
-                    case "listaccounts":
-                        // list accounts
-                        listAccounts();
-                        break;
-
-                    case "info":
-                        // print bank info
-                        dao.showBankInfo();
-                        break;
-
-                    case "help":
-                        // show help menu
-                        help();
-                        break;
-
-                    case "exit":
-                        // exit
-                        break;
-
-                    case "":
-                        // retake input
-                        break;
-
-                    default:
-                        System.out.println("Invalid input!");
-                }
+                selectOption(input);
             } while (!input.equals("exit"));
             System.out.println("Program stopped successfully");
         } catch (Exception e) {
