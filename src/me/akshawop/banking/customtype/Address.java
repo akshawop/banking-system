@@ -38,10 +38,10 @@ public class Address {
             this.state = rs.getString("state");
             this.pinCode = rs.getString("pin_code");
         } catch (SQLException e) {
-            System.err.println("\nCannot access the Database!");
+            System.err.println("Cannot access the Database while creating new Address object!");
             System.err.println("More info:\n" + e);
         } catch (Exception e) {
-            System.err.println("\nsomething went wrong!");
+            System.err.println("something went wrong while creating new Address object!");
             System.err.println("More info:\n" + e);
         }
     }
