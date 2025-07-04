@@ -9,9 +9,9 @@ import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.util.InputChecker;
 
 public final class BankCLI extends BankDAO {
-    static Scanner in = new Scanner(System.in);
-    static Bank bank;
-    static BankCLI dao = new BankCLI();
+    private static Scanner in = new Scanner(System.in);
+    private static Bank bank;
+    private static BankCLI dao = new BankCLI();
 
     BankCLI() {
         super();
