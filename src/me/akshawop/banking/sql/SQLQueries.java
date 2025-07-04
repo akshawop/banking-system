@@ -80,6 +80,10 @@ public class SQLQueries {
     }
 
     // BranchDAO
+    public static String firstBranchInDB() {
+        return "SELECT * FROM branch LIMIT 1";
+    }
+
     public static String addCustomerToDB(Customer customer) {
         String data = name(customer.getName()) + ", " + str(customer.getAadhaar()) + ", " + str(customer.getPan())
                 + ", "
