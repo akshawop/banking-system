@@ -2,11 +2,10 @@ package me.akshawop.banking.sys;
 
 import java.sql.*;
 
-import me.akshawop.banking.cli.BankCLI;
 import me.akshawop.banking.customtype.Address;
 import me.akshawop.banking.sql.SQLQueries;
 
-public sealed class BankDAO permits BankCLI {
+public class BankDAO {
     private Bank bank;
 
     protected BankDAO() {
