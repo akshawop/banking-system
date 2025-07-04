@@ -1,6 +1,8 @@
 package me.akshawop.banking.util;
 
 public class InputChecker {
+    // in type, provide 'o' for OPTIONAL and 'c' or any other character for
+    // COMPULSORY
 
     public static boolean checkBankName(String bankName, char type) {
         if (Character.toLowerCase(type) == 'o')
