@@ -13,16 +13,12 @@ public final class BankCLI extends BankDAO {
     private static Bank bank;
     private static BankCLI dao = new BankCLI();
 
-    BankCLI() {
+    private BankCLI() {
         super();
     }
 
-    BankCLI(Bank bank) {
-        super(bank);
-    }
-
     private static boolean doesBankAlreadyExists() {
-        return dao.fetchBank() != null;
+        return dao != null;
     }
 
     private static void init() {

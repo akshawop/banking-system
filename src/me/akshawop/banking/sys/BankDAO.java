@@ -9,17 +9,7 @@ public class BankDAO {
     private Bank bank;
 
     protected BankDAO() {
-        Bank dbBank = fetchBank();
-        if (dbBank != null)
-            this.bank = dbBank;
-    }
-
-    protected BankDAO(Bank bank) {
-        this.bank = bank;
-    }
-
-    protected void setBank(Bank bank) {
-        this.bank = bank;
+        this.bank = fetchBank();
     }
 
     protected void showBankInfo() {
