@@ -124,8 +124,10 @@ public class BankDAO {
     protected int removeBranch(String branchCode) {
         // removeBranch
         try {
-            if (getBranch(branchCode) == null)
-                throw new Exception("The branch '" + branchCode.toUpperCase() + "' doesn't exists!");
+            if (getBranch(branchCode) == null) {
+                System.out.println("The branch '" + branchCode.toUpperCase() + "' doesn't exists!");
+                return 1;
+            }
 
             Connection con = DB.connect();
             Statement st = con.createStatement();
