@@ -129,7 +129,7 @@ public final class BankCLI extends BankDAO {
         System.out.println("help -> To see this help menu again\n");
     }
 
-    private static void selectOption(String input) {
+    public static void selectOption(String input) {
         switch (input) {
             case "updatebank":
                 // update bank
