@@ -3,30 +3,19 @@ package me.akshawop.banking.sys;
 public class BranchDAO {
     private Branch branch;
 
-    public BranchDAO() {
-    }
-
-    public BranchDAO(Branch branch) {
+    protected BranchDAO(Branch branch) {
         this.branch = branch;
     }
 
-    public void addBranchToDB(Branch branch) {
-        // add branch to DB
-    }
-
-    void printBranchInfo() {
-        // printBranchInfo
-    }
-
-    void addCustomer(Customer customer) {
+    protected void addCustomer(Customer customer) {
 
     }
 
-    Customer getCustomer(int customerId) {
+    protected Customer getCustomer(int customerId) {
         return null;
     }
 
-    void updateCustomer(int customeId) {
+    protected void updateCustomer(int customerId) {
 
     }
 
@@ -34,11 +23,11 @@ public class BranchDAO {
         return null;
     }
 
-    void listCustomer(int from, int limit) {
+    protected void listAccounts(int from, int limit) {
 
     }
 
-    void listAccounts(int from, int limit) {
-
+    protected void showBranchInfo() {
+        // printBranchInfo
     }
 }
