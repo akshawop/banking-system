@@ -154,8 +154,7 @@ public class BankDAO {
             } else {
                 int branchId = rs.getInt("branch_id");
                 String branchName = rs.getString("branch_name");
-                Address address = new Address(rs.getString("street"), rs.getString("city"), rs.getString("district"),
-                        rs.getString("state"), rs.getString("pin_code"));
+                Address address = new Address(rs);
                 Date openingDate = rs.getDate("opening_date");
                 con.close();
                 return new Branch(branchId, branchCode, branchName, address, openingDate);
