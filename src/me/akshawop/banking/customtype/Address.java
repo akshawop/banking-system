@@ -1,5 +1,8 @@
 package me.akshawop.banking.customtype;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Address {
     public String street;
     public String city;
@@ -25,6 +28,22 @@ public class Address {
         this.district = recvAddress.district;
         this.state = recvAddress.state;
         this.pinCode = recvAddress.pinCode;
+    }
+
+    public Address(ResultSet rs) {
+        try {
+            this.street = rs.getString("street");
+            this.city = rs.getString("city");
+            this.district = rs.getString("district");
+            this.state = rs.getString("state");
+            this.pinCode = rs.getString("pin_code");
+        } catch (SQLException e) {
+            System.err.println("\nCannot access the Database!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("\nsomething went wrong!");
+            System.err.println("More info:\n" + e);
+        }
     }
 
     @Override
