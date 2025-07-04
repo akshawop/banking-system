@@ -34,6 +34,7 @@ public final class BankCLI extends BankDAO {
             dao.addBank(newBank);
             bank = dao.fetchBank();
         }
+        System.out.println("\n    " + bank.getBankName().toUpperCase() + "\n");
     }
 
     private static void updateBank() {
@@ -197,7 +198,6 @@ public final class BankCLI extends BankDAO {
 
             // start
             init();
-            System.out.println("\n    " + bank.getBankName().toUpperCase() + "\n");
             help();
 
             String input;
