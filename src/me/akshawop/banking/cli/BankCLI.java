@@ -99,6 +99,24 @@ public final class BankCLI extends BankDAO {
         dao.listCustomers(from, limit);
     }
 
+    private static void listAccounts() {
+        System.out.print("\nList from(Account Number): ");
+        int from = in.nextInt();
+        in.nextLine();
+        if (from < 1) {
+            System.out.println("Invalid Account Number!\n");
+            return;
+        }
+        System.out.print("Number of Accounts to list: ");
+        int limit = in.nextInt();
+        in.nextLine();
+        if (limit < 1) {
+            System.out.println("Invalid limit, should be greater than 0!\n");
+            return;
+        }
+        dao.listAccounts(from, limit);
+    }
+
     private static void help() {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
@@ -159,7 +177,7 @@ public final class BankCLI extends BankDAO {
 
                     case "listaccounts":
                         // list accounts
-                        dao.listAccounts(0, 0);
+                        listAccounts();
                         break;
 
                     case "info":

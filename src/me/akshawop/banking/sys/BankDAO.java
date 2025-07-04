@@ -24,7 +24,7 @@ public class BankDAO {
 
     protected void showBankInfo() {
         System.out.println("\nBank: " + bank.getBankName().toUpperCase());
-        System.out.println("Bank Code: " + bank.getBankCode() + "\n");
+        System.out.println("Code: " + bank.getBankCode().toUpperCase() + "\n");
     }
 
     protected Bank fetchBank() {
@@ -247,7 +247,38 @@ public class BankDAO {
     }
 
     protected void listAccounts(int from, int limit) {
+        // listAccounts
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.listCustomers(from, limit));
 
+            if (!rs.next()) {
+                System.out.println("\nNo Accounts found.\n");
+                con.close();
+            } else {
+                System.out.println("Account(s) found!\n");
+                do {
+                    System.out.println("Account No.: " + rs.getInt("account_number"));
+                    System.out.println("Branch: " + rs.getInt("branch"));
+                    System.out.println("Customer ID: " + rs.getInt("customer"));
+                    System.out.println("Type: " + rs.getString("account_type"));
+                    System.out.println("Account Balance: $" + rs.getDouble("balance"));
+                    System.out.println("Status: " + rs.getString("account_status"));
+                    System.out.println("Opening Date: " + rs.getString("opening_date") + "\n");
+                } while (rs.next());
+                System.out.println();
+                con.close();
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
     }
-
 }
