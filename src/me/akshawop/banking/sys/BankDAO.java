@@ -12,6 +12,10 @@ public class BankDAO {
         this.bank = fetchBank();
     }
 
+    protected Bank getCurrentBank() {
+        return bank;
+    }
+
     protected void showBankInfo() {
         System.out.println("\nBank: " + bank.getBankName().toUpperCase());
         System.out.println("Code: " + bank.getBankCode().toUpperCase() + "\n");

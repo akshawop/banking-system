@@ -32,7 +32,7 @@ public final class BankCLI extends BankDAO {
                 System.exit(0);
             }
             dao.addBank(newBank);
-            bank = dao.fetchBank();
+            bank = dao.getCurrentBank();
         }
         System.out.println("\n    " + bank.getBankName().toUpperCase() + "\n");
     }
@@ -41,7 +41,7 @@ public final class BankCLI extends BankDAO {
         Bank newBank = UpdateBankForm.fillUp(in, bank);
         if (newBank != null) {
             if (dao.updateBankData(newBank) == 0) {
-                bank = dao.fetchBank();
+                bank = dao.getCurrentBank();
                 System.out.println("\nBank update Successful!\n");
             } else
                 System.err.println("\nUpdate unsuccessful!\n");
