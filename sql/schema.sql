@@ -40,8 +40,10 @@ CREATE TABLE customer (
     phone CHAR(10) NOT NULL,
     email VARCHAR(75),
     registration_date DATE NOT NULL DEFAULT (CURRENT_DATE),
+    CONSTRAINT unique_aadhaar UNIQUE (aadhaar),
     CONSTRAINT ck_customer_aadhaar_length CHECK (LENGTH(aadhaar) = 12),
     CONSTRAINT ck_customer_aadhaar_chars CHECK (aadhaar REGEXP '^[0-9]+$'),
+    CONSTRAINT ck_customer_pan_length CHECK (LENGTH(pan) = 10),
     CONSTRAINT ck_customer_phone_length CHECK (LENGTH(phone) = 10),
     CONSTRAINT ck_customer_phone_chars CHECK (phone REGEXP '^[0-9]+$')
 );
@@ -86,7 +88,7 @@ CREATE TABLE card (
     card_number CHAR(16) NOT NULL,
     cvv CHAR(3) NOT NULL,
     card_type ENUM('DEBIT', 'CREDIT') NOT NULL,
-    account INT UNSIGNED,
+    account INT UNSIGNED NOT NULL,
     issued_date DATE NOT NULL DEFAULT (CURRENT_DATE),
     expiry_date DATE NOT NULL,
     card_pin CHAR(4) NOT NULL,
