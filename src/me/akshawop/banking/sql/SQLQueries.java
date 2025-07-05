@@ -24,7 +24,9 @@ public class SQLQueries {
     }
 
     private static String getMidName(String name) {
-        return name.substring(name.indexOf(" ") + 1, name.lastIndexOf(" "));
+        if (name.indexOf(" ") != name.lastIndexOf(" "))
+            return name.substring(name.indexOf(" ") + 1, name.lastIndexOf(" "));
+        return "";
     }
 
     private static String getLastName(String name) {
