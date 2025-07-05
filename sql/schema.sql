@@ -43,6 +43,7 @@ CREATE TABLE customer (
     CONSTRAINT unique_aadhaar UNIQUE (aadhaar),
     CONSTRAINT ck_customer_aadhaar_length CHECK (LENGTH(aadhaar) = 12),
     CONSTRAINT ck_customer_aadhaar_chars CHECK (aadhaar REGEXP '^[0-9]+$'),
+    CONSTRAINT unique_pan UNIQUE (pan),
     CONSTRAINT ck_customer_pan_length CHECK (LENGTH(pan) = 10),
     CONSTRAINT ck_customer_phone_length CHECK (LENGTH(phone) = 10),
     CONSTRAINT ck_customer_phone_chars CHECK (phone REGEXP '^[0-9]+$')
