@@ -12,8 +12,8 @@ public class UpdateBankForm {
 
     private static void verify() {
         System.out.println("\n    --PLEASE VERIFY THE DETAILS--");
-        System.out.println("Bank Name: " + bankName);
-        System.out.println("Bank Code: " + bankCode);
+        System.out.println("Bank Name: " + bank.getBankName().toUpperCase());
+        System.out.println("Bank Code: " + bank.getBankCode().toUpperCase());
         System.out.println();
     }
 
@@ -23,7 +23,6 @@ public class UpdateBankForm {
 
         do {
             System.out.println("\n--Please fill up the following details--");
-            System.out.println("[* -> COMPULSORY FIELD]\n");
 
             // bank name input
             do {

@@ -11,8 +11,8 @@ public class CreateBankForm {
 
     private static void verify() {
         System.out.println("\n    --PLEASE VERIFY THE DETAILS--");
-        System.out.println("Bank Name: " + bankName);
-        System.out.println("Bank Code: " + bankCode);
+        System.out.println("Bank Name: " + bankName.toUpperCase());
+        System.out.println("Bank Code: " + bankCode.toUpperCase());
         System.out.println();
     }
 

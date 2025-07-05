@@ -14,9 +14,9 @@ public class CreateBranchForm {
 
     private static void verify() {
         System.out.println("\n    --PLEASE VERIFY THE DETAILS--");
-        System.out.println("Branch Name: " + branchName);
-        System.out.println("Branch Code: " + branchCode);
-        System.out.println("Branch Address* -->");
+        System.out.println("Branch Name: " + branchName.toUpperCase());
+        System.out.println("Branch Code: " + branchCode.toUpperCase());
+        System.out.println("Branch Address -->");
         address.formPrint();
         System.out.println();
     }

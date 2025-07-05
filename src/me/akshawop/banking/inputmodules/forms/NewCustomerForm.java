@@ -19,11 +19,11 @@ public class NewCustomerForm {
 
     private static void verify() {
         System.out.println("\n    --PLEASE VERIFY THE DETAILS--");
-        System.out.println("First Name: " + firstName);
-        System.out.println("Middle Name: " + midName);
-        System.out.println("Last Name: " + lastName);
+        System.out.println("First Name: " + firstName.toUpperCase());
+        System.out.println("Middle Name: " + midName.toUpperCase());
+        System.out.println("Last Name: " + lastName.toUpperCase());
         System.out.println("Aadhaar: " + aadhaar);
-        System.out.println("PAN: " + pan);
+        System.out.println("PAN: " + pan.toUpperCase());
         System.out.println("Address -->");
         address.formPrint();
         System.out.println("Phone: " + phone);
