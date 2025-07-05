@@ -2,8 +2,10 @@ package me.akshawop.banking.cli;
 
 import java.util.Scanner;
 
+import me.akshawop.banking.inputmodules.forms.NewCustomerForm;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.BranchDAO;
+import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.util.InputChecker;
 
 public final class BranchCLI extends BranchDAO {
@@ -18,6 +20,7 @@ public final class BranchCLI extends BranchDAO {
     private static void init() {
         if (!doesAnyBranchExists()) {
             System.out.println("No Branch found!");
+            System.out.println("First create one from the Bank.");
             System.exit(0);
         }
 
@@ -45,8 +48,14 @@ public final class BranchCLI extends BranchDAO {
     }
 
     private static void addCustomer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addCustomer'");
+        Customer newCustomer = NewCustomerForm.fillUp(in);
+        if (newCustomer != null) {
+            if (dao.addCustomer(newCustomer) == 0)
+                System.out.println("\nNew Customer added Successfully!\n");
+            else
+                System.err.println("\nNew Customer entry unsuccessful!\n");
+        } else
+            System.out.println("\nNew Customer entry cancelled!\n");
     }
 
     private static void customerLogin() {

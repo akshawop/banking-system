@@ -63,8 +63,27 @@ public class BranchDAO {
         return false;
     }
 
-    protected void addCustomer(Customer customer) {
-
+    protected int addCustomer(Customer customer) {
+        // add a new customer
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.addCustomerToDB(customer));
+            con.close();
+            return 0;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Duplicate Customer not allowed!");
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
     }
 
     protected Customer getCustomer(int customerId) {
