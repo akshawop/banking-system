@@ -102,6 +102,8 @@ public class BankDAO {
             st.executeUpdate(SQLQueries.addBranchToDB(branch));
             con.close();
             return 0;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Duplicate Branch creation not allowed!");
         } catch (SQLTimeoutException e) {
             System.err.println("Error: Database timeout!");
             System.err.println("More info:\n" + e);
