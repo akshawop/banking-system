@@ -221,12 +221,13 @@ public class BankDAO {
                 do {
                     System.out.println("Customer ID: " + rs.getInt("customer_id"));
                     System.out.println("First Name: " + rs.getString("first_name").toUpperCase());
-                    System.out.println("Middle Name: " + rs.getString("mid_name").toUpperCase());
+                    System.out.println("Middle Name: "
+                            + (rs.getString("mid_name") == null ? "" : rs.getString("mid_name")).toUpperCase());
                     System.out.println("Last Name: " + rs.getString("last_name").toUpperCase());
                     System.out.println("Aadhaar No.: " + rs.getString("aadhaar"));
-                    System.out.println("PAN:    " + rs.getString("pan").toUpperCase());
-                    System.out.println("Phone:    " + rs.getString("phone"));
-                    System.out.println("Email:    " + rs.getString("email") + "\n");
+                    System.out.println("PAN: " + rs.getString("pan").toUpperCase());
+                    System.out.println("Phone: " + rs.getString("phone"));
+                    System.out.println("Email: " + rs.getString("email") + "\n");
                 } while (rs.next());
                 System.out.println();
                 con.close();

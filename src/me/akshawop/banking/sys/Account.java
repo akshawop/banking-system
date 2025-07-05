@@ -7,7 +7,7 @@ public class Account {
     private String branchCode;
     private String type;
     private int customerId;
-    private String nominee;
+    private String nominee = "";
     private double balance;
     private double minBalance;
     private String status;

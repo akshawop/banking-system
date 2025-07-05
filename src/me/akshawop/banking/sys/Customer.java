@@ -8,10 +8,10 @@ public class Customer {
     private int customerId;
     private String name;
     private String aadhaar;
-    private String pan;
+    private String pan = "";
     private Address address;
     private String phone;
-    private String email;
+    private String email = "";
     private Date registrationDate;
 
     public Customer(String name, String aadhaar, String pan, Address address, String phone, String email) {

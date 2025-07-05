@@ -93,7 +93,7 @@ public final class BankCLI extends BankDAO {
             System.out.println("Invalid limit, should be greater than 0!\n");
             return;
         }
-        dao.listCustomers(from, limit);
+        dao.listCustomers(from - 1, limit);
     }
 
     private static void listAccounts() {
@@ -111,7 +111,7 @@ public final class BankCLI extends BankDAO {
             System.out.println("Invalid limit, should be greater than 0!\n");
             return;
         }
-        dao.listAccounts(from, limit);
+        dao.listAccounts(from - 1, limit);
     }
 
     private static void help() {
