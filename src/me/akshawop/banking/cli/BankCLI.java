@@ -18,7 +18,7 @@ public final class BankCLI extends BankDAO {
     }
 
     private static boolean doesBankAlreadyExists() {
-        return dao != null;
+        return dao.getCurrentBank() != null;
     }
 
     private static void init() {
