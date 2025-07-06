@@ -98,6 +98,9 @@ public class InputChecker {
         if (domain.indexOf('.') == 0 || domain.indexOf('.') == domain.length() - 1 || domain.indexOf("..") >= 0)
             return false;
 
+        if (domain.indexOf('.') < 0)
+            return false;
+
         for (int i = 0, size = domain.length(); i < size; i++) {
             char ch = domain.charAt(i);
             if (!((ch >= 97 && ch <= 122) || (ch >= 48 && ch <= 57) || ch == 46))
