@@ -40,7 +40,7 @@ public class Customer {
             System.err.println("Cannot access the Database while creating new Customer object!");
             System.err.println("More info:\n" + e);
         } catch (Exception e) {
-            System.err.println("something went wrong while creating new Address object!");
+            System.err.println("something went wrong while creating new Customer object!");
             System.err.println("More info:\n" + e);
         }
     }

@@ -30,7 +30,7 @@ public class Branch {
             System.err.println("Cannot access the Database while creating new Branch object!");
             System.err.println("More info:\n" + e);
         } catch (Exception e) {
-            System.err.println("something went wrong while creating new Address object!");
+            System.err.println("something went wrong while creating new Branch object!");
             System.err.println("More info:\n" + e);
         }
     }

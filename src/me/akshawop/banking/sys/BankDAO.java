@@ -2,7 +2,6 @@ package me.akshawop.banking.sys;
 
 import java.sql.*;
 
-import me.akshawop.banking.customtype.Address;
 import me.akshawop.banking.sql.SQLQueries;
 
 public class BankDAO {
@@ -154,12 +153,9 @@ public class BankDAO {
                 con.close();
                 return null;
             } else {
-                int branchId = rs.getInt("branch_id");
-                String branchName = rs.getString("branch_name");
-                Address address = new Address(rs);
-                Date openingDate = rs.getDate("opening_date");
+                Branch branch = new Branch(rs);
                 con.close();
-                return new Branch(branchId, branchCode, branchName, address, openingDate);
+                return branch;
             }
         } catch (SQLTimeoutException e) {
             System.err.println("Error: Database timeout!");
