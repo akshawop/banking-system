@@ -37,7 +37,7 @@ public class Customer {
             this.email = (rs.getString("email") == null ? "" : rs.getString("email"));
             this.registrationDate = rs.getDate("registration_date");
         } catch (SQLException e) {
-            System.err.println("Cannot access the Database while creating new Address object!");
+            System.err.println("Cannot access the Database while creating new Customer object!");
             System.err.println("More info:\n" + e);
         } catch (Exception e) {
             System.err.println("something went wrong while creating new Address object!");

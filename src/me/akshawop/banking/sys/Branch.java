@@ -1,6 +1,8 @@
 package me.akshawop.banking.sys;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import me.akshawop.banking.customtype.Address;
 
@@ -17,12 +19,20 @@ public class Branch {
         this.address = address;
     }
 
-    public Branch(int branchId, String branchCode, String branchName, Address address, Date openingDate) {
-        this.branchId = branchId;
-        this.branchCode = branchCode;
-        this.branchName = branchName;
-        this.address = address;
-        this.openingDate = openingDate;
+    public Branch(ResultSet rs) {
+        try {
+            this.branchId = rs.getInt("branch_id");
+            this.branchCode = rs.getString("branch_code");
+            this.branchName = rs.getString("branch_name");
+            this.address = new Address(rs);
+            this.openingDate = rs.getDate("opening_date");
+        } catch (SQLException e) {
+            System.err.println("Cannot access the Database while creating new Branch object!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("something went wrong while creating new Address object!");
+            System.err.println("More info:\n" + e);
+        }
     }
 
     public int getBranchId() {
