@@ -206,10 +206,6 @@ public class BankDAO {
         }
     }
 
-    private static String str(String str) {
-        return (str == null ? "" : str);
-    }
-
     protected void listCustomers(int from, int limit) {
         // listCustomers
         try {
@@ -223,15 +219,8 @@ public class BankDAO {
             } else {
                 System.out.println("Customer(s) found!\n");
                 do {
-                    System.out.println("Customer ID: " + rs.getInt("customer_id"));
-                    System.out.println("First Name: " + rs.getString("first_name").toUpperCase());
-                    System.out.println("Middle Name: "
-                            + str(rs.getString("mid_name")).toUpperCase());
-                    System.out.println("Last Name: " + rs.getString("last_name").toUpperCase());
-                    System.out.println("Aadhaar No.: " + rs.getString("aadhaar"));
-                    System.out.println("PAN: " + str(rs.getString("pan")).toUpperCase());
-                    System.out.println("Phone: " + rs.getString("phone"));
-                    System.out.println("Email: " + str(rs.getString("email")) + "\n");
+                    new CustomerDAO(new Customer(rs)).printCustomerInfo();
+                    System.out.println();
                 } while (rs.next());
                 System.out.println();
                 con.close();
