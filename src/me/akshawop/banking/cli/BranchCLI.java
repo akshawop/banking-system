@@ -3,6 +3,7 @@ package me.akshawop.banking.cli;
 import java.util.Scanner;
 
 import me.akshawop.banking.inputmodules.forms.NewCustomerForm;
+import me.akshawop.banking.inputmodules.forms.UpdateCustomerForm;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.BranchDAO;
 import me.akshawop.banking.sys.Customer;
@@ -64,8 +65,25 @@ public final class BranchCLI extends BranchDAO {
     }
 
     private static void updateCustomer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateCustomer'");
+        System.out.print("Enter the Customer ID: ");
+        int customerId = in.nextInt();
+        in.nextLine();
+
+        if (customerId > 0) {
+            Customer customer = dao.getCustomer(customerId);
+            if (customer != null) {
+                Customer newCustomer = UpdateCustomerForm.fillUp(in, customer);
+                if (newCustomer != null) {
+                    if (dao.updateCustomer(newCustomer) == 0)
+                        System.out.println("\nCustomer data updated Successfully!\n");
+                    else
+                        System.err.println("\nUpdate unsuccessful!\n");
+                } else
+                    System.err.println("\nUpdate canceled!\n");
+            } else
+                System.out.println("\nCustomer with ID '" + customerId + "' DOESN'T exist!\n");
+        } else
+            System.out.println("\nInvalid Customer ID entered!\n");
     }
 
     private static void accountLogin() {

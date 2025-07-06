@@ -2,7 +2,6 @@ package me.akshawop.banking.sys;
 
 import java.sql.*;
 
-import me.akshawop.banking.customtype.Address;
 import me.akshawop.banking.sql.SQLQueries;
 
 public class BranchDAO {
@@ -14,13 +13,8 @@ public class BranchDAO {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(SQLQueries.getBranchFromDB(branchCode));
 
-            if (rs.next()) {
-                int branchId = rs.getInt("branch_id");
-                String branchName = rs.getString("branch_name");
-                Address address = new Address(rs);
-                Date openingDate = rs.getDate("opening_date");
-                branch = new Branch(branchId, branchCode, branchName, address, openingDate);
-            }
+            if (rs.next())
+                branch = new Branch(rs);
             con.close();
         } catch (SQLTimeoutException e) {
             System.err.println("Error: Database timeout!");
@@ -87,11 +81,29 @@ public class BranchDAO {
     }
 
     protected Customer getCustomer(int customerId) {
-        return null;
+        return CustomerDAO.fetchCustomer(customerId);
     }
 
-    protected void updateCustomer(int customerId) {
-
+    protected int updateCustomer(Customer customer) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.updateCustomerInDB(customer));
+            con.close();
+            return 0;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Customer with similar data already exists!");
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
     }
 
     protected Account accessAccount(int accountNumber) {
