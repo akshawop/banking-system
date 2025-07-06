@@ -101,4 +101,24 @@ public class Customer {
     public String getLastName() {
         return name.substring(name.lastIndexOf(" ") + 1);
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPan(String pan) {
+        this.pan = pan;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
