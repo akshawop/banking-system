@@ -25,6 +25,17 @@ public class Customer {
         this.email = email;
     }
 
+    public Customer(Customer recvCustomer) {
+        this.customerId = recvCustomer.customerId;
+        this.name = recvCustomer.name;
+        this.aadhaar = recvCustomer.aadhaar;
+        this.pan = recvCustomer.pan;
+        this.address = recvCustomer.address;
+        this.phone = recvCustomer.phone;
+        this.email = recvCustomer.email;
+        this.registrationDate = recvCustomer.registrationDate;
+    }
+
     public Customer(ResultSet rs) {
         try {
             String midName = rs.getString("mid_name");
