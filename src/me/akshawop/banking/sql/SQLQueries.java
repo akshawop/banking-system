@@ -96,7 +96,7 @@ public class SQLQueries {
     }
 
     public static String getCustomerFromDB(int customerId) {
-        return "SELECT * customer WHERE customer_id = " + customerId;
+        return "SELECT * FROM customer WHERE customer_id = " + customerId;
     }
 
     public static String updateCustomerInDB(Customer customer) {

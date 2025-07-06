@@ -11,11 +11,11 @@ public class CustomerDAO {
         this.customer = customer;
     }
 
-    public Customer fetchCustomer(int customerId) {
+    static Customer fetchCustomer(int customerId) {
         try {
             Connection con = DB.connect();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(SQLQueries.fetchBankFromDB());
+            ResultSet rs = st.executeQuery(SQLQueries.getCustomerFromDB(customerId));
 
             if (!rs.next()) {
                 con.close();
