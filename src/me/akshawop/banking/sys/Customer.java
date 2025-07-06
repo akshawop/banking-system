@@ -76,4 +76,18 @@ public class Customer {
     public Date getRegistrationDate() {
         return registrationDate;
     }
+
+    public String getFirstName() {
+        return name.substring(0, name.indexOf(" "));
+    }
+
+    public String getMidName() {
+        if (name.indexOf(" ") != name.lastIndexOf(" "))
+            return name.substring(name.indexOf(" ") + 1, name.lastIndexOf(" "));
+        return "";
+    }
+
+    public String getLastName() {
+        return name.substring(name.lastIndexOf(" ") + 1);
+    }
 }
