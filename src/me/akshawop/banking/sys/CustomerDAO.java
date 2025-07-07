@@ -4,13 +4,33 @@ import java.sql.*;
 
 import me.akshawop.banking.sql.SQLQueries;
 
+/**
+ * The Data Access Object of {@code Customer}
+ * 
+ * @see Customer
+ */
 public class CustomerDAO {
     private Customer customer;
 
+    /**
+     * Constructs a {@code CustomerDAO} with the specified {@code Customer} object.
+     * 
+     * @param customer The {@code Customer} object to be used in the DAO
+     */
     public CustomerDAO(Customer customer) {
         this.customer = customer;
     }
 
+    /**
+     * Fetch the data of a Customer from the Database.
+     * 
+     * @param customerId The {@code int} Customer ID of the Customer whose data to
+     *                   be fetched
+     * 
+     * @return {@code Customer} object if exists; {@code null} if doesn't
+     * 
+     * @log an error message if any error occurs
+     */
     static Customer fetchCustomer(int customerId) {
         try {
             Connection con = DB.connect();
@@ -38,6 +58,11 @@ public class CustomerDAO {
         return null;
     }
 
+    /**
+     * Prints the current {@code Customer} object's data.
+     * 
+     * @log the data of the currently using Customer
+     */
     void printCustomerInfo() {
         System.out.println("Customer ID: " + customer.getCustomerId());
         System.out.println("Name: " + customer.getName().toUpperCase());

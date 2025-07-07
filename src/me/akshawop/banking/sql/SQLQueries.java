@@ -7,6 +7,9 @@ import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.sys.Transaction;
 
+/**
+ * Used for generating queries used in the program.
+ */
 public class SQLQueries {
     private static String str(String value) {
         if (value.length() == 0)
