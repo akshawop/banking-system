@@ -73,12 +73,12 @@ public class SQLQueries {
         return "SELECT * FROM branch";
     }
 
-    public static String listCustomers(int offset, int limit) {
-        return "SELECT * FROM customer LIMIT " + offset + ", " + limit;
+    public static String listCustomers(int from, int limit) {
+        return "SELECT * FROM customer WHERE customer_id >= " + from + " LIMIT " + limit;
     }
 
-    public static String listAccounts(int offset, int limit) {
-        return "SELECT * FROM account LIMIT " + offset + ", " + limit;
+    public static String listAccounts(int from, int limit) {
+        return "SELECT * FROM account WHERE account_number >= " + from + " LIMIT " + limit;
     }
 
     // BranchDAO
@@ -122,8 +122,8 @@ public class SQLQueries {
         return "SELECT * FROM account WHERE account_number = " + accountNumber;
     }
 
-    public static String listAccounts(int branchId, int offset, int limit) {
-        return "SELECT * FROM account WHERE branch = " + branchId + "LIMIT " + offset + ", " + limit;
+    public static String listAccounts(int branchId, int from, int limit) {
+        return "SELECT * FROM account WHERE branch = " + branchId + "AND account_number >= " + from + " LIMIT " + limit;
     }
 
     // CustomerDAO
