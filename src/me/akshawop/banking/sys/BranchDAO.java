@@ -2,11 +2,25 @@ package me.akshawop.banking.sys;
 
 import java.sql.*;
 
+import me.akshawop.banking.cli.BranchCLI;
 import me.akshawop.banking.sql.SQLQueries;
 
+/**
+ * The Data Access Object of {@code Branch}
+ * 
+ * @see BranchCLI
+ * @see Branch
+ */
 public class BranchDAO {
     private Branch branch;
 
+    /**
+     * Constructs a BranchDAO with the specified
+     * Branch Code.
+     *
+     * @param branchCode The {@code String} Branch Code
+     * @log an error message if any error occurs
+     */
     protected BranchDAO(String branchCode) {
         try {
             Connection con = DB.connect();
@@ -28,12 +42,23 @@ public class BranchDAO {
         }
     }
 
+    /**
+     * Gets the {@code Branch} object which is being currently used by the DAO.
+     * 
+     * @return the current {@code Branch} object
+     */
     protected Branch getCurrentBranch() {
         return branch;
     }
 
+    /**
+     * Checks if any Branch already exists in the Database or not.
+     * 
+     * @return {@code true} if any Branch exists; {@code false} if none exist or any
+     *         error occurs
+     * @log an error message in any error occurs
+     */
     public static boolean doesAnyBranchExists() {
-        // checks for any pre-existing branch
         try {
             Connection con = DB.connect();
             Statement st = con.createStatement();
@@ -57,8 +82,16 @@ public class BranchDAO {
         return false;
     }
 
+    /**
+     * Adds a new Customer to the Database
+     *
+     * @param customer The {@code Customer} object of the customer to be added
+     * 
+     * @return {@code 0} if process was successful; {@code 1} if unsuccessful
+     * 
+     * @log an error message if any error occurs
+     */
     protected int addCustomer(Customer customer) {
-        // add a new customer
         try {
             Connection con = DB.connect();
             Statement st = con.createStatement();
@@ -80,10 +113,31 @@ public class BranchDAO {
         return 1;
     }
 
+    /**
+     * Gets the {@code Customer} with the specified Customer ID from the Database.
+     * <p>
+     * Uses the {@code fetchCustomer} method of {@code CustomerDAO}
+     * 
+     * @param customerId The Customer ID of the customer to fetch the details of
+     * 
+     * @return {@code Customer} object if the customer exists; {@code null} if not
+     * 
+     * @see CustomerDAO#fetchCustomer
+     */
     protected Customer getCustomer(int customerId) {
         return CustomerDAO.fetchCustomer(customerId);
     }
 
+    /**
+     * Updates a Customer's details in the Database.
+     * 
+     * @param customer The newly created {@code Customer} object of the Customer
+     *                 whose data is to be updated
+     * 
+     * @return {@code 0} if update successful; {@code 1} if not
+     * 
+     * @log an error message if any error occurs
+     */
     protected int updateCustomer(Customer customer) {
         try {
             Connection con = DB.connect();
