@@ -15,7 +15,7 @@ public class BranchDAO {
     private Branch branch;
 
     /**
-     * Constructs a BranchDAO with the specified
+     * Constructs a {@code BranchDAO} with the specified
      * Branch Code.
      *
      * @param branchCode The {@code String} Branch Code
