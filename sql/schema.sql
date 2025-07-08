@@ -49,6 +49,7 @@ CREATE TABLE customer (
     CONSTRAINT ck_customer_phone_chars CHECK (phone REGEXP '^[0-9]+$')
 );
 
+-- TODO: move the account_type to a new table and reference it here
 CREATE TABLE account (
     account_number INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     branch INT UNSIGNED NOT NULL,
@@ -65,6 +66,7 @@ CREATE TABLE account (
     CONSTRAINT uk_account_type_customer UNIQUE (account_type, customer)
 );
 
+-- TODO: move the mode to a new table and reference it here
 CREATE TABLE account_transaction (
     transaction_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     account INT UNSIGNED NOT NULL,
