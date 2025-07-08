@@ -38,9 +38,12 @@ public class Customer {
 
     public Customer(ResultSet rs) {
         try {
+            this.customerId = rs.getInt("customer_id");
+
             String midName = rs.getString("mid_name");
             this.name = rs.getString("first_name") + " " + (midName == null ? "" : midName + " ")
                     + rs.getString("last_name");
+
             this.aadhaar = rs.getString("aadhaar");
             this.pan = (rs.getString("pan") == null ? "" : rs.getString("pan"));
             this.address = new Address(rs);
