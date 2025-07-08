@@ -10,7 +10,7 @@ import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.util.InputChecker;
 
 public final class BranchCLI extends BranchDAO {
-    private static Scanner in = new Scanner(System.in);
+    private static Scanner in;
     private static Branch branch;
     private static BranchCLI dao;
 
@@ -18,11 +18,11 @@ public final class BranchCLI extends BranchDAO {
         super(branchCode);
     }
 
-    private static void init() {
+    private static int init() {
         if (!doesAnyBranchExists()) {
             System.out.println("No Branch found!");
             System.out.println("First create one from the Bank.");
-            System.exit(0);
+            return 1;
         }
 
         BankCLI.selectOption("listbranches");
@@ -46,6 +46,7 @@ public final class BranchCLI extends BranchDAO {
             break;
         } while (true);
         System.out.println("\nLogin into '" + branch.getBranchName().toUpperCase() + "' Branch successful!\n");
+        return 0;
     }
 
     private static void addCustomer() {
@@ -188,13 +189,16 @@ public final class BranchCLI extends BranchDAO {
 
     public static void main(String[] args) {
         try {
+            in = new Scanner(System.in);
             if (args.length != 0) {
                 selectOption(args[0].toLowerCase().trim());
                 return;
             }
 
             // start
-            init();
+            if (init() == 1)
+                System.exit(0);
+
             help();
 
             String input;
@@ -210,6 +214,28 @@ public final class BranchCLI extends BranchDAO {
             System.err.println("\nProgram stopped Abnormally!");
         } finally {
             in.close();
+        }
+    }
+
+    public static void run(Scanner bankIn) {
+        try {
+            in = bankIn;
+            // start
+            if (init() == 1)
+                return;
+            help();
+
+            String input;
+            do {
+                System.out.print("branch> ");
+                input = in.nextLine().toLowerCase().trim();
+
+                selectOption(input);
+            } while (!input.equals("exit"));
+            System.out.println("Logged out of Branch!\n");
+        } catch (Exception e) {
+            System.err.println("An Error Occurred!\n" + e);
+            System.err.println("\nProgram stopped Abnormally!");
         }
     }
 }

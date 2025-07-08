@@ -74,9 +74,9 @@ public final class BankCLI extends BankDAO {
             System.out.println("\nInvalid Branch Code!\n");
     }
 
-    // private static void branchLogin() {
-
-    // }
+    private static void branchLogin() {
+        BranchCLI.run(in);
+    }
 
     private static void listCustomers() {
         System.out.print("\nList from(Customer ID): ");
@@ -122,7 +122,7 @@ public final class BankCLI extends BankDAO {
         System.out.println("updatebank -> Update the bank info");
         System.out.println("createbranch -> Create a new Branch");
         System.out.println("closebranch -> Close an existing Branch");
-        // System.out.println("branchlogin -> Login to an existing Branch");
+        System.out.println("branchlogin -> Login to an existing Branch");
         System.out.println("listbranches -> List all Branches");
         System.out.println("listcustomers -> List existing Customers");
         System.out.println("listaccounts -> List existing Accounts");
@@ -146,10 +146,10 @@ public final class BankCLI extends BankDAO {
                 closeBranch();
                 break;
 
-            // case "branchlogin":
-            // // get branch
-            // branchLogin();
-            // break;
+            case "branchlogin":
+                // get branch
+                branchLogin();
+                break;
 
             case "listbranches":
                 // list branches
