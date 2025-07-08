@@ -103,7 +103,7 @@ public final class BranchCLI extends BranchDAO {
     }
 
     private static void listAccounts() {
-        System.out.print("\nList from(Account Number): ");
+        System.out.print("\nList from(Last Digits of the Account Number after the zeros): ");
         int from = in.nextInt();
         in.nextLine();
         if (from < 1) {

@@ -164,6 +164,16 @@ public class BranchDAO {
         return null;
     }
 
+    /**
+     * Lists the Accounts' data which belong to the currently logged in Branch, from
+     * the Database.
+     * 
+     * @param from  The {@code int} Account Number as the upper limit from where the
+     *              list should start
+     * @param limit The number of Accounts to list
+     * 
+     * @log an error message if any error occurs
+     */
     protected void listAccounts(int from, int limit) {
         try {
             Connection con = DB.connect();

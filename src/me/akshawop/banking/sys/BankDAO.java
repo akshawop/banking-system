@@ -278,7 +278,7 @@ public class BankDAO {
     }
 
     /**
-     * Lists the Customers data in the Database.
+     * Lists the Customers' data in the Database.
      * 
      * @param from  The {@code int} Customer ID as the upper limit from where the
      *              list should
@@ -318,7 +318,7 @@ public class BankDAO {
     }
 
     /**
-     * Lists the Accounts data in the Database.
+     * Lists the Accounts' data in the Database.
      * 
      * @param from  The {@code int} Account Number as the upper limit from where the
      *              list should start
