@@ -60,8 +60,19 @@ public final class BranchCLI extends BranchDAO {
     }
 
     private static void customerLogin() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'customerLogin'");
+        System.out.print("Customer ID: ");
+        int customerId = in.nextInt();
+        in.nextLine();
+
+        if (customerId > 0) {
+            Customer customer = dao.getCustomer(customerId);
+            if (customer != null) {
+                // CustomerCLI
+                System.out.println("\nLogout successful.\n");
+            } else
+                System.out.println("\nCustomer with ID '" + customerId + "' DOESN'T exist!\n");
+        } else
+            System.out.println("\nInvalid Customer ID entered!\n");
     }
 
     private static void updateCustomer() {
@@ -92,8 +103,21 @@ public final class BranchCLI extends BranchDAO {
     }
 
     private static void listAccounts() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listAccounts'");
+        System.out.print("\nList from(Account Number): ");
+        int from = in.nextInt();
+        in.nextLine();
+        if (from < 1) {
+            System.out.println("Invalid Account Number!\n");
+            return;
+        }
+        System.out.print("Number of Accounts to list: ");
+        int limit = in.nextInt();
+        in.nextLine();
+        if (limit < 1) {
+            System.out.println("Invalid limit, should be greater than 0!\n");
+            return;
+        }
+        dao.listAccounts(from, limit);
     }
 
     private static void help() {

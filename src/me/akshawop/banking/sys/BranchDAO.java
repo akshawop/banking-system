@@ -165,7 +165,33 @@ public class BranchDAO {
     }
 
     protected void listAccounts(int from, int limit) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.listAccounts(branch.getBranchId(), from, limit));
 
+            if (!rs.next()) {
+                System.out.println("\nNo Accounts found.\n");
+                con.close();
+            } else {
+                System.out.println("Account(s) found!\n");
+                do {
+                    new AccountDAO(new Account(rs)).printAccountInfo();
+                    System.out.println();
+                } while (rs.next());
+                System.out.println();
+                con.close();
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
     }
 
     protected void showBranchInfo() {
