@@ -81,7 +81,7 @@ public class SQLQueries {
     }
 
     public static String listAccounts(int from, int limit) {
-        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch_id = branch.branch_id CROSS JOIN bank WHERE account_number >= "
+        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch = branch.branch_id CROSS JOIN bank WHERE account_number >= "
                 + from + " LIMIT " + limit;
     }
 
@@ -123,7 +123,7 @@ public class SQLQueries {
     }
 
     public static String accessAccountInDB(int accountNumber) {
-        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch_id = branch.branch_id CROSS JOIN bank WHERE account_number = "
+        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch = branch.branch_id CROSS JOIN bank WHERE account_number = "
                 + accountNumber;
     }
 
@@ -141,8 +141,8 @@ public class SQLQueries {
      * 
      */
     public static String listAccounts(int branchId, int from, int limit) {
-        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch_id = branch.branch_id CROSS JOIN bank WHERE branch = "
-                + branchId + "AND account_number >= " + from + " LIMIT " + limit;
+        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch = branch.branch_id CROSS JOIN bank WHERE branch = "
+                + branchId + " AND account_number >= " + from + " LIMIT " + limit;
     }
 
     // CustomerDAO
@@ -167,7 +167,7 @@ public class SQLQueries {
     }
 
     public static String listAccounts(int customerId) {
-        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch_id = branch.branch_id CROSS JOIN bank WHERE customer_id = "
+        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch = branch.branch_id CROSS JOIN bank WHERE customer_id = "
                 + customerId;
     }
 
