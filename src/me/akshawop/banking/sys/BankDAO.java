@@ -331,7 +331,7 @@ public class BankDAO {
         try {
             Connection con = DB.connect();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(SQLQueries.listCustomers(from, limit));
+            ResultSet rs = st.executeQuery(SQLQueries.listAccounts(from, limit));
 
             if (!rs.next()) {
                 System.out.println("\nNo Accounts found.\n");
@@ -339,13 +339,8 @@ public class BankDAO {
             } else {
                 System.out.println("Account(s) found!\n");
                 do {
-                    System.out.println("Account No.: " + rs.getInt("account_number"));
-                    System.out.println("Branch: " + rs.getInt("branch"));
-                    System.out.println("Customer ID: " + rs.getInt("customer"));
-                    System.out.println("Type: " + rs.getString("account_type"));
-                    System.out.println("Account Balance: $" + rs.getDouble("balance"));
-                    System.out.println("Status: " + rs.getString("account_status"));
-                    System.out.println("Opening Date: " + rs.getString("opening_date") + "\n");
+                    new AccountDAO(new Account(rs)).printAccountInfo();
+                    System.out.println();
                 } while (rs.next());
                 System.out.println();
                 con.close();
