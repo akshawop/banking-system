@@ -161,7 +161,8 @@ public class BranchDAO {
     }
 
     protected Account accessAccount(int accountNumber) {
-        return null;
+        // TODO
+        throw new UnsupportedOperationException("Unimplemented method 'accessAccount'");
     }
 
     /**
@@ -204,7 +205,17 @@ public class BranchDAO {
         }
     }
 
+    /**
+     * Prints the {@code Branch} information which is being currently used by the
+     * DAO.
+     * 
+     * @log every field of the {@code Branch} object
+     */
     protected void showBranchInfo() {
-        // printBranchInfo
+        System.out.println("Branch ID: " + branch.getBranchId());
+        System.out.println("Branch Name: " + branch.getBranchName().toUpperCase());
+        System.out.println("Branch Code: " + branch.getBranchCode().toUpperCase());
+        System.out.println("Branch Address: " + (branch.getAddress() + "").toUpperCase());
+        System.out.println("Opening Date: " + branch.getOpeningDate());
     }
 }

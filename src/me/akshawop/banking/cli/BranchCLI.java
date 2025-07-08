@@ -67,8 +67,9 @@ public final class BranchCLI extends BranchDAO {
         if (customerId > 0) {
             Customer customer = dao.getCustomer(customerId);
             if (customer != null) {
-                // CustomerCLI
-                System.out.println("\nLogout successful.\n");
+                // TODO: CustomerCLI
+                throw new UnsupportedOperationException("Unimplemented method 'customerLogin'");
+                // System.out.println("\nLogout successful.\n");
             } else
                 System.out.println("\nCustomer with ID '" + customerId + "' DOESN'T exist!\n");
         } else
@@ -98,7 +99,7 @@ public final class BranchCLI extends BranchDAO {
     }
 
     private static void accountLogin() {
-        // TODO Auto-generated method stub
+        // TODO
         throw new UnsupportedOperationException("Unimplemented method 'accountLogin'");
     }
 
@@ -162,7 +163,9 @@ public final class BranchCLI extends BranchDAO {
 
             case "info":
                 // print branch info
+                System.out.println();
                 dao.showBranchInfo();
+                System.out.println();
                 break;
 
             case "help":

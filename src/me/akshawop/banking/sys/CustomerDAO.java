@@ -68,6 +68,7 @@ public class CustomerDAO {
         System.out.println("Name: " + customer.getName().toUpperCase());
         System.out.println("Aadhaar No.: " + customer.getAadhaar());
         System.out.println("PAN: " + customer.getPan().toUpperCase());
+        System.out.println("Address: " + (customer.getAddress() + "").toUpperCase());
         System.out.println("Phone: " + customer.getPhone());
         System.out.println("Email: " + customer.getEmail());
         System.out.println("Registered on: " + customer.getRegistrationDate());
