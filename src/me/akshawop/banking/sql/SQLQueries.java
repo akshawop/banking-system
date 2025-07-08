@@ -81,7 +81,8 @@ public class SQLQueries {
     }
 
     public static String listAccounts(int from, int limit) {
-        return "SELECT * FROM account WHERE account_number >= " + from + " LIMIT " + limit;
+        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch_id = branch.branch_id CROSS JOIN bank WHERE account_number >= "
+                + from + " LIMIT " + limit;
     }
 
     // BranchDAO
@@ -122,17 +123,33 @@ public class SQLQueries {
     }
 
     public static String accessAccountInDB(int accountNumber) {
-        return "SELECT * FROM account WHERE account_number = " + accountNumber;
+        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch_id = branch.branch_id CROSS JOIN bank WHERE account_number = "
+                + accountNumber;
     }
 
+    /**
+     * SELECT
+     * account.*,
+     * branch.branch_code,
+     * bank.bank_code
+     * FROM
+     * account
+     * JOIN
+     * branch ON account.branch_id = branch.branch_id
+     * CROSS JOIN
+     * bank;
+     * 
+     */
     public static String listAccounts(int branchId, int from, int limit) {
-        return "SELECT * FROM account WHERE branch = " + branchId + "AND account_number >= " + from + " LIMIT " + limit;
+        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch_id = branch.branch_id CROSS JOIN bank WHERE branch = "
+                + branchId + "AND account_number >= " + from + " LIMIT " + limit;
     }
 
     // CustomerDAO
     public static String createAccountInDB(Account account) {
-        String data = str(account.getBranchCode()) + ", " + str(account.getType()) + ", " + account.getCustomerId()
-                + ", " + str(account.getNominee()) + ", " + account.getBalance() + ", " + account.getMinBalance();
+        String data = str(account.getIfscCode().substring(5)) + ", " + str(account.getType()) + ", "
+                + account.getCustomerId()
+                + ", " + account.getNominee() + ", " + account.getBalance() + ", " + account.getMinBalance();
 
         return "INSERT INTO account (branch, account_type, customer, nominee, balance, min_balance) VALUES (" + data
                 + ")";
@@ -140,7 +157,7 @@ public class SQLQueries {
 
     public static String updateAccountInDB(Account account) {
         return "UPDATE account SET "
-                + "branch_code = " + str(account.getBranchCode()) + ", "
+                + "branch_code = " + str(account.getIfscCode().substring(5)) + ", "
                 + "account_status = " + str(account.getStatus())
                 + " WHERE account_number = " + account.getAccountNumber();
     }
@@ -150,7 +167,8 @@ public class SQLQueries {
     }
 
     public static String listAccounts(int customerId) {
-        return "SELECT * FROM account WHERE customer_id = " + customerId;
+        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch_id = branch.branch_id CROSS JOIN bank WHERE customer_id = "
+                + customerId;
     }
 
     // AccountDAO
