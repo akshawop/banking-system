@@ -168,7 +168,7 @@ public final class BankCLI extends BankDAO {
 
             case "info":
                 // print bank info
-                dao.showBankInfo();
+                dao.printBankInfo();
                 break;
 
             case "help":

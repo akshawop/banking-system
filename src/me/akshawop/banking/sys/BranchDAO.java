@@ -211,7 +211,7 @@ public class BranchDAO {
      * 
      * @log every field of the {@code Branch} object
      */
-    protected void showBranchInfo() {
+    protected void printBranchInfo() {
         System.out.println("Branch ID: " + branch.getBranchId());
         System.out.println("Branch Name: " + branch.getBranchName().toUpperCase());
         System.out.println("Branch Code: " + branch.getBranchCode().toUpperCase());

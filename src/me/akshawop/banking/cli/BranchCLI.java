@@ -166,7 +166,7 @@ public final class BranchCLI extends BranchDAO {
             case "info":
                 // print branch info
                 System.out.println();
-                dao.showBranchInfo();
+                dao.printBranchInfo();
                 System.out.println();
                 break;
 

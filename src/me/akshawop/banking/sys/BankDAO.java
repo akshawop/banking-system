@@ -39,7 +39,7 @@ public class BankDAO {
      * 
      * @log Bank Name and Bank Code
      */
-    protected void showBankInfo() {
+    protected void printBankInfo() {
         System.out.println("\nBank: " + bank.getBankName().toUpperCase());
         System.out.println("Code: " + bank.getBankCode().toUpperCase() + "\n");
     }
