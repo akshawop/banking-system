@@ -17,8 +17,17 @@ public class CustomerDAO {
      * 
      * @param customer The {@code Customer} object to be used in the DAO
      */
-    public CustomerDAO(Customer customer) {
+    protected CustomerDAO(Customer customer) {
         this.customer = customer;
+    }
+
+    /**
+     * Gets the {@code Customer} object which is being currently used by the DAO.
+     * 
+     * @return the current {@code Customer} object
+     */
+    public Customer getCurrentCustomer() {
+        return customer;
     }
 
     /**
@@ -31,7 +40,7 @@ public class CustomerDAO {
      * 
      * @log an error message if any error occurs
      */
-    static Customer fetchCustomer(int customerId) {
+    public static Customer fetchCustomer(int customerId) {
         try {
             Connection con = DB.connect();
             Statement st = con.createStatement();
@@ -63,7 +72,7 @@ public class CustomerDAO {
      * 
      * @log the data of the currently using Customer
      */
-    void printCustomerInfo() {
+    protected void printCustomerInfo() {
         System.out.println("Customer ID: " + customer.getCustomerId());
         System.out.println("Name: " + customer.getName().toUpperCase());
         System.out.println("Aadhaar No.: " + customer.getAadhaar());
@@ -74,19 +83,47 @@ public class CustomerDAO {
         System.out.println("Registered on: " + customer.getRegistrationDate());
     }
 
-    void createAccount(Account account) {
+    /**
+     * Creates a new Account of the current Customer in the Database
+     *
+     * @param account The {@code Account} object of the account to be created
+     * 
+     * @return {@code 0} if process was successful; {@code 1} if unsuccessful
+     * 
+     * @log an error message if any error occurs
+     */
+    protected int createAccount(Account account) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.createAccountInDB(account));
+            con.close();
+            return 0;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Duplicate Account Creation not allowed!");
+            System.out.println("A " + account.getType() + " Account for this Customer already exists!");
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
+    }
+
+    protected void updateAccount(int accountNumber) {
 
     }
 
-    void updateAccount(int accountNumber) {
+    protected void closeAccount(int accountNumber) {
 
     }
 
-    void closeAccount(int accountNumber) {
-
-    }
-
-    void listAccounts() {
+    protected void listAccounts() {
 
     }
 }
