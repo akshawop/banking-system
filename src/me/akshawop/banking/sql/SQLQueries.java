@@ -127,19 +127,6 @@ public class SQLQueries {
                 + accountNumber;
     }
 
-    /**
-     * SELECT
-     * account.*,
-     * branch.branch_code,
-     * bank.bank_code
-     * FROM
-     * account
-     * JOIN
-     * branch ON account.branch_id = branch.branch_id
-     * CROSS JOIN
-     * bank;
-     * 
-     */
     public static String listAccounts(int branchId, int from, int limit) {
         return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch = branch.branch_id CROSS JOIN bank WHERE branch = "
                 + branchId + " AND account_number >= " + from + " LIMIT " + limit;

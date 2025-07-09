@@ -10,6 +10,7 @@ CREATE TABLE bank (
     CONSTRAINT ck_bank_code_length CHECK (LENGTH(bank_code) = 4)
 );
 
+-- TODO: add branch id limit to 9999 [it should not be able to make more than 9999 rows]
 CREATE TABLE branch (
     branch_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     branch_code CHAR(6) NOT NULL,

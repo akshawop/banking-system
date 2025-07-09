@@ -100,8 +100,9 @@ public final class BranchCLI extends BranchDAO {
     }
 
     private static void accountLogin() {
-        // TODO
+        // TODO: AccountCLI
         throw new UnsupportedOperationException("Unimplemented method 'accountLogin'");
+        // System.out.println("\nLogout successful.\n");
     }
 
     private static void listAccounts() {
