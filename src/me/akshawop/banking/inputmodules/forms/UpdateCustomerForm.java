@@ -8,14 +8,14 @@ import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.util.InputChecker;
 
 public class UpdateCustomerForm {
-    static Customer customer;
-    static String firstName;
-    static String midName;
-    static String lastName;
-    static String pan;
-    static Address address;
-    static String phone;
-    static String email;
+    private static Customer customer;
+    private static String firstName;
+    private static String midName;
+    private static String lastName;
+    private static String pan;
+    private static Address address;
+    private static String phone;
+    private static String email;
 
     private static void verify() {
         System.out.println("\n    --PLEASE VERIFY THE DETAILS--");

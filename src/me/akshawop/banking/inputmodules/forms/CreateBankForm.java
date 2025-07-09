@@ -6,8 +6,8 @@ import me.akshawop.banking.sys.Bank;
 import me.akshawop.banking.util.InputChecker;
 
 public class CreateBankForm {
-    static String bankName;
-    static String bankCode;
+    private static String bankName;
+    private static String bankCode;
 
     private static void verify() {
         System.out.println("\n    --PLEASE VERIFY THE DETAILS--");

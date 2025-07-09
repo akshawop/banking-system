@@ -8,9 +8,9 @@ import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.util.InputChecker;
 
 public class CreateBranchForm {
-    static String branchName;
-    static String branchCode;
-    static Address address;
+    private static String branchName;
+    private static String branchCode;
+    private static Address address;
 
     private static void verify() {
         System.out.println("\n    --PLEASE VERIFY THE DETAILS--");
