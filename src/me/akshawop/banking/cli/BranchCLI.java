@@ -46,7 +46,7 @@ public final class BranchCLI extends BranchDAO {
             branch = dao.getCurrentBranch();
             break;
         } while (true);
-        System.out.println("\nLogin into '" + branch.getBranchName().toUpperCase() + "' Branch successful!\n");
+        System.out.println("\nLogin into " + branch.getBranchName().toUpperCase() + " Branch successful!\n");
         return 0;
     }
 
@@ -69,9 +69,8 @@ public final class BranchCLI extends BranchDAO {
         if (customerId > 0) {
             Customer customer = dao.getCustomer(customerId);
             if (customer != null) {
-                // TODO: CustomerCLI
-                throw new UnsupportedOperationException("Unimplemented method 'customerLogin'");
-                // System.out.println("\nLogout successful.\n");
+                CustomerCLI.run(in, branch, customer);
+                System.out.println("\nLogout successful.\n");
             } else
                 System.out.println("\nCustomer with ID '" + customerId + "' DOESN'T exist!\n");
         } else
