@@ -4,6 +4,7 @@ import me.akshawop.banking.customtype.Address;
 import me.akshawop.banking.sys.Account;
 import me.akshawop.banking.sys.Bank;
 import me.akshawop.banking.sys.Branch;
+import me.akshawop.banking.sys.BranchDAO;
 import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.sys.Transaction;
 
@@ -134,9 +135,11 @@ public class SQLQueries {
 
     // CustomerDAO
     public static String createAccountInDB(Account account) {
-        String data = str(account.getIfscCode().substring(5)) + ", " + str(account.getType()) + ", "
+        String data = BranchDAO.fetchBranch(account.getIfscCode().substring(5)).getBranchId() + ", "
+                + str(account.getType()) + ", "
                 + account.getCustomerId()
-                + ", " + (account.getNominee() == 0 ? "NULL" : account.getNominee()) + ", " + account.getBalance() + ", " + account.getMinBalance();
+                + ", " + (account.getNominee() == 0 ? "NULL" : account.getNominee()) + ", " + account.getBalance()
+                + ", " + account.getMinBalance();
 
         return "INSERT INTO account (branch, account_type, customer, nominee, balance, min_balance) VALUES (" + data
                 + ")";
