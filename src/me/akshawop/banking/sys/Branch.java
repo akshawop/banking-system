@@ -13,10 +13,13 @@ public class Branch {
     private Address address;
     private Date openingDate;
 
+    private String bankCode;
+
     public Branch(String branchCode, String branchName, Address address) {
         this.branchCode = branchCode;
         this.branchName = branchName;
         this.address = address;
+        this.bankCode = BankDAO.fetchBank().getBankCode();
     }
 
     public Branch(ResultSet rs) {
@@ -26,6 +29,7 @@ public class Branch {
             this.branchName = rs.getString("branch_name");
             this.address = new Address(rs);
             this.openingDate = rs.getDate("opening_date");
+            this.bankCode = BankDAO.fetchBank().getBankCode();
         } catch (SQLException e) {
             System.err.println("Cannot access the Database while creating new Branch object!");
             System.err.println("More info:\n" + e);
@@ -53,5 +57,9 @@ public class Branch {
 
     public Date getOpeningDate() {
         return openingDate;
+    }
+
+    public String getBankCode() {
+        return bankCode;
     }
 }
