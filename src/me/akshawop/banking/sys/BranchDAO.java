@@ -17,18 +17,46 @@ public class BranchDAO {
     /**
      * Constructs a {@code BranchDAO} with the specified
      * Branch Code.
+     * <p>
+     * Uses {@code fetchBranch} method.
      *
      * @param branchCode The {@code String} Branch Code
+     * 
      * @log an error message if any error occurs
+     * 
+     * @see BranchDAO#fetchBranch
      */
     protected BranchDAO(String branchCode) {
+        this.branch = fetchBranch(branchCode);
+    }
+
+    /**
+     * Gets the {@code Branch} object which is being currently used by the DAO.
+     * 
+     * @return the current {@code Branch} object
+     */
+    protected Branch getCurrentBranch() {
+        return branch;
+    }
+
+    /**
+     * Fetch the data of a Branch from the Database.
+     * 
+     * @param branchCode The {@code int} Branch Code of the Branch whose data to
+     *                   be fetched
+     * 
+     * @return {@code Branch} object if exists; {@code null} if doesn't
+     * 
+     * @log an error message if any error occurs
+     */
+    public static Branch fetchBranch(String branchCode) {
         try {
             Connection con = DB.connect();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(SQLQueries.getBranchFromDB(branchCode));
 
             if (rs.next())
-                branch = new Branch(rs);
+                return new Branch(rs);
             con.close();
         } catch (SQLTimeoutException e) {
             System.err.println("Error: Database timeout!");
@@ -40,15 +68,7 @@ public class BranchDAO {
             System.err.println("Error: something went wrong!");
             System.err.println("More info:\n" + e);
         }
-    }
-
-    /**
-     * Gets the {@code Branch} object which is being currently used by the DAO.
-     * 
-     * @return the current {@code Branch} object
-     */
-    protected Branch getCurrentBranch() {
-        return branch;
+        return null;
     }
 
     /**
