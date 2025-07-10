@@ -11,7 +11,7 @@ public class AccountDAO {
 
     protected void printAccountInfo() {
         System.out.println("Account No.: " + account.getAccountNumber());
-        System.out.println("IFSC Code: " + account.getIfscCode());
+        System.out.println("IFSC Code: " + account.getIfscCode().toUpperCase());
         System.out.println("Customer ID: " + account.getCustomerId());
         System.out.println("Type: " + account.getType());
         System.out.println("Account Balance: $" + account.getBalance());
