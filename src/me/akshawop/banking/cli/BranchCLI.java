@@ -7,6 +7,7 @@ import me.akshawop.banking.inputmodules.forms.UpdateCustomerForm;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.BranchDAO;
 import me.akshawop.banking.sys.Customer;
+import me.akshawop.banking.util.ClearScreen;
 import me.akshawop.banking.util.InputChecker;
 
 public final class BranchCLI extends BranchDAO {
@@ -133,7 +134,8 @@ public final class BranchCLI extends BranchDAO {
         System.out.println("updatecustomer -> Update existing Customer's data");
         System.out.println("accountlogin -> Login to an Account");
         System.out.println("listaccounts -> List Accounts in the current Branch");
-        System.out.println("help -> To see this help menu again\n");
+        System.out.println("help -> To see this help menu again");
+        System.out.println("clear -> To clear screen\n");
     }
 
     private static void selectOption(String input) {
@@ -175,6 +177,11 @@ public final class BranchCLI extends BranchDAO {
                 help();
                 break;
 
+            case "clear":
+                // clear the screen
+                ClearScreen.clearConsole();
+                break;
+
             case "exit":
                 // exit
                 break;
@@ -197,6 +204,7 @@ public final class BranchCLI extends BranchDAO {
             }
 
             // start
+            ClearScreen.clearConsole();
             if (init() == 1)
                 System.exit(0);
 

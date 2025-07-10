@@ -6,6 +6,7 @@ import me.akshawop.banking.inputmodules.forms.*;
 import me.akshawop.banking.sys.Bank;
 import me.akshawop.banking.sys.BankDAO;
 import me.akshawop.banking.sys.Branch;
+import me.akshawop.banking.util.ClearScreen;
 import me.akshawop.banking.util.InputChecker;
 
 public final class BankCLI extends BankDAO {
@@ -23,7 +24,7 @@ public final class BankCLI extends BankDAO {
 
     private static void init() {
         if (doesBankAlreadyExists()) {
-            bank = dao.fetchBank();
+            bank = BankDAO.fetchBank();
         } else {
             System.out.println("\nNo Bank exists, create a new one!");
             Bank newBank = CreateBankForm.fillUp(in); // form fill up
@@ -126,7 +127,8 @@ public final class BankCLI extends BankDAO {
         System.out.println("listbranches -> List all Branches");
         System.out.println("listcustomers -> List existing Customers");
         System.out.println("listaccounts -> List existing Accounts");
-        System.out.println("help -> To see this help menu again\n");
+        System.out.println("help -> To see this help menu again");
+        System.out.println("clear -> To clear screen\n");
     }
 
     public static void selectOption(String input) {
@@ -176,6 +178,11 @@ public final class BankCLI extends BankDAO {
                 help();
                 break;
 
+            case "clear":
+                // clear the screen
+                ClearScreen.clearConsole();
+                break;
+
             case "exit":
                 // exit
                 break;
@@ -197,6 +204,7 @@ public final class BankCLI extends BankDAO {
             }
 
             // start
+            ClearScreen.clearConsole();
             init();
             help();
 
