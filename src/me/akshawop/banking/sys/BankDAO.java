@@ -51,7 +51,7 @@ public class BankDAO {
      * 
      * @log an error message if any error occurs
      */
-    protected Bank fetchBank() {
+    public static Bank fetchBank() {
         try {
             Connection con = DB.connect();
             Statement st = con.createStatement();
