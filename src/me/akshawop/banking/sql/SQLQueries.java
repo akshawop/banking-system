@@ -157,7 +157,7 @@ public class SQLQueries {
     }
 
     public static String listAccounts(int customerId) {
-        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch = branch.branch_id CROSS JOIN bank WHERE customer_id = "
+        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch = branch.branch_id CROSS JOIN bank WHERE customer = "
                 + customerId;
     }
 

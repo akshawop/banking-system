@@ -15,7 +15,7 @@ public class AccountDAO {
         System.out.println("Customer ID: " + account.getCustomerId());
         System.out.println("Type: " + account.getType());
         System.out.println("Account Balance: $" + account.getBalance());
-        System.out.println("Minimum Balance: " + account.getMinBalance());
+        System.out.println("Minimum Balance: $" + account.getMinBalance());
         System.out.println("Nominee Customer ID: " + (account.getNominee() == 0 ? "N/A" : account.getNominee()));
         System.out.println("Status: " + account.getStatus());
         System.out.println("Opening Date: " + account.getOpeningDate());

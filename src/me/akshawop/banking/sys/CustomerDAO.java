@@ -124,6 +124,32 @@ public class CustomerDAO {
     }
 
     protected void listAccounts() {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.listAccounts(customer.getCustomerId()));
 
+            if (!rs.next()) {
+                System.out.println("\nNo Accounts found.\n");
+                con.close();
+            } else {
+                System.out.println("    --Accounts--\n");
+                do {
+                    new AccountDAO(new Account(rs)).printAccountInfo();
+                    System.out.println();
+                } while (rs.next());
+                System.out.println();
+                con.close();
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
     }
 }
