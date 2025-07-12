@@ -116,11 +116,13 @@ public class CustomerDAO {
     }
 
     protected void updateAccount(int accountNumber) {
-
+        // TODO: updateAccount
+        throw new UnsupportedOperationException("Unimplemented method 'updateAccount'");
     }
 
     protected void closeAccount(int accountNumber) {
-
+        // TODO: closeAccount
+        throw new UnsupportedOperationException("Unimplemented method 'closeAccount'");
     }
 
     protected void listAccounts() {

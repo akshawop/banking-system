@@ -36,11 +36,13 @@ final class CustomerCLI extends CustomerDAO {
     }
 
     private static void updateAccount() {
-
+        // TODO: updateAccount
+        throw new UnsupportedOperationException("Unimplemented method 'updateAccount'");
     }
 
     private static void closeAccount() {
-
+        // TODO: closeAccount
+        throw new UnsupportedOperationException("Unimplemented method 'closeAccount'");
     }
 
     private static void help() {

@@ -21,15 +21,38 @@ public class AccountDAO {
         System.out.println("Opening Date: " + account.getOpeningDate());
     }
 
+    protected int updateNominee(int nomineeId) {
+        // TODO: updateNominee
+        throw new UnsupportedOperationException("Unimplemented method 'updateNominee'");
+    }
+
+    protected int transferAccount(String branchCode) {
+        // TODO: transferAccount
+        throw new UnsupportedOperationException("Unimplemented method 'transferAccount'");
+    }
+
+    protected int blockAccount() {
+        // TODO: blockAccount
+        throw new UnsupportedOperationException("Unimplemented method 'blockAccount'");
+    }
+
+    protected int unblockAccount() {
+        // TODO: unblockAccount
+        throw new UnsupportedOperationException("Unimplemented method 'unblockAccount'");
+    }
+
     protected Transaction deposit(String description, String mode, double amount) {
-        return null;
+        // TODO: deposit
+        throw new UnsupportedOperationException("Unimplemented method 'deposit'");
     }
 
     protected Transaction withdraw(String description, String mode, double amount) {
-        return null;
+        // TODO: withdraw
+        throw new UnsupportedOperationException("Unimplemented method 'withdraw'");
     }
 
     void getTransactionHistory(Date fromDate, Date toDate) {
-
+        // TODO: getTransactionHistory
+        throw new UnsupportedOperationException("Unimplemented method 'getTransactionHistory'");
     }
 }
