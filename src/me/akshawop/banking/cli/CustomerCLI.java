@@ -50,6 +50,7 @@ final class CustomerCLI extends CustomerDAO {
             accountNumber = in.nextInt();
             in.nextLine();
         } catch (Exception e) {
+            in.nextLine();
             accountNumber = 0;
         }
         if (accountNumber > 0) {
