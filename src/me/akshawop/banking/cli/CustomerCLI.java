@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import me.akshawop.banking.inputmodules.forms.NewAccountForm;
 import me.akshawop.banking.sys.Account;
+import me.akshawop.banking.sys.AccountDAO;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.sys.CustomerDAO;
@@ -40,9 +41,42 @@ final class CustomerCLI extends CustomerDAO {
         throw new UnsupportedOperationException("Unimplemented method 'updateAccount'");
     }
 
+    // TODO: implement the logic for the account balance transfer to another account
+    // before closing the account
     private static void closeAccount() {
-        // TODO: closeAccount
-        throw new UnsupportedOperationException("Unimplemented method 'closeAccount'");
+        System.out.print("\nAccount Number(Last Digits of the Account Number after the zeros): ");
+        int accountNumber;
+        try {
+            accountNumber = in.nextInt();
+            in.nextLine();
+        } catch (Exception e) {
+            accountNumber = 0;
+        }
+        if (accountNumber > 0) {
+            Account account = AccountDAO.fetchAccount(accountNumber);
+            if (account != null && (account.getCustomerId() == dao.getCurrentCustomer().getCustomerId())) {
+                new AccountDAO(account).printAccountInfo();
+                System.out.println("\n--Verify to CLOSE this Account--\n");
+                System.out.println("y -> To confirm");
+                System.out.println("[anything else] -> To cancel");
+                System.out.print("close> ");
+                String choice = in.nextLine().toLowerCase().trim();
+                if (!choice.equals("y")) {
+                    System.out.println("\nCANCELED!\n");
+                    return;
+                }
+
+                if (dao.closeAccount(accountNumber) == 0)
+                    System.out.println("\nAccount closed successfully!\n");
+                else
+                    System.out.println("\nAccount closing unsuccessful!\n");
+
+            } else {
+                System.out.println("\nAccount closing unsuccessful!");
+                System.out.println("This Account doesn't belongs to this Customer!\n");
+            }
+        } else
+            System.out.println("\nInvalid Account Number!\n");
     }
 
     private static void help() {
