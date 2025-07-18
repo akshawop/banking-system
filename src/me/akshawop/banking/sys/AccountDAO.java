@@ -1,15 +1,66 @@
 package me.akshawop.banking.sys;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
+import java.sql.Statement;
+
+import me.akshawop.banking.sql.SQLQueries;
 
 public class AccountDAO {
     private Account account;
 
-    protected AccountDAO(Account account) {
+    public AccountDAO(Account account) {
         this.account = account;
     }
 
-    protected void printAccountInfo() {
+    /**
+     * Fetch the data of a Account from the Database.
+     * 
+     * @param accountNumber The {@code int} Account Number of the Account whose data
+     *                      to
+     *                      be fetched
+     * 
+     * @return {@code Account} object if exists; {@code null} if doesn't
+     * 
+     * @log an error message if any error occurs
+     */
+    public static Account fetchAccount(int accountNumber) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.getAccountFromDB(accountNumber));
+
+            if (!rs.next()) {
+                con.close();
+                return null;
+            } else {
+                Account account = new Account(rs);
+                con.close();
+                return account;
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return null;
+    }
+
+    /**
+     * Prints the {@code Account} information which is being currently used by the
+     * DAO.
+     * 
+     * @log every field of the {@code Account} object
+     */
+    public void printAccountInfo() {
         System.out.println("Account No.: " + account.getAccountNumber());
         System.out.println("IFSC Code: " + account.getIfscCode().toUpperCase());
         System.out.println("Customer ID: " + account.getCustomerId());
