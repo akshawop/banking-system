@@ -120,9 +120,34 @@ public class CustomerDAO {
         throw new UnsupportedOperationException("Unimplemented method 'updateAccount'");
     }
 
-    protected void closeAccount(int accountNumber) {
-        // TODO: closeAccount
-        throw new UnsupportedOperationException("Unimplemented method 'closeAccount'");
+    /**
+     * Deletes a Account from the Database.
+     * 
+     * @param accountNumber The {@code int} Account Number of the Branch to be
+     *                      deleted
+     * 
+     * @return {@code 0} if successful; {@code 1} if unsuccessful
+     * 
+     * @log an error message if any error occurs
+     */
+    protected int closeAccount(int accountNumber) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.deleteAccountFromDB(accountNumber));
+            con.close();
+            return 0;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
     }
 
     protected void listAccounts() {
