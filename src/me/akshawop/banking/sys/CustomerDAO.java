@@ -150,6 +150,16 @@ public class CustomerDAO {
         return 1;
     }
 
+     /**
+     * Lists the Accounts' data which belong to the currently logged in Customer, from
+     * the Database.
+     * 
+     * @param from  The {@code int} Account Number as the upper limit from where the
+     *              list should start
+     * @param limit The number of Accounts to list
+     * 
+     * @log an error message if any error occurs
+     */
     protected void listAccounts() {
         try {
             Connection con = DB.connect();

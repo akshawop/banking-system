@@ -70,7 +70,6 @@ public final class BranchCLI extends BranchDAO {
             Customer customer = dao.getCustomer(customerId);
             if (customer != null) {
                 CustomerCLI.run(in, branch, customer);
-                System.out.println("\nLogout successful.\n");
             } else
                 System.out.println("\nCustomer with ID '" + customerId + "' DOESN'T exist!\n");
         } else
