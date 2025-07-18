@@ -162,6 +162,11 @@ public class SQLQueries {
     }
 
     // AccountDAO
+    public static String getAccountFromDB(int accountNumber) {
+        return "SELECT account.*, branch.branch_code, bank.bank_code FROM account JOIN branch ON account.branch = branch.branch_id CROSS JOIN bank WHERE account_number = "
+                + accountNumber;
+    }
+
     public static String updateBalanceInDB(double balance, int accountNumber) {
         return "UPDATE account SET balance = " + balance + " WHERE account_number = " + accountNumber;
     }
