@@ -150,8 +150,21 @@ public class CustomerDAO {
         return 1;
     }
 
-     /**
-     * Lists the Accounts' data which belong to the currently logged in Customer, from
+    /**
+     * Prints the {@code Account} information.
+     * Uses the {@link AccountDAO#printAccountInfo()} method.
+     * 
+     * @param account The {@code Account} object
+     * 
+     * @log every field of the {@code Account} object
+     */
+    protected static void printAccountInfo(Account account) {
+        new AccountDAO(account).printAccountInfo();
+    }
+
+    /**
+     * Lists the Accounts' data which belong to the currently logged in Customer,
+     * from
      * the Database.
      * 
      * @param from  The {@code int} Account Number as the upper limit from where the

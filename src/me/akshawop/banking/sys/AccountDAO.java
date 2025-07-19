@@ -12,7 +12,7 @@ import me.akshawop.banking.sql.SQLQueries;
 public class AccountDAO {
     private Account account;
 
-    public AccountDAO(Account account) {
+    protected AccountDAO(Account account) {
         this.account = account;
     }
 

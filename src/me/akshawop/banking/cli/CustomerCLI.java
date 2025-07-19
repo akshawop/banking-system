@@ -54,7 +54,7 @@ final class CustomerCLI extends CustomerDAO {
         if (accountNumber > 0) {
             Account account = AccountDAO.fetchAccount(accountNumber);
             if (account != null && (account.getCustomerId() == dao.getCurrentCustomer().getCustomerId())) {
-                new AccountDAO(account).printAccountInfo();
+                CustomerCLI.printAccountInfo(account);
                 System.out.println("\n--Verify to CLOSE this Account--\n");
                 System.out.println("y -> To confirm");
                 System.out.println("[anything else] -> To cancel");
