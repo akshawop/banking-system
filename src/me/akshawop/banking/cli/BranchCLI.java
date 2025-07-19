@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import me.akshawop.banking.inputmodules.forms.NewCustomerForm;
 import me.akshawop.banking.inputmodules.forms.UpdateCustomerForm;
+import me.akshawop.banking.sys.Account;
+import me.akshawop.banking.sys.AccountDAO;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.BranchDAO;
 import me.akshawop.banking.sys.Customer;
@@ -105,9 +107,23 @@ public final class BranchCLI extends BranchDAO {
     }
 
     private static void accountLogin() {
-        // TODO: AccountCLI
-        throw new UnsupportedOperationException("Unimplemented method 'accountLogin'");
-        // System.out.println("\nLogout successful.\n");
+        System.out.print("\nAccount Number(Last Digits of the Account Number after the zeros): ");
+        int accountNumber;
+        try {
+            accountNumber = Integer.parseInt(in.nextLine().trim());
+        } catch (Exception e) {
+            accountNumber = 0;
+        }
+        if (accountNumber > 0) {
+            Account account = AccountDAO.fetchAccount(accountNumber);
+            if (account != null && (account.getIfscCode().substring(5).equalsIgnoreCase(branch.getBranchCode()))) {
+                AccountCLI.run(in, account);
+            } else {
+                System.out.println("\nAccount login unsuccessful!");
+                System.out.println("This Account doesn't belongs to this Branch!\n");
+            }
+        } else
+            System.out.println("\nInvalid Account Number!\n");
     }
 
     private static void listAccounts() {

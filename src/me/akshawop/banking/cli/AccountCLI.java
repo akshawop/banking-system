@@ -24,7 +24,7 @@ public final class AccountCLI extends AccountDAO {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
         System.out.println("exit -> logout");
-        System.out.println("info -> Get current Customer's information");
+        System.out.println("info -> Get current Account's information");
         // System.out.println("openaccount -> Open an Account");
         // System.out.println("updateaccount -> Update existing Account data");
         // System.out.println("closeAccount -> Close an Account");
