@@ -62,38 +62,46 @@ public final class BranchCLI extends BranchDAO {
     }
 
     private static void customerLogin() {
-        System.out.print("Customer ID: ");
-        int customerId = Integer.parseInt(in.nextLine().trim());
+        try {
+            System.out.print("Customer ID: ");
+            int customerId = Integer.parseInt(in.nextLine().trim());
 
-        if (customerId > 0) {
-            Customer customer = dao.getCustomer(customerId);
-            if (customer != null) {
-                CustomerCLI.run(in, branch, customer);
+            if (customerId > 0) {
+                Customer customer = dao.getCustomer(customerId);
+                if (customer != null) {
+                    CustomerCLI.run(in, branch, customer);
+                } else
+                    System.out.println("\nCustomer with ID '" + customerId + "' DOESN'T exist!\n");
             } else
-                System.out.println("\nCustomer with ID '" + customerId + "' DOESN'T exist!\n");
-        } else
-            System.out.println("\nInvalid Customer ID entered!\n");
+                System.out.println("\nInvalid Customer ID entered!\n");
+        } catch (Exception e) {
+            System.err.println("\nInvalid Input\n");
+        }
     }
 
     private static void updateCustomer() {
-        System.out.print("Enter the Customer ID: ");
-        int customerId = Integer.parseInt(in.nextLine().trim());
+        try {
+            System.out.print("Enter the Customer ID: ");
+            int customerId = Integer.parseInt(in.nextLine().trim());
 
-        if (customerId > 0) {
-            Customer customer = dao.getCustomer(customerId);
-            if (customer != null) {
-                Customer newCustomer = UpdateCustomerForm.fillUp(in, customer);
-                if (newCustomer != null) {
-                    if (dao.updateCustomer(newCustomer) == 0)
-                        System.out.println("\nCustomer data updated Successfully!\n");
-                    else
-                        System.err.println("\nUpdate unsuccessful!\n");
+            if (customerId > 0) {
+                Customer customer = dao.getCustomer(customerId);
+                if (customer != null) {
+                    Customer newCustomer = UpdateCustomerForm.fillUp(in, customer);
+                    if (newCustomer != null) {
+                        if (dao.updateCustomer(newCustomer) == 0)
+                            System.out.println("\nCustomer data updated Successfully!\n");
+                        else
+                            System.err.println("\nUpdate unsuccessful!\n");
+                    } else
+                        System.err.println("\nUpdate canceled!\n");
                 } else
-                    System.err.println("\nUpdate canceled!\n");
+                    System.out.println("\nCustomer with ID '" + customerId + "' DOESN'T exist!\n");
             } else
-                System.out.println("\nCustomer with ID '" + customerId + "' DOESN'T exist!\n");
-        } else
-            System.out.println("\nInvalid Customer ID entered!\n");
+                System.out.println("\nInvalid Customer ID entered!\n");
+        } catch (Exception e) {
+            System.err.println("\nInvalid Input\n");
+        }
     }
 
     private static void accountLogin() {
@@ -103,19 +111,23 @@ public final class BranchCLI extends BranchDAO {
     }
 
     private static void listAccounts() {
-        System.out.print("\nList from(Last Digits of the Account Number after the zeros): ");
-        int from = Integer.parseInt(in.nextLine().trim());
-        if (from < 1) {
-            System.out.println("Invalid Account Number!\n");
-            return;
+        try {
+            System.out.print("\nList from(Last Digits of the Account Number after the zeros): ");
+            int from = Integer.parseInt(in.nextLine().trim());
+            if (from < 1) {
+                System.out.println("Invalid Account Number!\n");
+                return;
+            }
+            System.out.print("Number of Accounts to list: ");
+            int limit = Integer.parseInt(in.nextLine().trim());
+            if (limit < 1) {
+                System.out.println("Invalid limit, should be greater than 0!\n");
+                return;
+            }
+            dao.listAccounts(from, limit);
+        } catch (Exception e) {
+            System.err.println("\nInvalid Input\n");
         }
-        System.out.print("Number of Accounts to list: ");
-        int limit = Integer.parseInt(in.nextLine().trim());
-        if (limit < 1) {
-            System.out.println("Invalid limit, should be greater than 0!\n");
-            return;
-        }
-        dao.listAccounts(from, limit);
     }
 
     private static void help() {

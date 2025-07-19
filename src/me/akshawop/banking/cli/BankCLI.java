@@ -80,35 +80,43 @@ public final class BankCLI extends BankDAO {
     }
 
     private static void listCustomers() {
-        System.out.print("\nList from(Customer ID): ");
-        int from = Integer.parseInt(in.nextLine().trim());
-        if (from < 1) {
-            System.out.println("Invalid Customer ID!\n");
-            return;
+        try {
+            System.out.print("\nList from(Customer ID): ");
+            int from = Integer.parseInt(in.nextLine().trim());
+            if (from < 1) {
+                System.out.println("Invalid Customer ID!\n");
+                return;
+            }
+            System.out.print("Number of Customers to list: ");
+            int limit = Integer.parseInt(in.nextLine().trim());
+            if (limit < 1) {
+                System.out.println("Invalid limit, should be greater than 0!\n");
+                return;
+            }
+            dao.listCustomers(from, limit);
+        } catch (Exception e) {
+            System.err.println("\nInvalid Input!\n");
         }
-        System.out.print("Number of Customers to list: ");
-        int limit = Integer.parseInt(in.nextLine().trim());
-        if (limit < 1) {
-            System.out.println("Invalid limit, should be greater than 0!\n");
-            return;
-        }
-        dao.listCustomers(from, limit);
     }
 
     private static void listAccounts() {
-        System.out.print("\nList from(Last Digits of the Account Number after the zeros): ");
-        int from = Integer.parseInt(in.nextLine().trim());
-        if (from < 1) {
-            System.out.println("Invalid Account Number!\n");
-            return;
+        try {
+            System.out.print("\nList from(Last Digits of the Account Number after the zeros): ");
+            int from = Integer.parseInt(in.nextLine().trim());
+            if (from < 1) {
+                System.out.println("Invalid Account Number!\n");
+                return;
+            }
+            System.out.print("Number of Accounts to list: ");
+            int limit = Integer.parseInt(in.nextLine().trim());
+            if (limit < 1) {
+                System.out.println("Invalid limit, should be greater than 0!\n");
+                return;
+            }
+            dao.listAccounts(from, limit);
+        } catch (Exception e) {
+            System.err.println("\nInvalid Input!\n");
         }
-        System.out.print("Number of Accounts to list: ");
-        int limit = Integer.parseInt(in.nextLine().trim());
-        if (limit < 1) {
-            System.out.println("Invalid limit, should be greater than 0!\n");
-            return;
-        }
-        dao.listAccounts(from, limit);
     }
 
     private static void help() {
