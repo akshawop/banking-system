@@ -63,8 +63,7 @@ public final class BranchCLI extends BranchDAO {
 
     private static void customerLogin() {
         System.out.print("Customer ID: ");
-        int customerId = in.nextInt();
-        in.nextLine();
+        int customerId = Integer.parseInt(in.nextLine().trim());
 
         if (customerId > 0) {
             Customer customer = dao.getCustomer(customerId);
@@ -78,8 +77,7 @@ public final class BranchCLI extends BranchDAO {
 
     private static void updateCustomer() {
         System.out.print("Enter the Customer ID: ");
-        int customerId = in.nextInt();
-        in.nextLine();
+        int customerId = Integer.parseInt(in.nextLine().trim());
 
         if (customerId > 0) {
             Customer customer = dao.getCustomer(customerId);
@@ -106,15 +104,13 @@ public final class BranchCLI extends BranchDAO {
 
     private static void listAccounts() {
         System.out.print("\nList from(Last Digits of the Account Number after the zeros): ");
-        int from = in.nextInt();
-        in.nextLine();
+        int from = Integer.parseInt(in.nextLine().trim());
         if (from < 1) {
             System.out.println("Invalid Account Number!\n");
             return;
         }
         System.out.print("Number of Accounts to list: ");
-        int limit = in.nextInt();
-        in.nextLine();
+        int limit = Integer.parseInt(in.nextLine().trim());
         if (limit < 1) {
             System.out.println("Invalid limit, should be greater than 0!\n");
             return;

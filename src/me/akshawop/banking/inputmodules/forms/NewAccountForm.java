@@ -61,8 +61,7 @@ public class NewAccountForm {
             // input initial balance
             do {
                 System.out.print("Enter the Initial Deposit Amount*: $");
-                initialBalance = in.nextDouble();
-                in.nextLine();
+                initialBalance = Double.parseDouble(in.nextLine().trim());
                 if (initialBalance < 0) {
                     System.out.println("Wrong input: Can't be less than zero");
                     continue;
@@ -75,8 +74,7 @@ public class NewAccountForm {
             do {
                 System.out.println("[Enter zero(0) to skip]");
                 System.out.print("Enter here: ");
-                nominee = in.nextInt();
-                in.nextLine();
+                nominee = Integer.parseInt(in.nextLine().trim());
                 if (nominee != 0) {
                     if (nominee < 0) {
                         System.out.println("Wrong input: Invalid Customer ID\n");
@@ -107,8 +105,7 @@ public class NewAccountForm {
             do {
                 System.out.println("[Enter zero(0) for no minimum balance amount]");
                 System.out.print("Enter here: $");
-                minBalance = in.nextDouble();
-                in.nextLine();
+                minBalance = Double.parseDouble(in.nextLine().trim());
                 if (minBalance < 0) {
                     System.out.println("Wrong input: Can't be less than zero");
                     continue;

@@ -47,10 +47,8 @@ final class CustomerCLI extends CustomerDAO {
         System.out.print("\nAccount Number(Last Digits of the Account Number after the zeros): ");
         int accountNumber;
         try {
-            accountNumber = in.nextInt();
-            in.nextLine();
+            accountNumber = Integer.parseInt(in.nextLine().trim());
         } catch (Exception e) {
-            in.nextLine();
             accountNumber = 0;
         }
         if (accountNumber > 0) {
