@@ -171,6 +171,10 @@ public class SQLQueries {
         return "UPDATE account SET nominee = " + nominee + " WHERE account_number = " + accountNumber;
     }
 
+    public static String transferAccount(int branchId, int accountNumber) {
+        return "UPDATE account SET branch = " + branchId + " WHERE account_number = " + accountNumber;
+    }
+
     public static String updateAccountStatus(String status, int accountNumber) {
         return "UPDATE account SET account_status = " + status + " WHERE account_number = " + accountNumber;
     }
