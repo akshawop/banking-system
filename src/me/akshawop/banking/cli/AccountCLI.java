@@ -4,13 +4,17 @@ import java.util.Scanner;
 
 import me.akshawop.banking.sys.Account;
 import me.akshawop.banking.sys.AccountDAO;
+import me.akshawop.banking.sys.Branch;
+import me.akshawop.banking.sys.BranchDAO;
 import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.sys.CustomerDAO;
 import me.akshawop.banking.util.ClearScreen;
+import me.akshawop.banking.util.InputChecker;
 
 public final class AccountCLI extends AccountDAO {
     private static Scanner in;
     private static AccountCLI dao;
+    private static String input;
 
     private AccountCLI(Account account) {
         super(account);
@@ -69,13 +73,39 @@ public final class AccountCLI extends AccountDAO {
             System.out.println("\nInvalid Customer ID!\n");
     }
 
+    private static void transferAccount() {
+        System.out.print("Transfer to Branch(Branch Code): ");
+        String branchCode = in.nextLine().toLowerCase().trim();
+
+        if (!InputChecker.checkBranchCode(branchCode, 'c')) {
+            System.out.println("\nInvalid Branch Code entered!\n");
+            return;
+        }
+
+        if (branchCode.equalsIgnoreCase(dao.getCurrentAccount().getIfscCode().substring(5))) {
+            System.out.println("\nTransfer of Account to the same Branch has no effect!\n");
+            return;
+        }
+
+        Branch branch = BranchDAO.fetchBranch(branchCode);
+        if (branch != null) {
+            if (dao.transferAccount(branchCode) == 0) {
+                System.out.println(
+                        "\nAccount transferred to " + branch.getBranchName().toUpperCase() + " branch successfully!\n");
+                input = "exit";
+            } else
+                System.out.println("\nAccount transfer unsuccessful!\n");
+        } else
+            System.out.println("\nNo such Branch exists!\n");
+    }
+
     private static void help() {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
         System.out.println("exit -> logout");
         System.out.println("info -> Get current Account's information");
         System.out.println("updatenominee -> Change the Nominee for this Account");
-        // System.out.println("updateaccount -> Update existing Account data");
+        System.out.println("transferaccount -> Transfer this Account to another Branch");
         // System.out.println("closeAccount -> Close an Account");
         // System.out.println("listaccounts -> List all the Accounts of this Customer");
         System.out.println("help -> To see this help menu again");
@@ -89,10 +119,10 @@ public final class AccountCLI extends AccountDAO {
                 updateNominee();
                 break;
 
-            // case "updateaccount":
-            // // update account
-            // updateAccount();
-            // break;
+            case "transferaccount":
+                // transfer account
+                transferAccount();
+                break;
 
             // case "closeaccount":
             // // close account
@@ -140,7 +170,6 @@ public final class AccountCLI extends AccountDAO {
             init();
             help();
 
-            String input;
             do {
                 System.out.print("account> ");
                 input = in.nextLine().toLowerCase().trim();

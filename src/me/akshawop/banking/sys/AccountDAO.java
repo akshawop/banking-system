@@ -83,6 +83,15 @@ public class AccountDAO {
         System.out.println("Opening Date: " + account.getOpeningDate());
     }
 
+    /**
+     * Updates the Nominee of an Account in the Database.
+     * 
+     * @param nomineeId The nominee's {@code int} Customer ID
+     * 
+     * @return {@code 0} if update successful; {@code 1} if not
+     * 
+     * @log an error message if any error occurs
+     */
     protected int updateNominee(int nomineeId) {
         try {
             Connection con = DB.connect();
@@ -103,9 +112,34 @@ public class AccountDAO {
         return 1;
     }
 
+    /**
+     * Transfers the Account to another Branch.
+     * 
+     * @param branchCode The {@code String} Branch Code of the Branch
+     * 
+     * @return {@code 0} if update successful; {@code 1} if not
+     * 
+     * @log an error message if any error occurs
+     */
     protected int transferAccount(String branchCode) {
-        // TODO: transferAccount
-        throw new UnsupportedOperationException("Unimplemented method 'transferAccount'");
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(
+                    SQLQueries.transferAccount(BranchDAO.fetchBranch(branchCode).getBranchId(), accountNumber));
+            con.close();
+            return 0;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
     }
 
     protected int blockAccount() {
