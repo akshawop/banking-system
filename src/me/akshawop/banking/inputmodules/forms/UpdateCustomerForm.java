@@ -91,7 +91,8 @@ public class UpdateCustomerForm {
                     pan = pan.length() == 0 ? customer.getPan() : pan;
                     break;
                 } while (true);
-            }
+            } else
+                pan = customer.getPan();
             customer.setPan(pan);
 
             // customer address input
