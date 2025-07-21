@@ -167,6 +167,14 @@ public class SQLQueries {
                 + accountNumber;
     }
 
+    public static String updateNomineeInDB(int nominee, int accountNumber) {
+        return "UPDATE account SET nominee = " + nominee + " WHERE account_number = " + accountNumber;
+    }
+
+    public static String updateAccountStatus(String status, int accountNumber) {
+        return "UPDATE account SET account_status = " + status + " WHERE account_number = " + accountNumber;
+    }
+
     public static String updateBalanceInDB(double balance, int accountNumber) {
         return "UPDATE account SET balance = " + balance + " WHERE account_number = " + accountNumber;
     }
