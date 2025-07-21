@@ -11,9 +11,20 @@ import me.akshawop.banking.sql.SQLQueries;
 
 public class AccountDAO {
     private Account account;
+    private int accountNumber;
 
     protected AccountDAO(Account account) {
         this.account = account;
+        this.accountNumber = Integer.parseInt(account.getAccountNumber().substring(6));
+    }
+
+    /**
+     * Gets the {@code Customer} object which is being currently used by the DAO.
+     * 
+     * @return the current {@code Customer} object
+     */
+    public Account getCurrentAccount() {
+        return account;
     }
 
     /**
@@ -73,8 +84,23 @@ public class AccountDAO {
     }
 
     protected int updateNominee(int nomineeId) {
-        // TODO: updateNominee
-        throw new UnsupportedOperationException("Unimplemented method 'updateNominee'");
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.updateNomineeInDB(nomineeId, accountNumber));
+            con.close();
+            return 0;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
     }
 
     protected int transferAccount(String branchCode) {

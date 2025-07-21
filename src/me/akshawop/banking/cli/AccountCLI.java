@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import me.akshawop.banking.sys.Account;
 import me.akshawop.banking.sys.AccountDAO;
+import me.akshawop.banking.sys.Customer;
+import me.akshawop.banking.sys.CustomerDAO;
 import me.akshawop.banking.util.ClearScreen;
 
 public final class AccountCLI extends AccountDAO {
@@ -20,12 +22,59 @@ public final class AccountCLI extends AccountDAO {
         System.out.println();
     }
 
+    private static void updateNominee() {
+        System.out.print("\nCustomer ID of the Nominee: ");
+        int nominee;
+        try {
+            nominee = Integer.parseInt(in.nextLine().trim());
+        } catch (Exception e) {
+            nominee = 0;
+        }
+
+        if (nominee == dao.getCurrentAccount().getNominee()) {
+            System.out.println("\nThis Customer is Already the Nominee of this Account!\n");
+            return;
+        }
+
+        if (nominee == dao.getCurrentAccount().getCustomerId()) {
+            System.out.println("\nThis Customer is the Account Holder of this Account!\n");
+            return;
+        }
+
+        if (nominee > 0) {
+            Customer customer = CustomerDAO.fetchCustomer(nominee);
+            if (customer != null) {
+                System.out.println(
+                        "\nNominee: " + customer.getCustomerId() + " [" + customer.getName().toUpperCase() + "]");
+                System.out.println("\n--Verify to choose this Customer as the Nominee for this Account--\n");
+                System.out.println("y -> To confirm");
+                System.out.println("[anything else] -> To cancel");
+                System.out.print("updatenominee> ");
+                String choice = in.nextLine().toLowerCase().trim();
+                if (!choice.equals("y")) {
+                    System.out.println("\nCANCELED!\n");
+                    return;
+                }
+
+                if (dao.updateNominee(nominee) == 0)
+                    System.out.println("\nNominee updated successfully!\n");
+                else
+                    System.out.println("\nNominee update unsuccessful!\n");
+
+            } else {
+                System.out.println("\nNominee update unsuccessful!");
+                System.out.println("No such Customer exists!\n");
+            }
+        } else
+            System.out.println("\nInvalid Customer ID!\n");
+    }
+
     private static void help() {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
         System.out.println("exit -> logout");
         System.out.println("info -> Get current Account's information");
-        // System.out.println("openaccount -> Open an Account");
+        System.out.println("updatenominee -> Change the Nominee for this Account");
         // System.out.println("updateaccount -> Update existing Account data");
         // System.out.println("closeAccount -> Close an Account");
         // System.out.println("listaccounts -> List all the Accounts of this Customer");
@@ -35,10 +84,10 @@ public final class AccountCLI extends AccountDAO {
 
     private static void selectOption(String input) {
         switch (input) {
-            // case "openaccount":
-            // // open account
-            // openAccount();
-            // break;
+            case "updatenominee":
+                // update nominee
+                updateNominee();
+                break;
 
             // case "updateaccount":
             // // update account
