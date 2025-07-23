@@ -113,4 +113,12 @@ public class Account {
     public Date getOpeningDate() {
         return openingDate;
     }
+
+    public void setNominee(int nominee) {
+        this.nominee = nominee;
+    }
+
+    public void setStatus(AccountStatus status) {
+        this.status = status.toString();
+    }
 }
