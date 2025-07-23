@@ -1,5 +1,7 @@
 package me.akshawop.banking.sys;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class Transaction {
@@ -21,16 +23,23 @@ public class Transaction {
         this.balance = balance;
     }
 
-    public Transaction(int transactionId, int accountNumber, String description, String type, String mode,
-            double amount, double balance, Date timestamp) {
-        this.transactionId = transactionId;
-        this.accountNumber = accountNumber;
-        this.description = description;
-        this.type = type;
-        this.mode = mode;
-        this.amount = amount;
-        this.balance = balance;
-        this.timestamp = timestamp;
+    public Transaction(ResultSet rs) {
+        try {
+            this.transactionId = rs.getInt("transaction_id");
+            this.accountNumber = rs.getInt("account");
+            this.description = rs.getString("description");
+            this.type = rs.getString("transaction_type");
+            this.mode = rs.getString("mode");
+            this.amount = rs.getDouble("amount");
+            this.balance = rs.getDouble("balance");
+            this.timestamp = rs.getTimestamp("transaction_timestamp");
+        } catch (SQLException e) {
+            System.err.println("Cannot access the Database while creating new Transaction object!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("something went wrong while creating new Transaction object!");
+            System.err.println("More info:\n" + e);
+        }
     }
 
     public int getTransactionId() {
