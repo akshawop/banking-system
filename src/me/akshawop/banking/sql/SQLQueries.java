@@ -2,6 +2,7 @@ package me.akshawop.banking.sql;
 
 import me.akshawop.banking.customtype.Address;
 import me.akshawop.banking.sys.Account;
+import me.akshawop.banking.sys.AccountStatus;
 import me.akshawop.banking.sys.Bank;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.BranchDAO;
@@ -175,8 +176,9 @@ public class SQLQueries {
         return "UPDATE account SET branch = " + branchId + " WHERE account_number = " + accountNumber;
     }
 
-    public static String updateAccountStatus(String status, int accountNumber) {
-        return "UPDATE account SET account_status = " + status + " WHERE account_number = " + accountNumber;
+    public static String updateAccountStatus(AccountStatus status, int accountNumber) {
+        return "UPDATE account SET account_status = " + str(status.toString()) + " WHERE account_number = "
+                + accountNumber;
     }
 
     public static String updateBalanceInDB(double balance, int accountNumber) {
