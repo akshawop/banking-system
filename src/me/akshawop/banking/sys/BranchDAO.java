@@ -180,11 +180,6 @@ public class BranchDAO {
         return 1;
     }
 
-    protected Account accessAccount(int accountNumber) {
-        // TODO: AccountCLI
-        throw new UnsupportedOperationException("Unimplemented method 'accessAccount'");
-    }
-
     /**
      * Lists the Accounts' data which belong to the currently logged in Branch, from
      * the Database.
