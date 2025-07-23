@@ -98,6 +98,7 @@ public class AccountDAO {
             Statement st = con.createStatement();
             st.executeUpdate(SQLQueries.updateNomineeInDB(nomineeId, accountNumber));
             con.close();
+            account.setNominee(nomineeId);
             return 0;
         } catch (SQLTimeoutException e) {
             System.err.println("Error: Database timeout!");
@@ -142,14 +143,71 @@ public class AccountDAO {
         return 1;
     }
 
+    /**
+     * Blocks the currently used Account.
+     * 
+     * @return {@code -1} if already blocked; {@code 0} if the process is
+     *         successful; {@code 1} if not
+     * 
+     * @log an error message if any error occurs
+     */
     protected int blockAccount() {
-        // TODO: blockAccount
-        throw new UnsupportedOperationException("Unimplemented method 'blockAccount'");
+        if (account.getStatus().equals(AccountStatus.BLOCKED.toString())) {
+            System.out.println("\nAccount is already Blocked!\n");
+            return -1;
+        }
+
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.updateAccountStatus(AccountStatus.BLOCKED, accountNumber));
+            con.close();
+            account.setStatus(AccountStatus.BLOCKED);
+            return 0;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
     }
 
+    /**
+     * Unblocks the currently used Account.
+     * 
+     * @return {@code -1} if already unblocked; {@code 0} if the process is
+     *         successful; {@code 1} if not
+     *
+     * @log an error message if any error occurs
+     */
     protected int unblockAccount() {
-        // TODO: unblockAccount
-        throw new UnsupportedOperationException("Unimplemented method 'unblockAccount'");
+        if (account.getStatus().equals(AccountStatus.ACTIVE.toString())) {
+            return -1;
+        }
+
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.updateAccountStatus(AccountStatus.ACTIVE, accountNumber));
+            con.close();
+            account.setStatus(AccountStatus.ACTIVE);
+            return 0;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
     }
 
     protected Transaction deposit(String description, String mode, double amount) {

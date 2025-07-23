@@ -99,6 +99,26 @@ public final class AccountCLI extends AccountDAO {
             System.out.println("\nNo such Branch exists!\n");
     }
 
+    private static void block() {
+        int stat = dao.blockAccount();
+        if (stat == -1)
+            System.out.println("\nAccount is already Blocked!\n");
+        else if (stat == 0)
+            System.out.println("\nAccount BLOCKED!\n");
+        else
+            System.out.println("\nAcount Blocking unsuccessful!\n");
+    }
+
+    private static void unblock() {
+        int stat = dao.unblockAccount();
+        if (stat == -1)
+            System.out.println("\nAccount is already Active!\n");
+        else if (stat == 0)
+            System.out.println("\nAccount UNBLOCKED!\n");
+        else
+            System.out.println("\nAcount Activation unsuccessful!\n");
+    }
+
     private static void help() {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
@@ -106,8 +126,8 @@ public final class AccountCLI extends AccountDAO {
         System.out.println("info -> Get current Account's information");
         System.out.println("updatenominee -> Change the Nominee for this Account");
         System.out.println("transferaccount -> Transfer this Account to another Branch");
-        // System.out.println("closeAccount -> Close an Account");
-        // System.out.println("listaccounts -> List all the Accounts of this Customer");
+        System.out.println("block -> Block the Account");
+        System.out.println("unblock -> Unblock the Account");
         System.out.println("help -> To see this help menu again");
         System.out.println("clear -> To clear screen\n");
     }
@@ -124,15 +144,15 @@ public final class AccountCLI extends AccountDAO {
                 transferAccount();
                 break;
 
-            // case "closeaccount":
-            // // close account
-            // closeAccount();
-            // break;
+            case "block":
+                // block account
+                block();
+                break;
 
-            // case "listaccounts":
-            // // list accounts
-            // dao.listAccounts();
-            // break;
+            case "unblock":
+                // unblock account
+                unblock();
+                break;
 
             case "info":
                 // print customer info
