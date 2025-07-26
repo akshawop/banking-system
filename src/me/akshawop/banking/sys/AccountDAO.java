@@ -210,6 +210,25 @@ public class AccountDAO {
         return 1;
     }
 
+    /**
+     * Generates a new Card in the Database and returns it. Uses
+     * {@link CardDAO#createNewCard}
+     * 
+     * @param expireAfterYears The {@code int} years after which the card should
+     *                         expire
+     * 
+     * @return {@code Card}(record) object if created successfully; {@code null} if
+     *         not
+     * 
+     * @log an error message if any error occurs
+     * 
+     * @see CardDAO
+     * @see Card
+     */
+    protected Card generateNewDebitCard(int expireAfterYears) {
+        return CardDAO.createNewCard(CardType.DEBIT, accountNumber, expireAfterYears);
+    }
+
     protected Transaction deposit(String description, String mode, double amount) {
         // TODO: deposit
         throw new UnsupportedOperationException("Unimplemented method 'deposit'");
