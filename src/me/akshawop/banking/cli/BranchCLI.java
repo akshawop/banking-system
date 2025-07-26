@@ -1,5 +1,11 @@
 package me.akshawop.banking.cli;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import me.akshawop.banking.inputmodules.forms.NewCustomerForm;
@@ -8,6 +14,7 @@ import me.akshawop.banking.sys.Account;
 import me.akshawop.banking.sys.AccountDAO;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.BranchDAO;
+import me.akshawop.banking.sys.Card;
 import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.util.ClearScreen;
 import me.akshawop.banking.util.InputChecker;
@@ -126,6 +133,65 @@ public final class BranchCLI extends BranchDAO {
             System.out.println("\nInvalid Account Number!\n");
     }
 
+    private static void issueDebitCard() {
+        System.out.print("\nAccount Number(Last Digits of the Account Number after the zeros): ");
+        int accountNumber;
+        try {
+            accountNumber = Integer.parseInt(in.nextLine().trim());
+        } catch (Exception e) {
+            accountNumber = 0;
+        }
+        if (accountNumber > 0) {
+            Account account = AccountDAO.fetchAccount(accountNumber);
+            if (account != null && (account.getIfscCode().substring(5).equalsIgnoreCase(branch.getBranchCode()))) {
+                Card card = new AccountCLI(account).generateNewDebitCard(3);
+
+                // serialize the card
+                try {
+                    if (card != null)
+                        System.out.println("Card Issued Successfully!");
+                    else {
+                        System.out.println("\nCan't issue the Card!");
+                        throw new Exception();
+                    }
+
+                    String location;
+                    Path path;
+                    do {
+                        System.out.print("Enter the location to where to save the card: ");
+                        location = in.nextLine().trim();
+
+                        // check if the directory exists
+                        path = Paths.get(location).normalize();
+                        if (!Files.isDirectory(path))
+                            System.out.println("Enter a valid path!\n");
+                    } while (!Files.isDirectory(path));
+
+                    // serialize and store it in a file with the filename as <accountNumber>.ser at
+                    // the given path
+                    ObjectOutputStream objOut = new ObjectOutputStream(
+                            new FileOutputStream(location + "/" + accountNumber + ".ser"));
+                    objOut.writeObject(card);
+                    System.out.println("\nCard saved Successfully!\n");
+                    objOut.close();
+                } catch (IOException e) {
+                    System.out.println("\nAn error occurred, card saving failed!\n");
+                    System.err.println(e);
+                } catch (Exception e) {
+                    System.out.println("\nAn error occurred!\n");
+                    System.err.println("Error: something went wrong!");
+                    System.err.println("More info:\n" + e);
+                }
+            } else {
+                System.out.println("\nDebit Card issue unsuccessful!");
+                System.out.println("This Account doesn't belongs to this Branch!\n");
+            }
+        } else {
+            System.out.println("\nDebit Card issue unsuccessful!");
+            System.out.println("\nInvalid Account Number!\n");
+        }
+    }
+
     private static void listAccounts() {
         try {
             System.out.print("\nList from(Last Digits of the Account Number after the zeros): ");
@@ -155,6 +221,7 @@ public final class BranchCLI extends BranchDAO {
         System.out.println("customerlogin -> Login to a Customer's ID");
         System.out.println("updatecustomer -> Update existing Customer's data");
         System.out.println("accountlogin -> Login to an Account");
+        System.out.println("issuedebitcard -> Issue a NEW Debit Card to an Account");
         System.out.println("listaccounts -> List Accounts in the current Branch");
         System.out.println("help -> To see this help menu again");
         System.out.println("clear -> To clear screen\n");
@@ -180,6 +247,11 @@ public final class BranchCLI extends BranchDAO {
             case "accountlogin":
                 // get account
                 accountLogin();
+                break;
+
+            case "issuedebitcard":
+                // generate a new debit card to an account
+                issueDebitCard();
                 break;
 
             case "listaccounts":
