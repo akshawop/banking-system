@@ -1,11 +1,19 @@
 package me.akshawop.banking.cli;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import me.akshawop.banking.sys.Account;
 import me.akshawop.banking.sys.AccountDAO;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.BranchDAO;
+import me.akshawop.banking.sys.Card;
+import me.akshawop.banking.sys.CardDAO;
 import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.sys.CustomerDAO;
 import me.akshawop.banking.util.ClearScreen;
@@ -119,6 +127,49 @@ public final class AccountCLI extends AccountDAO {
             System.out.println("\nAcount Activation unsuccessful!\n");
     }
 
+    private static void listAllIssuedCards() {
+        CardDAO.printCardInfoOfAccount(dao.getCurrentAccountNumber());
+    }
+
+    private static void generateCard() {
+        System.out.print("Card Number: ");
+        Card card = dao.getCard(in.nextLine().trim());
+
+        if (card == null) {
+            System.out.println("\nNo Such Card Issued to your Account!\n");
+            return;
+        }
+
+        try {
+            String location;
+            Path path;
+            do {
+                System.out.print("Enter the location to where to save the card: ");
+                location = in.nextLine().trim();
+
+                // check if the directory exists
+                path = Paths.get(location).normalize();
+                if (!Files.isDirectory(path))
+                    System.out.println("Enter a valid path!\n");
+            } while (!Files.isDirectory(path));
+
+            // serialize and store it in a file with the filename as <accountNumber>.ser at
+            // the given path
+            ObjectOutputStream objOut = new ObjectOutputStream(
+                    new FileOutputStream(location + "/" + dao.getCurrentAccountNumber() + ".ser"));
+            objOut.writeObject(card);
+            System.out.println("\nCard saved Successfully!\n");
+            objOut.close();
+        } catch (IOException e) {
+            System.out.println("\nAn error occurred, card saving failed!\n");
+            System.err.println(e);
+        } catch (Exception e) {
+            System.out.println("\nAn error occurred, card saving failed!\n");
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+    }
+
     private static void help() {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
@@ -128,6 +179,8 @@ public final class AccountCLI extends AccountDAO {
         System.out.println("transferaccount -> Transfer this Account to another Branch");
         System.out.println("block -> Block the Account");
         System.out.println("unblock -> Unblock the Account");
+        System.out.println("listallcards -> List All the Issued Cards which belong this Account");
+        System.out.println("generatecard -> Generate an existing Card's object and store it");
         System.out.println("help -> To see this help menu again");
         System.out.println("clear -> To clear screen\n");
     }
@@ -152,6 +205,16 @@ public final class AccountCLI extends AccountDAO {
             case "unblock":
                 // unblock account
                 unblock();
+                break;
+
+            case "listallcards":
+                // list all the issued cards
+                listAllIssuedCards();
+                break;
+
+            case "generatecard":
+                // generate an existing card's object and store it
+                generateCard();
                 break;
 
             case "info":
