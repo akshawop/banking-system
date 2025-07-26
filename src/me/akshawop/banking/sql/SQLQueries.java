@@ -1,8 +1,11 @@
 package me.akshawop.banking.sql;
 
+import java.sql.Date;
+
 import me.akshawop.banking.customtype.Address;
 import me.akshawop.banking.sys.Account;
 import me.akshawop.banking.sys.AccountStatus;
+import me.akshawop.banking.sys.CardType;
 import me.akshawop.banking.sys.Bank;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.BranchDAO;
@@ -210,5 +213,17 @@ public class SQLQueries {
                 + "amount = " + transaction.getAmount() + " AND "
                 + "balance = " + transaction.getBalance()
                 + " ORDER BY transaction_id DESC LIMIT 1";
+    }
+
+    // Card
+    public static String createCardInDB(String cardNumber, String cvv, CardType type, int accountNumber,
+            Date expiryDate, String cardPin) {
+        String data = str(cardNumber) + ", " + str(cvv) + ", " + str(type.toString()) + ", " + accountNumber + ", "
+                + expiryDate;
+        return "INSERT INTO card (card_number, cvv, card_type, account, expiry_date, card_pin) VALUES (" + data + ")";
+    }
+
+    public static String getCardFromDB(String cardNumber) {
+        return "SELECT card_number, cvv, card_type FROM card WHERE card_number = " + str(cardNumber);
     }
 }
