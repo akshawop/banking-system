@@ -19,12 +19,21 @@ public class AccountDAO {
     }
 
     /**
-     * Gets the {@code Customer} object which is being currently used by the DAO.
+     * Gets the {@code Account} object which is being currently used by the DAO.
      * 
-     * @return the current {@code Customer} object
+     * @return the current {@code Account} object
      */
     public Account getCurrentAccount() {
         return account;
+    }
+
+    /**
+     * Gets the {@code int} Account Number which is being currently used by the DAO.
+     * 
+     * @return the current {@code int} Account Number
+     */
+    public int getCurrentAccountNumber() {
+        return accountNumber;
     }
 
     /**
@@ -227,6 +236,46 @@ public class AccountDAO {
      */
     public Card generateNewDebitCard(int expireAfterYears) {
         return CardDAO.createNewCard(CardType.DEBIT, accountNumber, expireAfterYears);
+    }
+
+    /**
+     * Fetch the data of a Card which belongs to this Account from the Database.
+     * Uses
+     * {@link CardDAO#fetchCardDetails}
+     * 
+     * @param cardNumber The {@code String} Card Number of the Card whose data
+     *                   to
+     *                   be fetched
+     * 
+     * @return {@code Card}(record) object if exists; {@code null} if doesn't, or if
+     *         does not belongs to the current Account
+     * 
+     * @log an error message if any error occurs
+     */
+    protected Card getCard(String cardNumber) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.getCardFromDB(cardNumber));
+
+            if (!rs.next() && (rs.getInt("account") != accountNumber)) {
+                con.close();
+                return null;
+            } else {
+                con.close();
+                return CardDAO.fetchCardDetails(cardNumber);
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return null;
     }
 
     protected Transaction deposit(String description, String mode, double amount) {
