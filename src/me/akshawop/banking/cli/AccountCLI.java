@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -141,22 +142,29 @@ public final class AccountCLI extends AccountDAO {
         }
 
         try {
-            String location;
             Path path;
             do {
                 System.out.print("Enter the location to where to save the card: ");
-                location = in.nextLine().trim();
+                String location = in.nextLine().trim();
 
                 // check if the directory exists
-                path = Paths.get(location).normalize();
-                if (!Files.isDirectory(path))
+                try {
+                    path = Paths.get(location).normalize();
+                } catch (InvalidPathException e) {
                     System.out.println("Enter a valid path!\n");
-            } while (!Files.isDirectory(path));
+                    continue;
+                }
+                if (!Files.isDirectory(path)) {
+                    System.out.println("Enter a valid path!\n");
+                    continue;
+                }
+                break;
+            } while (true);
 
             // serialize and store it in a file with the filename as <accountNumber>.ser at
             // the given path
             ObjectOutputStream objOut = new ObjectOutputStream(
-                    new FileOutputStream(location + "/" + dao.getCurrentAccountNumber() + ".ser"));
+                    new FileOutputStream(path + "/" + dao.getCurrentAccountNumber() + ".ser"));
             objOut.writeObject(card);
             System.out.println("\nCard saved Successfully!\n");
             objOut.close();
