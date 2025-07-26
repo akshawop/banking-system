@@ -105,4 +105,45 @@ public class CardDAO {
         }
         return null;
     }
+
+    /**
+     * Lists all the Card's data which belong to the given Account Number from the
+     * Database.
+     * 
+     * @param accountNumber The {@code int} Account Number
+     * 
+     * @log an error message if any error occurs
+     */
+    public static void printCardInfoOfAccount(int accountNumber) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.getAllCardsFromDB(accountNumber));
+
+            if (!rs.next()) {
+                System.out.println("\nNo Card is issued to this Account.\n");
+                con.close();
+            } else {
+                System.out.println("Card(s) found!\n");
+                do {
+                    System.out.println("Card Number: " + rs.getString("card_number"));
+                    System.out.println("CVV Number: " + rs.getString("cvv"));
+                    System.out.println("Expiry Date: " + rs.getDate("expiry_date"));
+                    System.out.println("Status: " + rs.getString("card_status"));
+                    System.out.println();
+                } while (rs.next());
+                System.out.println();
+                con.close();
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+    }
 }
