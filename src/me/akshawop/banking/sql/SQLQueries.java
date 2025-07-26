@@ -224,6 +224,10 @@ public class SQLQueries {
     }
 
     public static String getCardFromDB(String cardNumber) {
-        return "SELECT card_number, cvv, card_type FROM card WHERE card_number = " + str(cardNumber);
+        return "SELECT * FROM card WHERE card_number = " + str(cardNumber);
+    }
+
+    public static String getAllCardsFromDB(int accountNumber) {
+        return "SELECT * FROM card WHERE account = " + accountNumber;
     }
 }
