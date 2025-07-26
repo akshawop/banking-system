@@ -219,7 +219,7 @@ public class SQLQueries {
     public static String createCardInDB(String cardNumber, String cvv, CardType type, int accountNumber,
             Date expiryDate, String cardPin) {
         String data = str(cardNumber) + ", " + str(cvv) + ", " + str(type.toString()) + ", " + accountNumber + ", "
-                + expiryDate;
+                + str(expiryDate.toString()) + ", " + str(cardPin);
         return "INSERT INTO card (card_number, cvv, card_type, account, expiry_date, card_pin) VALUES (" + data + ")";
     }
 

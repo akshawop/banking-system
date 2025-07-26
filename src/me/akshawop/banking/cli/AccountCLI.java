@@ -16,7 +16,7 @@ public final class AccountCLI extends AccountDAO {
     private static AccountCLI dao;
     private static String input;
 
-    private AccountCLI(Account account) {
+    AccountCLI(Account account) {
         super(account);
     }
 

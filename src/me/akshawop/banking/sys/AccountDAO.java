@@ -225,7 +225,7 @@ public class AccountDAO {
      * @see CardDAO
      * @see Card
      */
-    protected Card generateNewDebitCard(int expireAfterYears) {
+    public Card generateNewDebitCard(int expireAfterYears) {
         return CardDAO.createNewCard(CardType.DEBIT, accountNumber, expireAfterYears);
     }
 

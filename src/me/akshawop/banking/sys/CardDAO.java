@@ -29,11 +29,15 @@ public class CardDAO {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(SQLQueries.getCardFromDB(cardNumber));
 
-            String cvv = rs.getString("cvv");
-            String type = rs.getString("card_type");
-
-            con.close();
-            return new Card(cardNumber, cvv, type);
+            if (!rs.next()) {
+                con.close();
+                return null;
+            } else {
+                String cvv = rs.getString("cvv");
+                String type = rs.getString("card_type");
+                con.close();
+                return new Card(cardNumber, cvv, type);
+            }
         } catch (SQLTimeoutException e) {
             System.err.println("Error: Database timeout!");
             System.err.println("More info:\n" + e);
@@ -75,7 +79,7 @@ public class CardDAO {
             String cardNumber;
             do {
                 cardNumber = sr.nextLong(1000000000000000l, 10000000000000000l) + "";
-            } while (st.executeQuery(SQLQueries.getCardFromDB(cardNumber)).next() == true);
+            } while (st.executeQuery(SQLQueries.getCardFromDB(cardNumber)).next());
 
             String cvv = sr.nextInt(100, 1000) + "";
             Date expiryDate = Date.valueOf((LocalDate.now()).plusYears(expireAfterYears));
@@ -83,6 +87,10 @@ public class CardDAO {
 
             st.executeUpdate(SQLQueries.createCardInDB(cardNumber, cvv, type, accountNumber, expiryDate, cardPin));
             con.close();
+
+            System.out.println("\n    !!!!ALERT!!!!");
+            System.out.println("\nDefault Card Pin: " + cardPin + "\n");
+            System.out.println("\n---NOTE IT DOWN RIGHT NOW!---\n");
 
             return fetchCardDetails(cardNumber);
         } catch (SQLTimeoutException e) {
