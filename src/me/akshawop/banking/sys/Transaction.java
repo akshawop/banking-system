@@ -14,11 +14,12 @@ public class Transaction {
     private double balance;
     private Date timestamp;
 
-    public Transaction(int accountNumber, String description, String type, String mode, double amount, double balance) {
+    public Transaction(int accountNumber, String description, TransactionType type, TransactionMode mode, double amount,
+            double balance) {
         this.accountNumber = accountNumber;
         this.description = description;
-        this.type = type;
-        this.mode = mode;
+        this.type = type.toString();
+        this.mode = mode.toString();
         this.amount = amount;
         this.balance = balance;
     }
