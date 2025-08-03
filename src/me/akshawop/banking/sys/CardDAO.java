@@ -144,6 +144,41 @@ public class CardDAO {
     }
 
     /**
+     * Fetches the Status of the Card provided from the database.
+     * 
+     * @param card The {@code Card} object of the card
+     * 
+     * @return {@code String} card status; {@code null} if can't fetch
+     * 
+     * @log an error message if any error occurs
+     */
+    public static String getCardStatus(Card card) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.getAccountFromDB(card.cardNumber(), card.cvv()));
+
+            if (!rs.next()) {
+                con.close();
+                return null;
+            } else {
+                String status = rs.getString(1);
+                con.close();
+                return status;
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return null;
+    }
+
+    /**
      * Fetches the Card pin of the Card object provided from Database.
      * 
      * @param card The {@code Card} object of the card

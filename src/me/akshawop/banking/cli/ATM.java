@@ -12,6 +12,7 @@ import me.akshawop.banking.sys.Account;
 import me.akshawop.banking.sys.AccountDAO;
 import me.akshawop.banking.sys.Card;
 import me.akshawop.banking.sys.CardDAO;
+import me.akshawop.banking.sys.CardStatus;
 import me.akshawop.banking.sys.CardType;
 import me.akshawop.banking.util.ClearScreen;
 import me.akshawop.banking.util.IncorrectPinException;
@@ -48,7 +49,11 @@ public final class ATM extends AccountDAO {
                 fileIn.close();
 
                 if (!card.type().equals(CardType.DEBIT.toString()))
-                    throw new Exception("File not found!");
+                    throw new Exception("Invalid card inserted!");
+
+                if (!CardDAO.getCardStatus(card).equals(CardStatus.ACTIVE.toString())) {
+                    throw new Exception("Card is not active!");
+                }
 
                 Account account = CardDAO.getAccount(card);
 
