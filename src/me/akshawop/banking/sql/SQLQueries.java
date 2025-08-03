@@ -230,4 +230,9 @@ public class SQLQueries {
     public static String getAllCardsFromDB(int accountNumber) {
         return "SELECT * FROM card WHERE account = " + accountNumber;
     }
+
+    public static String getAccountFromDB(String cardNumber, String cvv) {
+        return "SELECT account.* from card JOIN account ON card.account = account.account_number WHERE card_number = "
+                + str(cardNumber) + " AND cvv = " + str(cvv);
+    }
 }
