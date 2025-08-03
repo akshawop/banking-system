@@ -121,4 +121,8 @@ public class Account {
     public void setStatus(AccountStatus status) {
         this.status = status.toString();
     }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
 }

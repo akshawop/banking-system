@@ -283,9 +283,38 @@ public class AccountDAO {
         throw new UnsupportedOperationException("Unimplemented method 'deposit'");
     }
 
-    protected Transaction withdraw(String description, String mode, double amount) {
-        // TODO: withdraw
-        throw new UnsupportedOperationException("Unimplemented method 'withdraw'");
+    protected Transaction withdraw(String description, TransactionMode mode, double amount) {
+        if (amount <= 0)
+            return null;
+
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+
+            // updating the balance in DB
+            double balance = account.getBalance() - amount;
+            st.executeUpdate(SQLQueries.updateBalanceInDB(balance, accountNumber));
+            account.setBalance(balance);
+
+            // creating and returning Transaction
+            Transaction tr = new Transaction(accountNumber, description, TransactionType.DEBIT, mode, amount, balance);
+            st.executeUpdate(SQLQueries.createTransactionInDB(tr));
+            ResultSet rs = st.executeQuery(SQLQueries.fetchTransactionFromDB(tr));
+            tr = new Transaction(rs);
+            con.close();
+
+            return tr;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return null;
     }
 
     void getTransactionHistory(Date fromDate, Date toDate) {
