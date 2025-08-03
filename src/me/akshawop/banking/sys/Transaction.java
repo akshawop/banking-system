@@ -2,7 +2,7 @@ package me.akshawop.banking.sys;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Transaction {
     private int transactionId;
@@ -12,7 +12,7 @@ public class Transaction {
     private String mode;
     private double amount;
     private double balance;
-    private Date timestamp;
+    private Timestamp timestamp;
 
     public Transaction(int accountNumber, String description, TransactionType type, TransactionMode mode, double amount,
             double balance) {
@@ -71,7 +71,7 @@ public class Transaction {
         return balance;
     }
 
-    public Date getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 }
