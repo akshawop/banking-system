@@ -8,9 +8,35 @@ import java.sql.Statement;
 import me.akshawop.banking.sql.SQLQueries;
 
 public class TransactionDAO {
-    public static void printTransaction(Transaction transaction) {
-        // TODO: printTransaction
-        throw new UnsupportedOperationException("Unimplemented method 'printTransaction'");
+    public static void printTransaction(Transaction tr) {
+        System.out.println("Transaction ID: " + tr.getTransactionId());
+        System.out.println("Account: " + tr.getAccountNumber());
+        System.out.println("Description: " + tr.getDescription());
+        System.out.println("Type: " + tr.getType());
+        System.out.println("Mode: " + tr.getMode());
+
+        if (tr.getType().equals(TransactionType.DEBIT.toString()))
+            System.out.println("Debit Amount: $" + tr.getAmount());
+        else
+            System.out.println("Credit Amount: $" + tr.getAmount());
+
+        System.out.println("Balance: $" + tr.getBalance());
+        System.out.println("Timestamp: " + tr.getTimestamp());
+    }
+
+    public static void printTransactionForATM(Transaction tr) {
+        System.out.println("Transaction ID: " + tr.getTransactionId());
+        System.out.println("Description: " + tr.getDescription());
+        System.out.println("Type: " + tr.getType());
+        System.out.println("Mode: " + tr.getMode());
+
+        if (tr.getType().equals(TransactionType.DEBIT.toString()))
+            System.out.println("Debit Amount: $" + tr.getAmount());
+        else
+            System.out.println("Credit Amount: $" + tr.getAmount());
+
+        System.out.println("Balance: $" + tr.getBalance());
+        System.out.println("Timestamp: " + tr.getTimestamp());
     }
 
     public static int createTransaction(Transaction transaction) {
