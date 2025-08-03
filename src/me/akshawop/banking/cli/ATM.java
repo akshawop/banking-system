@@ -14,8 +14,12 @@ import me.akshawop.banking.sys.Card;
 import me.akshawop.banking.sys.CardDAO;
 import me.akshawop.banking.sys.CardStatus;
 import me.akshawop.banking.sys.CardType;
+import me.akshawop.banking.sys.Transaction;
+import me.akshawop.banking.sys.TransactionDAO;
+import me.akshawop.banking.sys.TransactionMode;
 import me.akshawop.banking.util.ClearScreen;
 import me.akshawop.banking.util.IncorrectPinException;
+import me.akshawop.banking.util.NotEnoughBalanceException;
 
 public final class ATM extends AccountDAO {
     protected ATM(Account account) {
@@ -24,7 +28,11 @@ public final class ATM extends AccountDAO {
 
     private static Scanner in = new Scanner(System.in);
     private static ATM dao;
+    private static String cardNumber;
+    private static Double currentBalance;
     private static Path path;
+
+    private static final String DESCRIPTION = "Withdrawal BY CASH through ATM with card number ending with ";
 
     private static boolean correctPin(Card card, String pin) {
         String dbPin = CardDAO.getCardPin(card);
@@ -66,21 +74,50 @@ public final class ATM extends AccountDAO {
                 }
 
                 dao = new ATM(account);
-                dao.printAccountInfo();
+                cardNumber = card.cardNumber().substring(12);
+                currentBalance = account.getBalance();
                 break;
             } catch (IncorrectPinException e) {
                 System.out.println("\nInvalid Pin Entered!\n");
-                System.out.println("Press Enter to proceed> ");
+                System.out.print("Press Enter to proceed> ");
                 in.nextLine();
                 ClearScreen.clearConsole();
             } catch (Exception e) {
                 System.out.println("\nInvalid Card!\n");
-                // System.err.println(e);
-                System.out.println("Press Enter to proceed> ");
+                System.err.println(e);
+                System.out.print("Press Enter to proceed> ");
                 in.nextLine();
                 ClearScreen.clearConsole();
             }
         } while (true);
+    }
+
+    private static void withdraw() {
+        try {
+            System.out.print("Enter the amount> $");
+            double amount = Double.parseDouble(in.nextLine().trim());
+
+            if (amount > currentBalance)
+                throw new NotEnoughBalanceException();
+
+            Transaction tr = dao.withdraw(DESCRIPTION + cardNumber, TransactionMode.ATM, amount);
+            System.out.println("\n---Transaction Details---");
+            TransactionDAO.printTransactionForATM(tr);
+            System.out.println("\nTransaction Completed successfully!\n");
+            System.out.print("Take your card and press Enter to proceed> ");
+            in.nextLine();
+            ClearScreen.clearConsole();
+        } catch (NotEnoughBalanceException e) {
+            System.out.println("\nNot enough balance in account to proceed this transaction!\n");
+            System.out.print("Take your card and press Enter to proceed> ");
+            in.nextLine();
+            ClearScreen.clearConsole();
+        } catch (Exception e) {
+            System.out.println("\nInvalid Amount entered!\n");
+            System.out.print("Take your card and press Enter to proceed> ");
+            in.nextLine();
+            ClearScreen.clearConsole();
+        }
     }
 
     private static void help() {
@@ -91,31 +128,35 @@ public final class ATM extends AccountDAO {
         System.out.println("changepin -> Change the current Card PIN");
         System.out.println("cancel -> To cancel the current session\n");
 
-        System.out.println("        ---DEVELOPER OPTIONS---\n");
-        System.out.println("exit -> Shut Down ATM Machine\n");
+        // System.out.println(" ---DEVELOPER OPTIONS---\n");
+        // System.out.println("exit -> Shut Down ATM Machine\n");
     }
 
     private static void selectOption(String input) {
         switch (input) {
             case "withdraw":
                 // withdraw money
+                withdraw();
                 break;
 
             case "balance":
                 // check balance
+                System.out.println("\nAccount Balance: $" + currentBalance);
+                System.out.print("\nTake your card and press Enter to proceed> ");
+                in.nextLine();
+                ClearScreen.clearConsole();
+                break;
+
+            case "changepin":
+                // change the card pin
                 break;
 
             case "cancel":
-                // clear the screen and cancel the current session
-                ClearScreen.clearConsole();
+                // cancel the current session
                 break;
 
             case "exit":
                 // exit
-                break;
-
-            case "":
-                // retake input
                 break;
 
             default:
@@ -145,7 +186,7 @@ public final class ATM extends AccountDAO {
                 }
 
                 System.out.println("\n--Insert a Dummy Card to the given location to complete the process---\n");
-                System.out.println("Press Enter to continue> ");
+                System.out.print("Press Enter to continue> ");
                 in.nextLine();
                 if (!Files.isDirectory(path)) {
                     System.out.println("Enter a valid path!\n");
@@ -162,7 +203,7 @@ public final class ATM extends AccountDAO {
             do {
                 ClearScreen.clearConsole();
                 init();
-                System.out.println();
+                ClearScreen.clearConsole();
                 help();
 
                 do {
@@ -172,6 +213,8 @@ public final class ATM extends AccountDAO {
 
                 selectOption(input);
                 dao = null;
+                cardNumber = null;
+                currentBalance = 0.0;
             } while (!input.equals("exit"));
             System.out.println("Program stopped successfully");
         } catch (Exception e) {
