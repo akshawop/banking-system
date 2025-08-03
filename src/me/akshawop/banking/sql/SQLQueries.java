@@ -232,7 +232,11 @@ public class SQLQueries {
     }
 
     public static String getAccountFromDB(String cardNumber, String cvv) {
-        return "SELECT account.* from card JOIN account ON card.account = account.account_number WHERE card_number = "
+        return "SELECT account.*, branch.branch_code, bank.bank_code from card JOIN account ON card.account = account.account_number JOIN branch ON account.branch = branch.branch_id CROSS JOIN bank WHERE card_number = "
                 + str(cardNumber) + " AND cvv = " + str(cvv);
+    }
+
+    public static String getCardPinFromDB(String cardNumber, String cvv) {
+        return "SELECT card_pin from card WHERE card_number = " + str(cardNumber) + " AND cvv = " + str(cvv);
     }
 }
