@@ -236,6 +236,10 @@ public class SQLQueries {
                 + str(cardNumber) + " AND cvv = " + str(cvv);
     }
 
+    public static String getCardStatus(String cardNumber, String cvv) {
+        return "SELECT card_status from card WHERE card_number = " + str(cardNumber) + " AND cvv = " + str(cvv);
+    }
+
     public static String getCardPinFromDB(String cardNumber, String cvv) {
         return "SELECT card_pin from card WHERE card_number = " + str(cardNumber) + " AND cvv = " + str(cvv);
     }
