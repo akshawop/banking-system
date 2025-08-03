@@ -2,24 +2,44 @@ package me.akshawop.banking.cli;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+import me.akshawop.banking.sys.Account;
+import me.akshawop.banking.sys.AccountDAO;
 import me.akshawop.banking.sys.Card;
+import me.akshawop.banking.sys.CardDAO;
 import me.akshawop.banking.sys.CardType;
 import me.akshawop.banking.util.ClearScreen;
+import me.akshawop.banking.util.IncorrectPinException;
 
-public final class ATM {
+public final class ATM extends AccountDAO {
+    protected ATM(Account account) {
+        super(account);
+    }
+
     private static Scanner in = new Scanner(System.in);
-    private static AccountCLI dao;
+    private static ATM dao;
     private static Path path;
+
+    private static boolean correctPin(Card card, String pin) {
+        String dbPin = CardDAO.getCardPin(card);
+        if (dbPin == null)
+            return false;
+
+        else if (pin.equals(dbPin))
+            return true;
+
+        return false;
+    }
 
     private static void init() {
         do {
             try {
-                System.out.print("---Insert the card and press any key to continue---");
+                System.out.print("---Insert the card and press Enter key to continue---");
                 in.nextLine().trim();
                 FileInputStream fileIn = new FileInputStream(path.toString());
                 ObjectInputStream objIn = new ObjectInputStream(fileIn);
@@ -27,19 +47,32 @@ public final class ATM {
                 objIn.close();
                 fileIn.close();
 
-                if (!card.type().equals(CardType.DEBIT.toString())) {
-                    System.out.println("\nNot a Debit card!\n");
+                if (!card.type().equals(CardType.DEBIT.toString()))
                     throw new Exception("File not found!");
+
+                Account account = CardDAO.getAccount(card);
+
+                if (account == null)
+                    throw new Exception("No such account found!");
+
+                System.out.print("Enter the pin> ");
+                if (!correctPin(card, in.nextLine().trim())) {
+                    throw new IncorrectPinException();
                 }
 
-                // TODO: Do something after getting the correct card
-                System.out.println("Card Number: " + card.cardNumber());
-                System.out.println("CVV: " + card.cvv());
-                System.out.println("Card Type: " + card.type());
+                dao = new ATM(account);
+                dao.printAccountInfo();
                 break;
+            } catch (IncorrectPinException e) {
+                System.out.println("\nInvalid Pin Entered!\n");
+                System.out.println("Press Enter to proceed> ");
+                in.nextLine();
+                ClearScreen.clearConsole();
             } catch (Exception e) {
                 System.out.println("\nInvalid Card!\n");
-                System.err.println(e);
+                // System.err.println(e);
+                System.out.println("Press Enter to proceed> ");
+                in.nextLine();
                 ClearScreen.clearConsole();
             }
         } while (true);
@@ -49,11 +82,12 @@ public final class ATM {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
         System.out.println("withdraw -> Withdraw Money");
-        System.out.println("balance -> Check Balance amount\n");
+        System.out.println("balance -> Check Balance amount");
+        System.out.println("changepin -> Change the current Card PIN");
+        System.out.println("cancel -> To cancel the current session\n");
 
         System.out.println("        ---DEVELOPER OPTIONS---\n");
-        System.out.println("exit -> Shut Down ATM Machine");
-        System.out.println("clear -> To clear screen\n");
+        System.out.println("exit -> Shut Down ATM Machine\n");
     }
 
     private static void selectOption(String input) {
@@ -66,8 +100,8 @@ public final class ATM {
                 // check balance
                 break;
 
-            case "clear":
-                // clear the screen
+            case "cancel":
+                // clear the screen and cancel the current session
                 ClearScreen.clearConsole();
                 break;
 
@@ -86,18 +120,35 @@ public final class ATM {
 
     public static void main(String args[]) {
         try {
+            // initialize the system
             ClearScreen.clearConsole();
             do {
-                System.out.print("Enter the location of the file where to find the card(*.ser): ");
+                System.out.print("Enter the location of the file where to find the Card(card.ser): ");
                 String location = in.nextLine().trim();
 
-                // check if the directory exists
+                if (location.length() == 0) {
+                    System.out.println("Enter a valid path!\n");
+                    continue;
+                }
+
+                // check if it is a valid directory path
                 try {
                     path = Paths.get(location).normalize();
                 } catch (InvalidPathException e) {
                     System.out.println("Enter a valid path!\n");
                     continue;
                 }
+
+                System.out.println("\n--Insert a Dummy Card to the given location to complete the process---\n");
+                System.out.println("Press Enter to continue> ");
+                in.nextLine();
+                if (!Files.isDirectory(path)) {
+                    System.out.println("Enter a valid path!\n");
+                    continue;
+                }
+
+                // locate the card.ser file in it
+                path = Paths.get(location, "card.ser").normalize();
                 break;
             } while (true);
 
