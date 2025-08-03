@@ -106,6 +106,32 @@ public class CardDAO {
         return null;
     }
 
+    public static Account getAccount(Card card) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.getAccountFromDB(card.cardNumber(), card.cvv()));
+
+            if (!rs.next()) {
+                con.close();
+                return null;
+            } else {
+                Account account = new Account(rs);
+                con.close();
+                return account;
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return null;
+    }
+
     /**
      * Lists all the Card's data which belong to the given Account Number from the
      * Database.
