@@ -300,6 +300,7 @@ public class AccountDAO {
             Transaction tr = new Transaction(accountNumber, description, TransactionType.DEBIT, mode, amount, balance);
             st.executeUpdate(SQLQueries.createTransactionInDB(tr));
             ResultSet rs = st.executeQuery(SQLQueries.fetchTransactionFromDB(tr));
+            rs.next();
             tr = new Transaction(rs);
             con.close();
 

@@ -156,7 +156,7 @@ public class CardDAO {
         try {
             Connection con = DB.connect();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(SQLQueries.getAccountFromDB(card.cardNumber(), card.cvv()));
+            ResultSet rs = st.executeQuery(SQLQueries.getCardStatus(card.cardNumber(), card.cvv()));
 
             if (!rs.next()) {
                 con.close();
