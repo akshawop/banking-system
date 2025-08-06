@@ -219,10 +219,10 @@ public class CardDAO {
     }
 
     /**
-     * Change the pin of the giver Card in the database.
+     * Change the pin of the given Card in the database.
      * 
      * @param card The {@code Card} object
-     * @param pin  The {@code String} card pin to be set
+     * @param pin  The 4 digit {@code String} card pin to be set
      * 
      * @return {@code 0} if process successful; {@code 1} if not
      * 
@@ -230,6 +230,10 @@ public class CardDAO {
      */
     public static int changePin(Card card, String pin) {
         try {
+            Integer.parseInt(pin);
+            if (pin.length() != 4)
+                throw new Exception("PIN should be 4 characters long!");
+
             Connection con = DB.connect();
             Statement st = con.createStatement();
             st.executeUpdate(SQLQueries.changeCardPinInDB(card.cardNumber(), card.cvv(), pin));

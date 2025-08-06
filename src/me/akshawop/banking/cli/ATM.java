@@ -122,11 +122,18 @@ public final class ATM extends AccountDAO {
     private static void changePin() {
         try {
             System.out.println("---Enter the new PIN---");
-            System.out.print("changepin> ");
+            System.out.print("new pin> ");
             String pin = String.valueOf(Integer.parseInt(in.nextLine().trim()));
-            CardDAO.changePin(card, pin);
+            if (pin.length() != 4) {
+                System.out.println("\nPIN should be 4 characters long!\n");
+                return;
+            }
+            if (CardDAO.changePin(card, pin) == 0)
+                System.out.println("\nPIN changed successfully!\n");
+            else
+                System.out.println("\nPIN can't be changed! Process unsuccessful.\n");
         } catch (Exception e) {
-            System.out.println("\nInvalid input!\n");
+            System.out.println("\nInvalid input! Only numbers are allowed.\n");
         }
     }
 
