@@ -17,6 +17,8 @@ import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.BranchDAO;
 import me.akshawop.banking.sys.Card;
 import me.akshawop.banking.sys.Customer;
+import me.akshawop.banking.sys.Transaction;
+import me.akshawop.banking.sys.TransactionDAO;
 import me.akshawop.banking.util.ClearScreen;
 import me.akshawop.banking.util.InputChecker;
 
@@ -24,6 +26,10 @@ public final class BranchCLI extends BranchDAO {
     private static Scanner in;
     private static Branch branch;
     private static BranchCLI dao;
+
+    private static final String DEPOSIT_DESCRIPTION = "BY CASH in " + branch.getBranchName().toUpperCase() + " branch";
+    private static final String WITHDRAW_DESCRIPTION = "BY CASH from " + branch.getBranchName().toUpperCase()
+            + " branch";
 
     private BranchCLI(String branchCode) {
         super(branchCode);
@@ -134,6 +140,66 @@ public final class BranchCLI extends BranchDAO {
             System.out.println("\nInvalid Account Number!\n");
     }
 
+    private static void deposit() {
+        try {
+            System.out.print("\nAccount Number(Last Digits of the Account Number after the zeros): ");
+            Account account = AccountDAO.fetchAccount(Integer.parseInt(in.nextLine().trim()));
+
+            System.out.println();
+            new AccountCLI(account).printAccountInfo();
+            System.out.println();
+
+            if (account == null) {
+                System.out.println("\nNo such account found!\n");
+                return;
+            }
+
+            System.out.println("***Enter a negative, zero or NaN value to cancel***");
+            System.out.print("Enter the amount> $");
+            double amount = Double.parseDouble(in.nextLine().trim());
+
+            if (amount <= 0)
+                throw new Exception();
+
+            Transaction tr = dao.deposit(account, DEPOSIT_DESCRIPTION, amount);
+            System.out.println("\n---Transaction Details---");
+            TransactionDAO.printTransactionForATM(tr);
+            System.out.println("\nTransaction Completed successfully!\n");
+        } catch (Exception e) {
+            System.out.println("\nDeposit Canceled!\n");
+        }
+    }
+
+    private static void withdraw() {
+        try {
+            System.out.print("\nAccount Number(Last Digits of the Account Number after the zeros): ");
+            Account account = AccountDAO.fetchAccount(Integer.parseInt(in.nextLine().trim()));
+
+            System.out.println();
+            new AccountCLI(account).printAccountInfo();
+            System.out.println();
+
+            if (account == null) {
+                System.out.println("\nNo such account found!\n");
+                return;
+            }
+
+            System.out.println("***Enter a negative, zero or NaN value to cancel***");
+            System.out.print("Enter the amount> $");
+            double amount = Double.parseDouble(in.nextLine().trim());
+
+            if (amount <= 0)
+                throw new Exception();
+
+            Transaction tr = dao.withdraw(account, WITHDRAW_DESCRIPTION, amount);
+            System.out.println("\n---Transaction Details---");
+            TransactionDAO.printTransactionForATM(tr);
+            System.out.println("\nTransaction Completed successfully!\n");
+        } catch (Exception e) {
+            System.out.println("\nWithdrawal Canceled!\n");
+        }
+    }
+
     private static void issueDebitCard() {
         System.out.print("\nAccount Number(Last Digits of the Account Number after the zeros): ");
         int accountNumber;
@@ -230,6 +296,8 @@ public final class BranchCLI extends BranchDAO {
         System.out.println("customerlogin -> Login to a Customer's ID");
         System.out.println("updatecustomer -> Update existing Customer's data");
         System.out.println("accountlogin -> Login to an Account");
+        System.out.println("deposit -> Deposit money to an Account");
+        System.out.println("withdraw -> Withdraw money from an Account");
         System.out.println("issuedebitcard -> Issue a NEW Debit Card to an Account");
         System.out.println("listaccounts -> List Accounts in the current Branch");
         System.out.println("help -> To see this help menu again");
@@ -256,6 +324,16 @@ public final class BranchCLI extends BranchDAO {
             case "accountlogin":
                 // get account
                 accountLogin();
+                break;
+
+            case "deposit":
+                // deposit amount to an account
+                deposit();
+                break;
+
+            case "withdraw":
+                // withdraw amount to an account
+                withdraw();
                 break;
 
             case "issuedebitcard":

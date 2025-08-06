@@ -134,6 +134,48 @@ public class BranchDAO {
     }
 
     /**
+     * Adds the given amount to an Account in the database and returns a
+     * Transaction object.
+     * Uses {@link AccountDAO#deposit} and {@link AccountDAO#fetchAccount}.
+     * 
+     * @param accountNumber The {@code int} account number of the Account to deposit
+     *                      the amount to
+     * @param description   The {@code String} description of the transaction
+     * @param amount        The {@code double} amount to be deposited
+     * 
+     * @return {@code Transaction} object if process successful; {@code null} if not
+     * 
+     * @see TransactionDAO
+     * 
+     * @log an error message if any error occurs
+     */
+    protected Transaction deposit(Account account, String description, double amount) {
+        return new AccountDAO(account).deposit(description, TransactionMode.BRANCH, amount);
+    }
+    
+    /**
+     * Deducts the given amount to an Account in the database and returns a
+     * Transaction object.
+     * Uses {@link AccountDAO#withdraw} and {@link AccountDAO#fetchAccount}.
+     * 
+     * @param accountNumber The {@code int} account number of the Account to withdraw
+     *                      the amount from
+     * @param description   The {@code String} description of the transaction
+     * @param amount        The {@code double} amount to be withdrawn
+     * 
+     * @return {@code Transaction} object if process successful; {@code null} if not
+     * 
+     * @see TransactionDAO
+     * 
+     * @log an error message if any error occurs
+     */
+    protected Transaction withdraw(Account account, String description, double amount) {
+        return new AccountDAO(account).withdraw(description, TransactionMode.BRANCH, amount);
+    }
+
+    
+
+    /**
      * Gets the {@code Customer} with the specified Customer ID from the Database.
      * <p>
      * Uses the {@code fetchCustomer} method of {@code CustomerDAO}
