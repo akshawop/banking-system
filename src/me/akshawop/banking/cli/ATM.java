@@ -91,9 +91,12 @@ public final class ATM extends AccountDAO {
 
     private static void withdraw() {
         try {
-            System.out.println("***Enter a negative or NaN value to cancel***");
+            System.out.println("***Enter a negative, zero or NaN value to cancel***");
             System.out.print("Enter the amount> $");
             double amount = Double.parseDouble(in.nextLine().trim());
+
+            if (amount <= 0)
+                throw new Exception();
 
             if (amount > currentBalance)
                 throw new NotEnoughBalanceException();
