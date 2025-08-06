@@ -1,9 +1,14 @@
 package me.akshawop.banking.util;
 
+/**
+ * User input checker to check different kinds of user inputs in the entire
+ * banking system.
+ * 
+ * In {@code type}, provide 'o' for OPTIONAL inputs and 'c' or any other character for
+ * COMPULSORY
+ * 
+ */
 public class InputChecker {
-    // in type, provide 'o' for OPTIONAL and 'c' or any other character for
-    // COMPULSORY
-
     private static boolean hasNoSpaceChar(String str) {
         return !(str.indexOf(' ') >= 0);
     }

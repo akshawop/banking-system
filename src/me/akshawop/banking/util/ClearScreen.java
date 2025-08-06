@@ -2,6 +2,9 @@ package me.akshawop.banking.util;
 
 import java.io.IOException;
 
+/**
+ * The helper class to clear the terminal screen.
+ */
 public class ClearScreen {
     public static void clearConsole() {
         try {
