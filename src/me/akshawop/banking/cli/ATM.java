@@ -56,10 +56,10 @@ public final class ATM extends AccountDAO {
                 objIn.close();
                 fileIn.close();
 
-                if (!card.type().equals(CardType.DEBIT.toString()))
+                if (!card.type().equals(CardType.DEBIT))
                     throw new Exception("Invalid card inserted!");
 
-                if (!CardDAO.getCardStatus(card).equals(CardStatus.ACTIVE.toString())) {
+                if (!CardDAO.getCardStatus(card).equals(CardStatus.ACTIVE)) {
                     throw new Exception("Card is not active!");
                 }
 
@@ -211,6 +211,7 @@ public final class ATM extends AccountDAO {
                     input = in.nextLine().toLowerCase().trim();
                 } while (input.length() == 0);
 
+                ClearScreen.clearConsole();
                 selectOption(input);
                 dao = null;
                 cardNumber = null;

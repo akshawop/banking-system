@@ -148,11 +148,11 @@ public class CardDAO {
      * 
      * @param card The {@code Card} object of the card
      * 
-     * @return {@code String} card status; {@code null} if can't fetch
+     * @return {@code CardStatus} object; {@code null} if can't fetch
      * 
      * @log an error message if any error occurs
      */
-    public static String getCardStatus(Card card) {
+    public static CardStatus getCardStatus(Card card) {
         try {
             Connection con = DB.connect();
             Statement st = con.createStatement();
@@ -162,7 +162,7 @@ public class CardDAO {
                 con.close();
                 return null;
             } else {
-                String status = rs.getString(1);
+                CardStatus status = CardStatus.valueOf(rs.getString(1));
                 con.close();
                 return status;
             }
