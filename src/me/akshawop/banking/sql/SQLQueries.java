@@ -243,4 +243,9 @@ public class SQLQueries {
     public static String getCardPinFromDB(String cardNumber, String cvv) {
         return "SELECT card_pin from card WHERE card_number = " + str(cardNumber) + " AND cvv = " + str(cvv);
     }
+
+    public static String changeCardPinInDB(String cardNumber, String cvv, String pin) {
+        return "UPDATE card SET card_pin = " + pin + " WHERE card_number = " + str(cardNumber) + " AND cvv = "
+                + str(cvv);
+    }
 }

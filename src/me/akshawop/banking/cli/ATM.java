@@ -28,7 +28,7 @@ public final class ATM extends AccountDAO {
 
     private static Scanner in = new Scanner(System.in);
     private static ATM dao;
-    private static String cardNumber;
+    private static Card card;
     private static Double currentBalance;
     private static Path path;
 
@@ -52,7 +52,7 @@ public final class ATM extends AccountDAO {
                 in.nextLine().trim();
                 FileInputStream fileIn = new FileInputStream(path.toString());
                 ObjectInputStream objIn = new ObjectInputStream(fileIn);
-                Card card = (Card) objIn.readObject();
+                card = (Card) objIn.readObject();
                 objIn.close();
                 fileIn.close();
 
@@ -74,7 +74,6 @@ public final class ATM extends AccountDAO {
                 }
 
                 dao = new ATM(account);
-                cardNumber = card.cardNumber().substring(12);
                 currentBalance = account.getBalance();
                 break;
             } catch (IncorrectPinException e) {
@@ -84,7 +83,7 @@ public final class ATM extends AccountDAO {
                 ClearScreen.clearConsole();
             } catch (Exception e) {
                 System.out.println("\nInvalid Card!\n");
-                System.err.println(e);
+                // System.err.println(e);
                 System.out.print("Press Enter to proceed> ");
                 in.nextLine();
                 ClearScreen.clearConsole();
@@ -100,7 +99,7 @@ public final class ATM extends AccountDAO {
             if (amount > currentBalance)
                 throw new NotEnoughBalanceException();
 
-            Transaction tr = dao.withdraw(DESCRIPTION + cardNumber, TransactionMode.ATM, amount);
+            Transaction tr = dao.withdraw(DESCRIPTION + card.cardNumber().substring(12), TransactionMode.ATM, amount);
             System.out.println("\n---Transaction Details---");
             TransactionDAO.printTransactionForATM(tr);
             System.out.println("\nTransaction Completed successfully!\n");
@@ -117,6 +116,17 @@ public final class ATM extends AccountDAO {
             System.out.print("Take your card and press Enter to proceed> ");
             in.nextLine();
             ClearScreen.clearConsole();
+        }
+    }
+
+    private static void changePin() {
+        try {
+            System.out.println("---Enter the new PIN---");
+            System.out.print("changepin> ");
+            String pin = String.valueOf(Integer.parseInt(in.nextLine().trim()));
+            CardDAO.changePin(card, pin);
+        } catch (Exception e) {
+            System.out.println("\nInvalid input!\n");
         }
     }
 
@@ -149,6 +159,7 @@ public final class ATM extends AccountDAO {
 
             case "changepin":
                 // change the card pin
+                changePin();
                 break;
 
             case "cancel":
@@ -214,7 +225,7 @@ public final class ATM extends AccountDAO {
                 ClearScreen.clearConsole();
                 selectOption(input);
                 dao = null;
-                cardNumber = null;
+                card = null;
                 currentBalance = 0.0;
             } while (!input.equals("exit"));
             System.out.println("Program stopped successfully");

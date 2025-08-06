@@ -219,6 +219,34 @@ public class CardDAO {
     }
 
     /**
+     * Change the pin of the giver Card in the database.
+     * 
+     * @param card The {@code Card} object
+     * @param pin  The {@code String} card pin to be set
+     * 
+     * @return {@code 0} if process successful; {@code 1} if not
+     * 
+     * @log an error message if any error occurs
+     */
+    public static int changePin(Card card, String pin) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.changeCardPinInDB(card.cardNumber(), card.cvv(), pin));
+            return 0;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
+    }
+
+    /**
      * Lists all the Card's data which belong to the given Account Number from the
      * Database.
      * 
