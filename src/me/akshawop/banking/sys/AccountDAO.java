@@ -284,9 +284,53 @@ public class AccountDAO {
         return null;
     }
 
-    protected Transaction deposit(String description, String mode, double amount) {
-        // TODO: deposit
-        throw new UnsupportedOperationException("Unimplemented method 'deposit'");
+    /**
+     * Adds the given amount to an Account in the database and returns a
+     * Transaction object.
+     * Uses {@link TransactionDAO#createTransaction} and
+     * {@link TransactionDAO#getTransaction}.
+     * 
+     * @param description The {@code String} description of the transaction
+     * @param mode        The {@code TransactionMode} of the transaction
+     * @param amount      The {@code double} amount to be deposited
+     * 
+     * @return {@code Transaction} object if process successful; {@code null} if not
+     * 
+     * @see TransactionDAO
+     * 
+     * @log an error message if any error occurs
+     */
+    protected Transaction deposit(String description, TransactionMode mode, double amount) {
+        if (amount <= 0)
+            return null;
+
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+
+            // updating the balance in DB
+            double balance = account.getBalance() + amount;
+            st.executeUpdate(SQLQueries.updateBalanceInDB(balance, accountNumber));
+            account.setBalance(balance);
+            con.close();
+
+            // creating and returning Transaction
+            Transaction tr = new Transaction(accountNumber, description, TransactionType.CREDIT, mode, amount, balance);
+            if (TransactionDAO.createTransaction(tr) != 0)
+                return null;
+
+            return TransactionDAO.getTransaction(tr);
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return null;
     }
 
     /**
