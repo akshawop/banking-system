@@ -161,7 +161,7 @@ public class AccountDAO {
      * @log an error message if any error occurs
      */
     protected int blockAccount() {
-        if (account.getStatus().equals(AccountStatus.BLOCKED.toString())) {
+        if (account.getStatus().equals(AccountStatus.BLOCKED)) {
             System.out.println("\nAccount is already Blocked!\n");
             return -1;
         }
@@ -195,7 +195,7 @@ public class AccountDAO {
      * @log an error message if any error occurs
      */
     protected int unblockAccount() {
-        if (account.getStatus().equals(AccountStatus.ACTIVE.toString())) {
+        if (account.getStatus().equals(AccountStatus.ACTIVE)) {
             return -1;
         }
 
@@ -283,6 +283,22 @@ public class AccountDAO {
         throw new UnsupportedOperationException("Unimplemented method 'deposit'");
     }
 
+    /**
+     * Deducts the given amount from an Account in the database and returns a
+     * Transaction object.
+     * Uses {@link TransactionDAO#createTransaction} and
+     * {@link TransactionDAO#getTransaction}.
+     * 
+     * @param description The {@code String} description of the transaction
+     * @param mode        The {@code TransactionMode} of the transaction
+     * @param amount      The {@code double} amount to be withdrawn
+     * 
+     * @return {@code Transaction} object if process successful; {@code null} if not
+     * 
+     * @see TransactionDAO
+     * 
+     * @log an error message if any error occurs
+     */
     protected Transaction withdraw(String description, TransactionMode mode, double amount) {
         if (amount <= 0)
             return null;
@@ -295,16 +311,14 @@ public class AccountDAO {
             double balance = account.getBalance() - amount;
             st.executeUpdate(SQLQueries.updateBalanceInDB(balance, accountNumber));
             account.setBalance(balance);
+            con.close();
 
             // creating and returning Transaction
             Transaction tr = new Transaction(accountNumber, description, TransactionType.DEBIT, mode, amount, balance);
-            st.executeUpdate(SQLQueries.createTransactionInDB(tr));
-            ResultSet rs = st.executeQuery(SQLQueries.fetchTransactionFromDB(tr));
-            rs.next();
-            tr = new Transaction(rs);
-            con.close();
+            if (TransactionDAO.createTransaction(tr) != 0)
+                return null;
 
-            return tr;
+            return TransactionDAO.getTransaction(tr);
         } catch (SQLTimeoutException e) {
             System.err.println("Error: Database timeout!");
             System.err.println("More info:\n" + e);
