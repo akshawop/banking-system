@@ -19,6 +19,7 @@ import me.akshawop.banking.sys.TransactionDAO;
 import me.akshawop.banking.sys.TransactionMode;
 import me.akshawop.banking.util.ClearScreen;
 import me.akshawop.banking.util.IncorrectPinException;
+import me.akshawop.banking.util.InputPIN;
 import me.akshawop.banking.util.NotEnoughBalanceException;
 
 public final class ATM extends AccountDAO {
@@ -68,8 +69,8 @@ public final class ATM extends AccountDAO {
                 if (account == null)
                     throw new Exception("No such account found!");
 
-                System.out.print("Enter the pin> ");
-                if (!correctPin(card, in.nextLine().trim())) {
+                String pin = InputPIN.getInput("Enter the pin> ", '*').trim();
+                if (!correctPin(card, pin)) {
                     throw new IncorrectPinException();
                 }
 
@@ -78,21 +79,19 @@ public final class ATM extends AccountDAO {
                 break;
             } catch (IncorrectPinException e) {
                 System.out.println("\nInvalid Pin Entered!\n");
-                System.out.print("Press Enter to proceed> ");
-                in.nextLine();
-                ClearScreen.clearConsole();
             } catch (Exception e) {
                 System.out.println("\nInvalid Card!\n");
                 // System.err.println(e);
-                System.out.print("Press Enter to proceed> ");
-                in.nextLine();
-                ClearScreen.clearConsole();
             }
+            System.out.print("Press Enter to proceed> ");
+            in.nextLine();
+            ClearScreen.clearConsole();
         } while (true);
     }
 
     private static void withdraw() {
         try {
+            System.out.println("***Enter a negative or NaN value to cancel***");
             System.out.print("Enter the amount> $");
             double amount = Double.parseDouble(in.nextLine().trim());
 
@@ -103,19 +102,10 @@ public final class ATM extends AccountDAO {
             System.out.println("\n---Transaction Details---");
             TransactionDAO.printTransactionForATM(tr);
             System.out.println("\nTransaction Completed successfully!\n");
-            System.out.print("Take your card and press Enter to proceed> ");
-            in.nextLine();
-            ClearScreen.clearConsole();
         } catch (NotEnoughBalanceException e) {
             System.out.println("\nNot enough balance in account to proceed this transaction!\n");
-            System.out.print("Take your card and press Enter to proceed> ");
-            in.nextLine();
-            ClearScreen.clearConsole();
         } catch (Exception e) {
-            System.out.println("\nInvalid Amount entered!\n");
-            System.out.print("Take your card and press Enter to proceed> ");
-            in.nextLine();
-            ClearScreen.clearConsole();
+            System.out.println("\nWithdrawal Canceled!\n");
         }
     }
 
@@ -159,9 +149,6 @@ public final class ATM extends AccountDAO {
             case "balance":
                 // check balance
                 System.out.println("\nAccount Balance: $" + currentBalance);
-                System.out.print("\nTake your card and press Enter to proceed> ");
-                in.nextLine();
-                ClearScreen.clearConsole();
                 break;
 
             case "changepin":
@@ -180,6 +167,9 @@ public final class ATM extends AccountDAO {
             default:
                 System.out.println("Invalid input!");
         }
+        System.out.print("Take your card and press Enter to proceed> ");
+        in.nextLine();
+        ClearScreen.clearConsole();
     }
 
     public static void main(String args[]) {
