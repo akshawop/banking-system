@@ -9,6 +9,12 @@ import java.sql.Statement;
 
 import me.akshawop.banking.sql.SQLQueries;
 
+/**
+ * The Data Access Object of {@code Account}
+ * 
+ * @see AccountCLI
+ * @see Account
+ */
 public class AccountDAO {
     private Account account;
     private int accountNumber;

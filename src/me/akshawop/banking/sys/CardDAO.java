@@ -11,6 +11,11 @@ import java.time.LocalDate;
 
 import me.akshawop.banking.sql.SQLQueries;
 
+/**
+ * The Data Access Object of {@code Card}
+ * 
+ * @see Card
+ */
 public class CardDAO {
     /**
      * Fetch the data of a Card from the Database.

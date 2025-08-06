@@ -8,6 +8,11 @@ import java.sql.Statement;
 
 import me.akshawop.banking.sql.SQLQueries;
 
+/**
+ * The Data Access Object of {@code Transaction}
+ * 
+ * @see Transaction
+ */
 public class TransactionDAO {
     /**
      * Prints the {@code Transaction} information.
