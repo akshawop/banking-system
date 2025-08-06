@@ -3,10 +3,11 @@ package me.akshawop.banking.inputmodules.forms;
 import java.util.Scanner;
 
 import me.akshawop.banking.sys.Account;
+import me.akshawop.banking.sys.AccountType;
 import me.akshawop.banking.sys.CustomerDAO;
 
 public class NewAccountForm {
-    private static String type;
+    private static AccountType type;
     private static double initialBalance;
     private static int nominee;
     private static String nomineeName = "";
@@ -38,11 +39,11 @@ public class NewAccountForm {
                 String choice = in.nextLine().toLowerCase().trim();
                 switch (choice) {
                     case "savings":
-                        type = "SAVINGS";
+                        type = AccountType.SAVINGS;
                         break;
 
                     case "current":
-                        type = "CURRENT";
+                        type = AccountType.CURRENT;
                         break;
 
                     case "":

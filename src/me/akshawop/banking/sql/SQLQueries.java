@@ -140,7 +140,7 @@ public class SQLQueries {
     // CustomerDAO
     public static String createAccountInDB(Account account) {
         String data = BranchDAO.fetchBranch(account.getIfscCode().substring(5)).getBranchId() + ", "
-                + str(account.getType()) + ", "
+                + str(account.getType().toString()) + ", "
                 + account.getCustomerId()
                 + ", " + (account.getNominee() == 0 ? "NULL" : account.getNominee()) + ", " + account.getBalance()
                 + ", " + account.getMinBalance();
@@ -152,7 +152,7 @@ public class SQLQueries {
     public static String updateAccountInDB(Account account) {
         return "UPDATE account SET "
                 + "branch_code = " + str(account.getIfscCode().substring(5)) + ", "
-                + "account_status = " + str(account.getStatus())
+                + "account_status = " + str(account.getStatus().toString())
                 + " WHERE account_number = " + account.getAccountNumber();
     }
 
@@ -195,8 +195,8 @@ public class SQLQueries {
     // TransactionDAO
     public static String createTransactionInDB(Transaction transaction) {
         String data = transaction.getAccountNumber() + ", " + str(transaction.getDescription()) + ", "
-                + str(transaction.getType()) + ", "
-                + str(transaction.getMode()) + ", " + transaction.getAmount() + ", "
+                + str(transaction.getType().toString()) + ", "
+                + str(transaction.getMode().toString()) + ", " + transaction.getAmount() + ", "
                 + transaction.getBalance();
 
         return "INSERT INTO account_transaction (account, description, transaction_type, mode, amount, balance) VALUES ("
@@ -208,8 +208,8 @@ public class SQLQueries {
         return "SELECT * FROM account_transaction WHERE "
                 + "account = " + transaction.getAccountNumber() + " AND "
                 + "description = " + str(transaction.getDescription()) + " AND "
-                + "transaction_type = " + str(transaction.getType()) + " AND "
-                + "mode = " + str(transaction.getMode()) + " AND "
+                + "transaction_type = " + str(transaction.getType().toString()) + " AND "
+                + "mode = " + str(transaction.getMode().toString()) + " AND "
                 + "amount = " + transaction.getAmount() + " AND "
                 + "balance = " + transaction.getBalance()
                 + " ORDER BY transaction_id DESC LIMIT 1";

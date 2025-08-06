@@ -8,8 +8,8 @@ public class Transaction {
     private int transactionId;
     private int accountNumber;
     private String description;
-    private String type;
-    private String mode;
+    private TransactionType type;
+    private TransactionMode mode;
     private double amount;
     private double balance;
     private Timestamp timestamp;
@@ -18,8 +18,8 @@ public class Transaction {
             double balance) {
         this.accountNumber = accountNumber;
         this.description = description;
-        this.type = type.toString();
-        this.mode = mode.toString();
+        this.type = type;
+        this.mode = mode;
         this.amount = amount;
         this.balance = balance;
     }
@@ -29,8 +29,8 @@ public class Transaction {
             this.transactionId = rs.getInt("transaction_id");
             this.accountNumber = rs.getInt("account");
             this.description = rs.getString("description");
-            this.type = rs.getString("transaction_type");
-            this.mode = rs.getString("mode");
+            this.type = TransactionType.valueOf(rs.getString("transaction_type"));
+            this.mode = TransactionMode.valueOf(rs.getString("mode"));
             this.amount = rs.getDouble("amount");
             this.balance = rs.getDouble("balance");
             this.timestamp = rs.getTimestamp("transaction_timestamp");
@@ -55,11 +55,11 @@ public class Transaction {
         return description;
     }
 
-    public String getType() {
+    public TransactionType getType() {
         return type;
     }
 
-    public String getMode() {
+    public TransactionMode getMode() {
         return mode;
     }
 

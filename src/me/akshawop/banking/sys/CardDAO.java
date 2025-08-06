@@ -34,7 +34,7 @@ public class CardDAO {
                 return null;
             } else {
                 String cvv = rs.getString("cvv");
-                String type = rs.getString("card_type");
+                CardType type = CardType.valueOf(rs.getString("card_type"));
                 con.close();
                 return new Card(cardNumber, cvv, type);
             }
