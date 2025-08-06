@@ -36,11 +36,6 @@ final class CustomerCLI extends CustomerDAO {
             System.out.println("\nNew Account creation cancelled!\n");
     }
 
-    private static void updateAccount() {
-        // TODO: updateAccount
-        throw new UnsupportedOperationException("Unimplemented method 'updateAccount'");
-    }
-
     // TODO: implement the logic for the account balance transfer to another account
     // before closing the account
     private static void closeAccount() {
@@ -84,7 +79,6 @@ final class CustomerCLI extends CustomerDAO {
         System.out.println("exit -> logout");
         System.out.println("info -> Get current Customer's information");
         System.out.println("openaccount -> Open an Account");
-        System.out.println("updateaccount -> Update existing Account data");
         System.out.println("closeAccount -> Close an Account");
         System.out.println("listaccounts -> List all the Accounts of this Customer");
         System.out.println("help -> To see this help menu again");
@@ -96,11 +90,6 @@ final class CustomerCLI extends CustomerDAO {
             case "openaccount":
                 // open account
                 openAccount();
-                break;
-
-            case "updateaccount":
-                // update account
-                updateAccount();
                 break;
 
             case "closeaccount":

@@ -116,11 +116,6 @@ public class CustomerDAO {
         return 1;
     }
 
-    protected void updateAccount(int accountNumber) {
-        // TODO: updateAccount
-        throw new UnsupportedOperationException("Unimplemented method 'updateAccount'");
-    }
-
     /**
      * Deletes a Account from the Database.
      * 
