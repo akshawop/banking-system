@@ -188,8 +188,9 @@ public class SQLQueries {
         return "UPDATE account SET balance = " + balance + " WHERE account_number = " + accountNumber;
     }
 
-    public static String getTransactionHistoryFromDB(int accountNumber, int offset, int limit) {
-        return "SELECT * FROM account_transaction WHERE account = " + accountNumber + " LIMIT " + offset + ", " + limit;
+    public static String getTransactionHistoryFromDB(int accountNumber, Date fromDate, Date toDate) {
+        return "SELECT * FROM account_transaction WHERE account = " + accountNumber + " AND transaction_timestamp >= "
+                + str(fromDate.toString()) + " AND transaction_timestamp <= " + str(toDate.toString());
     }
 
     // TransactionDAO

@@ -22,19 +22,19 @@ public class TransactionDAO {
      * @log every field of the {@code Transaction} object
      */
     public static void printTransaction(Transaction transaction) {
-        System.out.println("Transaction ID: " + transaction.getTransactionId());
-        System.out.println("Account: " + transaction.getAccountNumber());
-        System.out.println("Description: " + transaction.getDescription());
-        System.out.println("Type: " + transaction.getType());
-        System.out.println("Mode: " + transaction.getMode());
+        System.out.print(" Transaction ID: " + transaction.getTransactionId());
+        // System.out.print(" Account: " + transaction.getAccountNumber());
+        System.out.print(" | Description: " + transaction.getDescription());
+        System.out.print(" | Type: " + transaction.getType());
+        System.out.print(" | Mode: " + transaction.getMode());
 
         if (transaction.getType().equals(TransactionType.DEBIT))
-            System.out.println("Debit Amount: $" + transaction.getAmount());
+            System.out.print(" | Debit Amount: $" + transaction.getAmount());
         else
-            System.out.println("Credit Amount: $" + transaction.getAmount());
+            System.out.print(" | Credit Amount: $" + transaction.getAmount());
 
-        System.out.println("Balance: $" + transaction.getBalance());
-        System.out.println("Timestamp: " + transaction.getTimestamp());
+        System.out.print(" | Balance: $" + transaction.getBalance());
+        System.out.println(" | Timestamp: " + transaction.getTimestamp());
     }
 
     /**

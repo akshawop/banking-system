@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 import java.util.Scanner;
 
 import me.akshawop.banking.sys.Account;
@@ -33,6 +34,25 @@ public final class AccountCLI extends AccountDAO {
         System.out.println();
         dao.printAccountInfo();
         System.out.println();
+    }
+
+    private static void history() {
+        try {
+            System.out.print("\nFrom Date: ");
+            Date fromDate = Date.valueOf(in.nextLine().trim());
+            
+            System.out.print("To Date: ");
+            Date toDate = Date.valueOf(in.nextLine().trim());
+
+            if (toDate.compareTo(fromDate) < 0) {
+                System.out.println("\n[From Date] should be before the [To Date]!\n");
+                return;
+            }
+            
+            dao.getTransactionHistory(fromDate, toDate);
+        } catch (Exception e) {
+            System.err.println("\nInvalid Input\n");
+        }
     }
 
     private static void updateNominee() {
@@ -183,6 +203,7 @@ public final class AccountCLI extends AccountDAO {
         System.out.println("[options -> descriptions]\n");
         System.out.println("exit -> logout");
         System.out.println("info -> Get current Account's information");
+        System.out.println("history -> To see the Transaction History of this Account");
         System.out.println("updatenominee -> Change the Nominee for this Account");
         System.out.println("transferaccount -> Transfer this Account to another Branch");
         System.out.println("block -> Block the Account");
@@ -195,6 +216,11 @@ public final class AccountCLI extends AccountDAO {
 
     private static void selectOption(String input) {
         switch (input) {
+            case "history":
+                // get the transaction history
+                history();
+                break;
+
             case "updatenominee":
                 // update nominee
                 updateNominee();

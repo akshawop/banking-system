@@ -168,7 +168,6 @@ public class AccountDAO {
      */
     protected int blockAccount() {
         if (account.getStatus().equals(AccountStatus.BLOCKED)) {
-            System.out.println("\nAccount is already Blocked!\n");
             return -1;
         }
 
@@ -382,8 +381,44 @@ public class AccountDAO {
         return null;
     }
 
-    void getTransactionHistory(Date fromDate, Date toDate) {
-        // TODO: getTransactionHistory
-        throw new UnsupportedOperationException("Unimplemented method 'getTransactionHistory'");
+    /**
+     * Prints the Transaction history on the console.
+     * Uses {@link TransactionDAO#printTransaction}.
+     * 
+     * @param fromDate The {@code Date} object of the date to fetch Transaction from
+     * @param toDate The {@code Date} object of the date to fetch Transaction up to
+     * 
+     * @see TransactionDAO
+     * 
+     * @log an error message if any error occurs
+     */
+    protected void getTransactionHistory(Date fromDate, Date toDate) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.getTransactionHistoryFromDB(accountNumber, fromDate, toDate));
+
+            if (!rs.next()) {
+                System.out.println("\nNo Transactions found.\n");
+                con.close();
+            } else {
+                System.out.println("Transaction(s) found!\n");
+                do {
+                    TransactionDAO.printTransaction(new Transaction(rs));
+                    System.out.println();
+                } while (rs.next());
+                System.out.println();
+                con.close();
+            }
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
     }
 }
