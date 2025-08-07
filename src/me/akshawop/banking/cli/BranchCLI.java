@@ -70,10 +70,12 @@ public final class BranchCLI extends BranchDAO {
     private static void addCustomer() {
         Customer newCustomer = NewCustomerForm.fillUp(in);
         if (newCustomer != null) {
-            if (dao.addCustomer(newCustomer) == 0)
+            if (dao.addCustomer(newCustomer) == 0) {
                 System.out.println("\nNew Customer added Successfully!\n");
-            else
-                System.err.println("\nNew Customer entry unsuccessful!\n");
+                System.out.println(
+                        "CUSTOMER ID: " + BranchCLI.getCustomerId(newCustomer.getAadhaar()) + " has been assigned!\n");
+            } else
+                System.out.println("\nNew Customer entry unsuccessful!\n");
         } else
             System.out.println("\nNew Customer entry cancelled!\n");
     }
@@ -92,7 +94,7 @@ public final class BranchCLI extends BranchDAO {
             } else
                 System.out.println("\nInvalid Customer ID entered!\n");
         } catch (Exception e) {
-            System.err.println("\nInvalid Input\n");
+            System.out.println("\nInvalid Input\n");
         }
     }
 
@@ -109,15 +111,15 @@ public final class BranchCLI extends BranchDAO {
                         if (dao.updateCustomer(newCustomer) == 0)
                             System.out.println("\nCustomer data updated Successfully!\n");
                         else
-                            System.err.println("\nUpdate unsuccessful!\n");
+                            System.out.println("\nUpdate unsuccessful!\n");
                     } else
-                        System.err.println("\nUpdate canceled!\n");
+                        System.out.println("\nUpdate canceled!\n");
                 } else
                     System.out.println("\nCustomer with ID '" + customerId + "' DOESN'T exist!\n");
             } else
                 System.out.println("\nInvalid Customer ID entered!\n");
         } catch (Exception e) {
-            System.err.println("\nInvalid Input\n");
+            System.out.println("\nInvalid Input\n");
         }
     }
 

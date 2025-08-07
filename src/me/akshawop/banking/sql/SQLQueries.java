@@ -109,6 +109,10 @@ public class SQLQueries {
         return "SELECT * FROM customer WHERE customer_id = " + customerId;
     }
 
+    public static String getCustomerIdFromDB(String aadhaar) {
+        return "SELECT customer_id FROM customer WHERE aadhaar = " + str(aadhaar);
+    }
+
     public static String updateCustomerInDB(Customer customer) {
         String name = customer.getName();
         Address address = customer.getAddress();

@@ -102,6 +102,30 @@ public class BranchDAO {
         return false;
     }
 
+    protected static int getCustomerId(String aadhaar) {
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQLQueries.getCustomerIdFromDB(aadhaar));
+            rs.next();
+            int id = rs.getInt(1);
+            con.close();
+            return id;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Duplicate Customer not allowed!");
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 0;
+    }
+
     /**
      * Adds a new Customer to the Database
      *
@@ -152,13 +176,14 @@ public class BranchDAO {
     protected Transaction deposit(Account account, String description, double amount) {
         return new AccountDAO(account).deposit(description, TransactionMode.BRANCH, amount);
     }
-    
+
     /**
      * Deducts the given amount to an Account in the database and returns a
      * Transaction object.
      * Uses {@link AccountDAO#withdraw} and {@link AccountDAO#fetchAccount}.
      * 
-     * @param accountNumber The {@code int} account number of the Account to withdraw
+     * @param accountNumber The {@code int} account number of the Account to
+     *                      withdraw
      *                      the amount from
      * @param description   The {@code String} description of the transaction
      * @param amount        The {@code double} amount to be withdrawn
@@ -172,8 +197,6 @@ public class BranchDAO {
     protected Transaction withdraw(Account account, String description, double amount) {
         return new AccountDAO(account).withdraw(description, TransactionMode.BRANCH, amount);
     }
-
-    
 
     /**
      * Gets the {@code Customer} with the specified Customer ID from the Database.
