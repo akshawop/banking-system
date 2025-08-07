@@ -123,14 +123,20 @@ public final class BankCLI extends BankDAO {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
         System.out.println("exit -> logout");
-        System.out.println("info -> Get Bank Info");
+        System.out.println("info -> Get Bank Info\n");
+
+        System.out.println("--Bank Options--");
         System.out.println("updatebank -> Update the bank info");
-        System.out.println("createbranch -> Create a new Branch");
-        System.out.println("closebranch -> Close an existing Branch");
-        System.out.println("branchlogin -> Login to an existing Branch");
         System.out.println("listbranches -> List all Branches");
         System.out.println("listcustomers -> List existing Customers");
-        System.out.println("listaccounts -> List existing Accounts");
+        System.out.println("listaccounts -> List existing Accounts\n");
+
+        System.out.println("--Branch Options--");
+        System.out.println("createbranch -> Create a new Branch");
+        System.out.println("closebranch -> Close an existing Branch");
+        System.out.println("branchlogin -> Login to an existing Branch\n");
+
+        System.out.println("--Other Options--");
         System.out.println("help -> To see this help menu again");
         System.out.println("clear -> To clear screen\n");
     }

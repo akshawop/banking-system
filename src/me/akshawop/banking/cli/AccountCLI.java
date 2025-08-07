@@ -202,14 +202,20 @@ public final class AccountCLI extends AccountDAO {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
         System.out.println("exit -> logout");
-        System.out.println("info -> Get current Account's information");
+        System.out.println("info -> Get current Account's information\n");
+
+        System.out.println("--Account Options--");
         System.out.println("history -> To see the Transaction History of this Account");
         System.out.println("updatenominee -> Change the Nominee for this Account");
         System.out.println("transferaccount -> Transfer this Account to another Branch");
         System.out.println("block -> Block the Account");
-        System.out.println("unblock -> Unblock the Account");
+        System.out.println("unblock -> Unblock the Account\n");
+
+        System.out.println("--Card Options--");
         System.out.println("listallcards -> List All the Issued Cards which belong this Account");
-        System.out.println("generatecard -> Generate an existing Card's object and store it");
+        System.out.println("generatecard -> Generate an existing Card's object and store it\n");
+
+        System.out.println("--Other Options--");
         System.out.println("help -> To see this help menu again");
         System.out.println("clear -> To clear screen\n");
     }

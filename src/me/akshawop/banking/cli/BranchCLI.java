@@ -292,15 +292,21 @@ public final class BranchCLI extends BranchDAO {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
         System.out.println("exit -> logout");
-        System.out.println("info -> Get current Branch Info");
+        System.out.println("info -> Get current Branch Info\n");
+
+        System.out.println("--Customer Options--");
         System.out.println("addcustomer -> Add a new Customer");
         System.out.println("customerlogin -> Login to a Customer's ID");
-        System.out.println("updatecustomer -> Update existing Customer's data");
+        System.out.println("updatecustomer -> Update existing Customer's data\n");
+
+        System.out.println("--Account Options--");
         System.out.println("accountlogin -> Login to an Account");
         System.out.println("deposit -> Deposit money to an Account");
         System.out.println("withdraw -> Withdraw money from an Account");
         System.out.println("issuedebitcard -> Issue a NEW Debit Card to an Account");
-        System.out.println("listaccounts -> List Accounts in the current Branch");
+        System.out.println("listaccounts -> List Accounts in the current Branch\n");
+
+        System.out.println("--Other Options--");
         System.out.println("help -> To see this help menu again");
         System.out.println("clear -> To clear screen\n");
     }

@@ -77,10 +77,14 @@ final class CustomerCLI extends CustomerDAO {
         System.out.println("        --HELP MENU--");
         System.out.println("[options -> descriptions]\n");
         System.out.println("exit -> logout");
-        System.out.println("info -> Get current Customer's information");
+        System.out.println("info -> Get current Customer's information\n");
+
+        System.out.println("--Customer Options--");
         System.out.println("openaccount -> Open an Account");
         System.out.println("closeAccount -> Close an Account");
-        System.out.println("listaccounts -> List all the Accounts of this Customer");
+        System.out.println("listaccounts -> List all the Accounts of this Customer\n");
+
+        System.out.println("--Other Options--");
         System.out.println("help -> To see this help menu again");
         System.out.println("clear -> To clear screen\n");
     }
