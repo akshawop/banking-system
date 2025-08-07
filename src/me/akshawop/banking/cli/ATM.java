@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import me.akshawop.banking.sys.Account;
 import me.akshawop.banking.sys.AccountDAO;
+import me.akshawop.banking.sys.AccountStatus;
 import me.akshawop.banking.sys.Card;
 import me.akshawop.banking.sys.CardDAO;
 import me.akshawop.banking.sys.CardStatus;
@@ -17,6 +18,8 @@ import me.akshawop.banking.sys.CardType;
 import me.akshawop.banking.sys.Transaction;
 import me.akshawop.banking.sys.TransactionDAO;
 import me.akshawop.banking.sys.TransactionMode;
+import me.akshawop.banking.util.AccountBlockedException;
+import me.akshawop.banking.util.CardBlockedException;
 import me.akshawop.banking.util.ClearScreen;
 import me.akshawop.banking.util.IncorrectPinException;
 import me.akshawop.banking.util.InputPIN;
@@ -60,8 +63,10 @@ public final class ATM extends AccountDAO {
                 if (!card.type().equals(CardType.DEBIT))
                     throw new Exception("Invalid card inserted!");
 
-                if (!CardDAO.getCardStatus(card).equals(CardStatus.ACTIVE)) {
-                    throw new Exception("Card is not active!");
+                if (CardDAO.getCardStatus(card).equals(CardStatus.BLOCKED)) {
+                    throw new CardBlockedException();
+                } else if (!CardDAO.getCardStatus(card).equals(CardStatus.ACTIVE)) {
+                    throw new Exception();
                 }
 
                 Account account = CardDAO.getAccount(card);
@@ -75,10 +80,18 @@ public final class ATM extends AccountDAO {
                 }
 
                 dao = new ATM(account);
+
+                if (!account.getStatus().equals(AccountStatus.ACTIVE))
+                    throw new AccountBlockedException();
+
                 currentBalance = account.getBalance();
                 break;
             } catch (IncorrectPinException e) {
                 System.out.println("\nInvalid Pin Entered!\n");
+            } catch (CardBlockedException e) {
+                System.out.println("\nThe Card is BLOCKED! Can't proceed the transaction.\n");
+            } catch (AccountBlockedException e) {
+                System.out.println("\nThe Account is BLOCKED! Please UNBLOCK it from the Branch.\n");
             } catch (Exception e) {
                 System.out.println("\nInvalid Card!\n");
                 // System.err.println(e);
@@ -161,6 +174,7 @@ public final class ATM extends AccountDAO {
 
             case "cancel":
                 // cancel the current session
+                System.out.println("Transaction Canceled!\n");
                 break;
 
             case "exit":
