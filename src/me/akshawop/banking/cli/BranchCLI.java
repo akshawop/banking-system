@@ -27,9 +27,8 @@ public final class BranchCLI extends BranchDAO {
     private static Branch branch;
     private static BranchCLI dao;
 
-    private static final String DEPOSIT_DESCRIPTION = "BY CASH in " + branch.getBranchName().toUpperCase() + " branch";
-    private static final String WITHDRAW_DESCRIPTION = "BY CASH from " + branch.getBranchName().toUpperCase()
-            + " branch";
+    private static String depositDescription;
+    private static String withdrawDescription;
 
     private BranchCLI(String branchCode) {
         super(branchCode);
@@ -60,6 +59,8 @@ public final class BranchCLI extends BranchDAO {
                 continue;
             }
             branch = dao.getCurrentBranch();
+            depositDescription = "BY CASH in " + branch.getBranchName().toUpperCase() + " branch";
+            withdrawDescription = "BY CASH from " + branch.getBranchName().toUpperCase() + " branch";
             break;
         } while (true);
         System.out.println("\nLogin into " + branch.getBranchName().toUpperCase() + " Branch successful!\n");
@@ -161,7 +162,7 @@ public final class BranchCLI extends BranchDAO {
             if (amount <= 0)
                 throw new Exception();
 
-            Transaction tr = dao.deposit(account, DEPOSIT_DESCRIPTION, amount);
+            Transaction tr = dao.deposit(account, depositDescription, amount);
             System.out.println("\n---Transaction Details---");
             TransactionDAO.printTransactionForATM(tr);
             System.out.println("\nTransaction Completed successfully!\n");
@@ -191,7 +192,7 @@ public final class BranchCLI extends BranchDAO {
             if (amount <= 0)
                 throw new Exception();
 
-            Transaction tr = dao.withdraw(account, WITHDRAW_DESCRIPTION, amount);
+            Transaction tr = dao.withdraw(account, withdrawDescription, amount);
             System.out.println("\n---Transaction Details---");
             TransactionDAO.printTransactionForATM(tr);
             System.out.println("\nTransaction Completed successfully!\n");
