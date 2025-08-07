@@ -225,6 +225,78 @@ public class AccountDAO {
     }
 
     /**
+     * Blocks the provided Card.
+     * 
+     * @return {@code -2} if the card has expired; {@code -1} if already blocked;
+     *         {@code 0} if the process is
+     *         successful; {@code 1} if not
+     *
+     * @log an error message if any error occurs
+     */
+    protected int blockCard(Card card) {
+        CardStatus cardStatus = CardDAO.getCardStatus(card);
+        if (cardStatus.equals(CardStatus.BLOCKED)) {
+            return -1;
+        } else if (cardStatus.equals(CardStatus.EXPIRED)) {
+            return -2;
+        }
+
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.updateCardStatus(CardStatus.BLOCKED, card.cardNumber()));
+            con.close();
+            return 0;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
+    }
+
+    /**
+     * Unblocks the provided Card.
+     * 
+     * @return {@code -2} if the card has expired; {@code -1} if already unblocked;
+     *         {@code 0} if the process is
+     *         successful; {@code 1} if not
+     *
+     * @log an error message if any error occurs
+     */
+    protected int unblockCard(Card card) {
+        CardStatus cardStatus = CardDAO.getCardStatus(card);
+        if (cardStatus.equals(CardStatus.ACTIVE)) {
+            return -1;
+        } else if (cardStatus.equals(CardStatus.EXPIRED)) {
+            return -2;
+        }
+
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.updateCardStatus(CardStatus.ACTIVE, card.cardNumber()));
+            con.close();
+            return 0;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
+    }
+
+    /**
      * Generates a new Card in the Database and returns it. Uses
      * {@link CardDAO#createNewCard}
      * 
@@ -386,7 +458,8 @@ public class AccountDAO {
      * Uses {@link TransactionDAO#printTransaction}.
      * 
      * @param fromDate The {@code Date} object of the date to fetch Transaction from
-     * @param toDate The {@code Date} object of the date to fetch Transaction up to
+     * @param toDate   The {@code Date} object of the date to fetch Transaction up
+     *                 to
      * 
      * @see TransactionDAO
      * 

@@ -40,7 +40,7 @@ public final class AccountCLI extends AccountDAO {
         try {
             System.out.print("\nFrom Date: ");
             Date fromDate = Date.valueOf(in.nextLine().trim());
-            
+
             System.out.print("To Date: ");
             Date toDate = Date.valueOf(in.nextLine().trim());
 
@@ -48,7 +48,7 @@ public final class AccountCLI extends AccountDAO {
                 System.out.println("\n[From Date] should be before the [To Date]!\n");
                 return;
             }
-            
+
             dao.getTransactionHistory(fromDate, toDate);
         } catch (Exception e) {
             System.err.println("\nInvalid Input\n");
@@ -148,6 +148,48 @@ public final class AccountCLI extends AccountDAO {
             System.out.println("\nAcount Activation unsuccessful!\n");
     }
 
+    private static void blockCard() {
+        System.out.print("Card Number: ");
+        Card card = dao.getCard(in.nextLine().trim());
+
+        if (card == null) {
+            System.out.println("\nNo Such Card Issued to your Account!\n");
+            return;
+        }
+
+        int stat = dao.blockCard(card);
+        if (stat == -1)
+            System.out.println("\nCard is already Blocked!\n");
+        else if (stat == 0)
+            System.out.println("\nCard BLOCKED!\n");
+        else
+            System.out.println("\nCard Blocking unsuccessful!\n");
+
+        if (stat == -2)
+            System.out.println("Card has Expired!\n");
+    }
+
+    private static void unblockCard() {
+        System.out.print("Card Number: ");
+        Card card = dao.getCard(in.nextLine().trim());
+
+        if (card == null) {
+            System.out.println("\nNo Such Card Issued to your Account!\n");
+            return;
+        }
+
+        int stat = dao.unblockCard(card);
+        if (stat == -1)
+            System.out.println("\nCard is already Active!\n");
+        else if (stat == 0)
+            System.out.println("\nCard UNBLOCKED!\n");
+        else
+            System.out.println("\nCard Activation unsuccessful!\n");
+
+        if (stat == -2)
+            System.out.println("Card has Expired!\n");
+    }
+
     private static void listAllIssuedCards() {
         CardDAO.printCardInfoOfAccount(dao.getCurrentAccountNumber());
     }
@@ -212,6 +254,8 @@ public final class AccountCLI extends AccountDAO {
         System.out.println("unblock -> Unblock the Account\n");
 
         System.out.println("--Card Options--");
+        System.out.println("blockcard -> Block a Card");
+        System.out.println("unblockcard -> Unblock a Card");
         System.out.println("listallcards -> List All the Issued Cards which belong this Account");
         System.out.println("generatecard -> Generate an existing Card's object and store it\n");
 
@@ -245,6 +289,16 @@ public final class AccountCLI extends AccountDAO {
             case "unblock":
                 // unblock account
                 unblock();
+                break;
+
+            case "blockcard":
+                // block a card
+                blockCard();
+                break;
+
+            case "unblockcard":
+                // unblock a card
+                unblockCard();
                 break;
 
             case "listallcards":

@@ -9,6 +9,7 @@ import me.akshawop.banking.sys.CardType;
 import me.akshawop.banking.sys.Bank;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.sys.BranchDAO;
+import me.akshawop.banking.sys.CardStatus;
 import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.sys.Transaction;
 
@@ -248,5 +249,10 @@ public class SQLQueries {
     public static String changeCardPinInDB(String cardNumber, String cvv, String pin) {
         return "UPDATE card SET card_pin = " + pin + " WHERE card_number = " + str(cardNumber) + " AND cvv = "
                 + str(cvv);
+    }
+
+    public static String updateCardStatus(CardStatus status, String cardNumber) {
+        return "UPDATE card SET card_status = " + str(status.toString()) + " WHERE card_number = "
+                + str(cardNumber);
     }
 }
