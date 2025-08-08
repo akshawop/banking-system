@@ -102,6 +102,16 @@ public class BranchDAO {
         return false;
     }
 
+    /**
+     * Fetches the Customer ID of the Customer with the provided Aadhaar number from
+     * the database.
+     * 
+     * @param aadhaar The {@code String} Aadhaar number of the Customer
+     * 
+     * @return {@code int} Customer ID if found; {@code 0} if not
+     * 
+     * @log an error message in any error occurs
+     */
     protected static int getCustomerId(String aadhaar) {
         try {
             Connection con = DB.connect();
@@ -160,7 +170,7 @@ public class BranchDAO {
     /**
      * Adds the given amount to an Account in the database and returns a
      * Transaction object.
-     * Uses {@link AccountDAO#deposit} and {@link AccountDAO#fetchAccount}.
+     * Uses {@link AccountDAO#deposit}.
      * 
      * @param accountNumber The {@code int} account number of the Account to deposit
      *                      the amount to
@@ -180,7 +190,7 @@ public class BranchDAO {
     /**
      * Deducts the given amount to an Account in the database and returns a
      * Transaction object.
-     * Uses {@link AccountDAO#withdraw} and {@link AccountDAO#fetchAccount}.
+     * Uses {@link AccountDAO#withdraw}.
      * 
      * @param accountNumber The {@code int} account number of the Account to
      *                      withdraw
@@ -201,13 +211,13 @@ public class BranchDAO {
     /**
      * Gets the {@code Customer} with the specified Customer ID from the Database.
      * <p>
-     * Uses the {@code fetchCustomer} method of {@code CustomerDAO}
+     * Uses the {@link CustomerDAO#fetchCustomer}
      * 
      * @param customerId The Customer ID of the customer to fetch the details of
      * 
      * @return {@code Customer} object if the customer exists; {@code null} if not
      * 
-     * @see CustomerDAO#fetchCustomer
+     * @log an error message if any error occurs
      */
     protected Customer getCustomer(int customerId) {
         return CustomerDAO.fetchCustomer(customerId);
@@ -295,7 +305,7 @@ public class BranchDAO {
         System.out.println("Branch ID: " + branch.getBranchId());
         System.out.println("Branch Name: " + branch.getBranchName().toUpperCase());
         System.out.println("Branch Code: " + branch.getBranchCode().toUpperCase());
-        System.out.println("Branch Address: " + (branch.getAddress() + "").toUpperCase());
+        System.out.println("Branch Address: " + (branch.getAddress().toString()).toUpperCase());
         System.out.println("Opening Date: " + branch.getOpeningDate());
     }
 }

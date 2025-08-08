@@ -1,4 +1,4 @@
-package me.akshawop.banking.inputmodules.forms;
+package me.akshawop.banking.cli.inputmodules.forms;
 
 import java.util.Scanner;
 

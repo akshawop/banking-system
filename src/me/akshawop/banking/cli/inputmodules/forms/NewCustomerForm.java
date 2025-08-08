@@ -1,17 +1,17 @@
-package me.akshawop.banking.inputmodules.forms;
+package me.akshawop.banking.cli.inputmodules.forms;
 
 import java.util.Scanner;
 
+import me.akshawop.banking.cli.inputmodules.NewAddress;
 import me.akshawop.banking.customtype.Address;
-import me.akshawop.banking.inputmodules.UpdateAddress;
 import me.akshawop.banking.sys.Customer;
 import me.akshawop.banking.util.InputChecker;
 
-public class UpdateCustomerForm {
-    private static Customer customer;
+public class NewCustomerForm {
     private static String firstName;
     private static String midName;
     private static String lastName;
+    private static String aadhaar;
     private static String pan;
     private static Address address;
     private static String phone;
@@ -19,20 +19,19 @@ public class UpdateCustomerForm {
 
     private static void verify() {
         System.out.println("\n    --PLEASE VERIFY THE DETAILS--");
-        System.out.println("First Name: " + customer.getFirstName().toUpperCase());
-        System.out.println("Middle Name: " + customer.getMidName().toUpperCase());
-        System.out.println("Last Name: " + customer.getLastName().toUpperCase());
-        if (customer.getPan().length() != 0)
-            System.out.println("PAN: " + customer.getPan().toUpperCase());
+        System.out.println("First Name: " + firstName.toUpperCase());
+        System.out.println("Middle Name: " + midName.toUpperCase());
+        System.out.println("Last Name: " + lastName.toUpperCase());
+        System.out.println("Aadhaar: " + aadhaar);
+        System.out.println("PAN: " + pan.toUpperCase());
         System.out.println("Address -->");
-        customer.getAddress().formPrint();
-        System.out.println("Phone: " + customer.getPhone());
-        System.out.println("Email: " + customer.getEmail());
+        address.formPrint();
+        System.out.println("Phone: " + phone);
+        System.out.println("Email: " + email);
         System.out.println();
     }
 
-    public static Customer fillUp(Scanner in, Customer recvCustomer) {
-        customer = new Customer(recvCustomer);
+    public static Customer fillUp(Scanner in) {
         boolean cancelForm = false;
 
         do {
@@ -41,13 +40,12 @@ public class UpdateCustomerForm {
 
             // first name input
             do {
-                System.out.print("First Name: ");
+                System.out.print("First Name*: ");
                 firstName = in.nextLine().toLowerCase().trim();
-                if (!InputChecker.checkName(firstName, 'o')) {
-                    System.out.println("Wrong input: Cannot be greater than 25 characters");
+                if (!InputChecker.checkName(firstName, 'c')) {
+                    System.out.println("Wrong input: Cannot be empty or greater than 25 characters");
                     continue;
                 }
-                firstName = firstName.length() == 0 ? customer.getFirstName() : firstName;
                 break;
             } while (true);
 
@@ -59,59 +57,59 @@ public class UpdateCustomerForm {
                     System.out.println("Wrong input: Cannot be greater than 25 characters");
                     continue;
                 }
-                midName = midName.length() == 0 ? customer.getMidName() : midName;
                 break;
             } while (true);
 
             // last name input
             do {
-                System.out.print("Last Name: ");
+                System.out.print("Last Name*: ");
                 lastName = in.nextLine().toLowerCase().trim();
-                if (!InputChecker.checkName(firstName, 'o')) {
-                    System.out.println("Wrong input: Cannot be greater than 25 characters");
+                if (!InputChecker.checkName(firstName, 'c')) {
+                    System.out.println("Wrong input: Cannot be empty or greater than 25 characters");
                     continue;
                 }
-                lastName = lastName.length() == 0 ? customer.getLastName() : lastName;
                 break;
             } while (true);
 
             // concatenate name
             String name = firstName + " " + midName + (midName.length() == 0 ? "" : " ") + lastName;
-            customer.setName(name);
+
+            // aadhaar input
+            do {
+                System.out.print("Aadhaar*: ");
+                aadhaar = in.nextLine().toLowerCase().trim();
+                if (!InputChecker.checkAadhaar(aadhaar)) {
+                    System.out.println("Wrong input: Invalid Aadhaar Number");
+                    continue;
+                }
+                break;
+            } while (true);
 
             // pan input
-            if (customer.getPan().length() == 0) {
-                do {
-                    System.out.print("PAN: ");
-                    pan = in.nextLine().toLowerCase().trim();
-                    if (!InputChecker.checkPAN(pan)) {
-                        System.out.println("Wrong input: Invalid PAN");
-                        continue;
-                    }
-                    pan = pan.length() == 0 ? customer.getPan() : pan;
-                    break;
-                } while (true);
-            } else
-                pan = customer.getPan();
-            customer.setPan(pan);
+            do {
+                System.out.print("PAN: ");
+                pan = in.nextLine().toLowerCase().trim();
+                if (!InputChecker.checkPAN(pan)) {
+                    System.out.println("Wrong input: Invalid PAN");
+                    continue;
+                }
+                break;
+            } while (true);
 
             // customer address input
-            System.out.println("Address -->");
-            address = UpdateAddress.input(in, customer.getAddress());
-            customer.setAddress(address);
+            System.out.println("Address* -->");
+            address = NewAddress.input(in);
 
             // phone input
             do {
-                System.out.print("Phone: ");
+                System.out.print("Phone*: ");
                 phone = in.nextLine().toLowerCase().trim();
-                if (!InputChecker.checkPhone(phone, 'o')) {
+                if (!InputChecker.checkPhone(phone, 'c')) {
                     System.out.println("Wrong input: Invalid Phone number");
                     continue;
                 }
-                phone = phone.length() == 0 ? customer.getPhone() : phone;
                 break;
             } while (true);
-            customer.setPhone(phone);
 
             // email input
             do {
@@ -121,10 +119,8 @@ public class UpdateCustomerForm {
                     System.out.println("Wrong input: Invalid Email address");
                     continue;
                 }
-                email = email.length() == 0 ? customer.getEmail() : email;
                 break;
             } while (true);
-            customer.setEmail(email);
 
             // verify before submission
             verify();
@@ -139,7 +135,7 @@ public class UpdateCustomerForm {
 
             switch (input) {
                 case "yes":
-                    return customer;
+                    return new Customer(name, aadhaar, pan, address, phone, email);
                 case "no":
                     cancelForm = true;
                 default:

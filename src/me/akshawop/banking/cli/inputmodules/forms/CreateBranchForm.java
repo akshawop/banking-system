@@ -1,9 +1,9 @@
-package me.akshawop.banking.inputmodules.forms;
+package me.akshawop.banking.cli.inputmodules.forms;
 
 import java.util.Scanner;
 
+import me.akshawop.banking.cli.inputmodules.NewAddress;
 import me.akshawop.banking.customtype.Address;
-import me.akshawop.banking.inputmodules.NewAddress;
 import me.akshawop.banking.sys.Branch;
 import me.akshawop.banking.util.InputChecker;
 

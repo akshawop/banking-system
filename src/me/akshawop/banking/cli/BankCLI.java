@@ -2,7 +2,7 @@ package me.akshawop.banking.cli;
 
 import java.util.Scanner;
 
-import me.akshawop.banking.inputmodules.forms.*;
+import me.akshawop.banking.cli.inputmodules.forms.*;
 import me.akshawop.banking.sys.Bank;
 import me.akshawop.banking.sys.BankDAO;
 import me.akshawop.banking.sys.Branch;

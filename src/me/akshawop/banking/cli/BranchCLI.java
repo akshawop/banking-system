@@ -9,8 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-import me.akshawop.banking.inputmodules.forms.NewCustomerForm;
-import me.akshawop.banking.inputmodules.forms.UpdateCustomerForm;
+import me.akshawop.banking.cli.inputmodules.forms.NewCustomerForm;
+import me.akshawop.banking.cli.inputmodules.forms.UpdateCustomerForm;
 import me.akshawop.banking.sys.Account;
 import me.akshawop.banking.sys.AccountDAO;
 import me.akshawop.banking.sys.Branch;
