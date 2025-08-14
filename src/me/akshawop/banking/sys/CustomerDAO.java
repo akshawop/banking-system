@@ -147,6 +147,43 @@ public class CustomerDAO {
     }
 
     /**
+     * Transfers the remaining balance of the account which is being closed to
+     * another account.
+     * 
+     * @param fromAccountNumber The {@code int} Account Number of the account from
+     *                          where to deduct the balance from
+     * @param toAccountNumber   The {@code int} Account Number of the account to
+     *                          where to add the balance to
+     * 
+     * @return {@code 0} if process was successful; {@code 1} if not
+     * 
+     * @log an error message if any error occurs
+     */
+    protected int transferBalance(int fromAccountNumber, int toAccountNumber) {
+        try {
+            Account toAccount = AccountDAO.fetchAccount(toAccountNumber);
+            Account fromAccount = AccountDAO.fetchAccount(fromAccountNumber);
+
+            double balance = fromAccount.getBalance();
+            if (balance == 0) {
+                return 0;
+            }
+            String description = "Remaining account balance transfer from " + "X".repeat(10)
+                    + String.format("%04d", fromAccountNumber) + " to " + "X".repeat(10)
+                    + String.format("%04d", toAccountNumber);
+
+            new AccountDAO(fromAccount).withdraw(description, TransactionMode.BRANCH, balance).getTransactionId();
+            new AccountDAO(toAccount).deposit(description, TransactionMode.BRANCH, balance).getTransactionId();
+
+            return 0;
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
+    }
+
+    /**
      * Prints the {@code Account} information.
      * Uses the {@link AccountDAO#printAccountInfo()} method.
      * 

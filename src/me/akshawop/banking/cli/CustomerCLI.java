@@ -36,8 +36,6 @@ final class CustomerCLI extends CustomerDAO {
             System.out.println("\nNew Account creation cancelled!\n");
     }
 
-    // TODO: implement the logic for the account balance transfer to another account
-    // before closing the account
     private static void closeAccount() {
         System.out.print("\nAccount Number(Last Digits of the Account Number after the zeros): ");
         int accountNumber;
@@ -49,6 +47,11 @@ final class CustomerCLI extends CustomerDAO {
         if (accountNumber > 0) {
             Account account = AccountDAO.fetchAccount(accountNumber);
             if (account != null && (account.getCustomerId() == dao.getCurrentCustomer().getCustomerId())) {
+                if (account.getBalance() < 0) {
+                    System.out.println("\nAccount Balance is NEGATIVE, Cannot CLOSE the account!\n");
+                    return;
+                }
+                // verification
                 CustomerCLI.printAccountInfo(account);
                 System.out.println("\n--Verify to CLOSE this Account--\n");
                 System.out.println("y -> To confirm");
@@ -60,6 +63,39 @@ final class CustomerCLI extends CustomerDAO {
                     return;
                 }
 
+                // balance transfer to another account
+                System.out.println(
+                        "\nEnter the Account Number(Last Digits of the Account Number after the zeros) of the account to transfer the remaining fund of this account to!");
+                System.out.print("Account Number: ");
+                int toAccountNumber;
+
+                try {
+                    toAccountNumber = Integer.parseInt(in.nextLine().trim()); // throws Exception if the input is
+                                                                              // invalid
+
+                    AccountDAO.fetchAccount(toAccountNumber).getAccountNumber(); // throws NullPointerException if the
+                                                                                 // account does not exists!
+                } catch (NullPointerException e) {
+                    System.out.println("\nNo such account exists!\n");
+                    return;
+                } catch (Exception e) {
+                    System.out.println("\nInvalid Account Number!\n");
+                    return;
+                }
+
+                if (accountNumber == toAccountNumber) {
+                    System.out.println("\nCannot be the same Account!\n");
+                    return;
+                }
+
+                if (dao.transferBalance(accountNumber, toAccountNumber) != 0) {
+                    System.out.println("\nSomething went Wrong while transferring the amount!");
+                    System.out.println("Account closing unsuccessful!\n");
+                    return;
+                }
+                System.out.println("\nTransferred amount successfully!\n");
+
+                // closing account
                 if (dao.closeAccount(accountNumber) == 0)
                     System.out.println("\nAccount closed successfully!\n");
                 else
