@@ -84,7 +84,7 @@ CREATE TABLE account_transaction (
     amount DECIMAL(14, 2) NOT NULL,
     balance DECIMAL(14, 2) NOT NULL,
     transaction_timestamp DATETIME NOT NULL DEFAULT (NOW()),
-    FOREIGN KEY (account) REFERENCES account(account_number)
+    FOREIGN KEY (account) REFERENCES account(account_number) ON DELETE CASCADE
 );
 
 CREATE TABLE card (
@@ -97,7 +97,7 @@ CREATE TABLE card (
     expiry_date DATE NOT NULL,
     card_pin CHAR(4) NOT NULL,
     card_status ENUM('ACTIVE', 'BLOCKED', 'EXPIRED') NOT NULL,
-    FOREIGN KEY (account) REFERENCES account(account_number),
+    FOREIGN KEY (account) REFERENCES account(account_number) ON DELETE CASCADE,
     CONSTRAINT uk_card_number UNIQUE (card_number),
     CONSTRAINT ck_card_number_chars CHECK (card_number REGEXP '^[0-9]+$'),
     CONSTRAINT ck_cvv_chars CHECK (cvv REGEXP '^[0-9]+$'),
