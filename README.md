@@ -82,14 +82,14 @@ Each CLI file represents a different role in the banking system.
 
 #### 1. **BankCLI** (Bank Official)
 
-- **Purpose:** Manage banks and branches, perform high-level operations.
+- **Purpose:** Manage bank and branches, perform high-level operations.
 - **Main File:** `src/me/akshawop/banking/cli/BankCLI.java`
 - **Run:**
   ```sh
   java -cp "bin;lib/*" me.akshawop.banking.cli.BankCLI
   ```
 - **What it does:**  
-  - Allows creation and management of banks and branches.
+  - Allows creation and management of bank and branches.
   - Uses `BankDAO` for database operations.
   - Helper forms in `inputmodules/forms/` for user input.
 
@@ -126,7 +126,7 @@ Each CLI file represents a different role in the banking system.
 
 - **BankCLI:**  
   - Role: Bank Official  
-  - Manages banks and branches.
+  - Manages bank and branches.
   - Interacts with `BankDAO` for all bank-related database operations.
   - Uses helper forms for structured input.
 
@@ -138,7 +138,7 @@ Each CLI file represents a different role in the banking system.
 
 - **ATM:**  
   - Role: Customer  
-  - Allows customers to access their accounts, perform transactions, and view account/card info.
+  - Allows customers to access their accounts, perform transactions and view a mini statement.
   - Interacts with `AccountDAO`, `TransactionDAO`, etc.
 
 ### **DAO Classes (Data Access Objects)**
@@ -164,7 +164,7 @@ Each CLI file represents a different role in the banking system.
 ## 7. Roleplay Usage
 
 - **Bank Official:**  
-  Run `BankCLI` to manage banks and branches.
+  Run `BankCLI` to manage bank and branches.
 - **Branch Official:**  
   Run `BranchCLI` to manage customers, accounts, and branch operations.
 - **Customer:**  
@@ -205,4 +205,4 @@ Each CLI is independent and should be run in its own terminal window for rolepla
 ---
 
 **Enjoy exploring and roleplaying with your Banking System project!**  
-If you have any questions or need help, check the comments in the code or reach out to your
+If you have any questions or need help, check the comments in the code.
