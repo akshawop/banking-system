@@ -27,7 +27,7 @@ public final class BankCLI extends BankDAO {
             bank = BankDAO.fetchBank();
         } else {
             System.out.println("\nNo Bank exists, create a new one!");
-            Bank newBank = CreateBankForm.fillUp(in); // form fill up
+            Bank newBank = CreateBankForm.fillUp(in);
             if (newBank == null) {
                 System.out.println("Program stopped successfully");
                 System.exit(0);
@@ -61,12 +61,47 @@ public final class BankCLI extends BankDAO {
             System.out.println("\nBranch creation cancelled!\n");
     }
 
-    // TODO: add the verify before closing and accounts transfer to another branch
-    // feature while branch closing process
     private static void closeBranch() {
         System.out.print("\nBranch Code: ");
         String branchCode = in.nextLine().toLowerCase().trim();
-        if (InputChecker.checkBranchCode(branchCode, 'c')) {
+
+        // verification
+        if (InputChecker.checkBranchCode(branchCode, 'c') && dao.getBranch(branchCode) != null) {
+            System.out.println("\nDo you want to really CLOSE "
+                    + dao.getBranch(branchCode).getBranchName().toUpperCase() + " branch!?");
+            System.out.println("[Branch Code] -> To CONFIRM");
+            System.out.println("[anything else] -> To CANCEL");
+            System.out.print("closebranch> ");
+            if (!branchCode.equals(in.nextLine().trim()))
+                return;
+
+            // transfer of accounts
+            System.out.println(
+                    "\nEnter the BRANCH CODE of the branch where to transfer all the accounts of this branch!");
+            System.out.print("Branch Code: ");
+            String code = in.nextLine().toLowerCase().trim();
+
+            if (branchCode.equals(code)) {
+                System.out.println("\nCannot be the same branch!\n");
+                return;
+            }
+
+            if (InputChecker.checkBranchCode(code, 'c') && dao.getBranch(code) != null) {
+                int toBranch = dao.getBranch(code).getBranchId();
+                int fromBranch = dao.getBranch(branchCode).getBranchId();
+                if (dao.transferAllAccounts(fromBranch, toBranch) != 0) {
+                    System.out.println("\nSomething went Wrong while transferring the accounts!");
+                    System.out.println("Branch closing unsuccessful!\n");
+                    return;
+                }
+                System.out.println("\nTransferred accounts successfully!\n");
+            } else {
+                System.out.println("\nInvalid Branch Code!");
+                System.out.println("\nBranch closing unsuccessful!\n");
+                return;
+            }
+
+            // removal from the database
             if (dao.removeBranch(branchCode) == 0)
                 System.out.println("\nBranch closed successfully!\n");
             else

@@ -91,6 +91,10 @@ public class SQLQueries {
                 + from + " LIMIT " + limit;
     }
 
+    public static String changeBranchOfAccountsInDB(int fromBranch, int toBranch) {
+        return "UPDATE account SET branch = " + toBranch + " WHERE branch = " + fromBranch;
+    }
+
     // BranchDAO
     public static String firstBranchInDB() {
         return "SELECT * FROM branch LIMIT 1";

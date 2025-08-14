@@ -206,6 +206,42 @@ public class BankDAO {
     }
 
     /**
+     * Transfers all the accounts from one branch to another.
+     * 
+     * @param fromBranch The {@code int} Branch ID of the branch from where to
+     *                   transfer the accounts
+     * @param toBranch   The {@code int} Branch ID of the branch to where to
+     *                   transfer the accounts to
+     * 
+     * @return {@code 0} if successful; {@code 1} if unsuccessful
+     * 
+     * @log an error message if any error occurs
+     */
+    protected int transferAllAccounts(int fromBranch, int toBranch) {
+        if (fromBranch <= 0 || toBranch <= 0) {
+            return 1;
+        }
+
+        try {
+            Connection con = DB.connect();
+            Statement st = con.createStatement();
+            st.executeUpdate(SQLQueries.changeBranchOfAccountsInDB(fromBranch, toBranch));
+            con.close();
+            return 0;
+        } catch (SQLTimeoutException e) {
+            System.err.println("Error: Database timeout!");
+            System.err.println("More info:\n" + e);
+        } catch (SQLException e) {
+            System.err.println("Error: Database Access Error!");
+            System.err.println("More info:\n" + e);
+        } catch (Exception e) {
+            System.err.println("Error: something went wrong!");
+            System.err.println("More info:\n" + e);
+        }
+        return 1;
+    }
+
+    /**
      * Gets the data of a Branch from the Database whose Branch Code is provided.
      * 
      * @param branchCode The {@code String} Branch Code of the Branch to be fetched
