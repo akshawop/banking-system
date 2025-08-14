@@ -158,13 +158,6 @@ public class SQLQueries {
                 + ")";
     }
 
-    public static String updateAccountInDB(Account account) {
-        return "UPDATE account SET "
-                + "branch_code = " + str(account.getIfscCode().substring(5)) + ", "
-                + "account_status = " + str(account.getStatus().toString())
-                + " WHERE account_number = " + account.getAccountNumber();
-    }
-
     public static String deleteAccountFromDB(int accountNumber) {
         return "DELETE FROM account WHERE account_number = " + accountNumber;
     }
