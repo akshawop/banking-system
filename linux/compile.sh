@@ -7,6 +7,9 @@ set -e
 # Ensure bin directory exists
 mkdir -p bin
 
+# Wait message
+echo "Compiling the project. Please Wait..."
+
 # Find all .java files
 java_files=$(find src/me/akshawop/banking -name "*.java")
 

@@ -5,6 +5,9 @@ if (-not (Test-Path "bin")) {
     New-Item -ItemType Directory -Path "bin" | Out-Null
 }
 
+# Wait Message
+Write-Host "Compiling the project. Please Wait..."
+
 # Get all Java source files
 $javaFiles = Get-ChildItem -Recurse -Path "src\me\akshawop\banking" -Filter *.java |
     ForEach-Object { $_.FullName }
