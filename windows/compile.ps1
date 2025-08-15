@@ -1,8 +1,5 @@
 # compile.ps1 — Compile all Java files in src/me/akshawop/banking recursively
 
-# Change directory to root
-cd ..
-
 # Ensure bin directory exists
 if (-not (Test-Path "bin")) {
     New-Item -ItemType Directory -Path "bin" | Out-Null
