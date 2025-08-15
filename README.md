@@ -1,4 +1,4 @@
-﻿# 🏦 Banking System Project Documentation
+﻿# 🏛️ Banking System Project Documentation
 
 Welcome to the **Banking System** project! This guide will help you set up, understand, and run the project on your local machine using Visual Studio Code or any Java IDE. 🚀
 
