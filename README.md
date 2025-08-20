@@ -267,7 +267,7 @@ Each CLI file represents a different role in the banking system.
 ## 8. 🛑 Troubleshooting
 
 -   Database errors 🗄
-    Check your MySQL connection settings and ensure the schema is set up.
+    Check your MySQL connection settings (in the DB.java file) and ensure the schema is set up in the database (schema.sql).
 -   Class not found 📦
     Make sure you compile with the correct classpath (`lib/*` for JARs).
 -   Input issues ⚠️
