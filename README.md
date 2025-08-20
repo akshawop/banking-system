@@ -128,7 +128,7 @@ Banking System/
 #### **Linux / macOS (Shell)** 🐧
 
 ```sh
-bash linux/compile.sh
+./linux/compile.sh
 ```
 
 #### **Manual Compilation** 🛠️
@@ -155,7 +155,7 @@ Each CLI file represents a different role in the banking system.
         ```
     -   Linux/macOS 🐧:
         ```sh
-        bash linux/bank.sh
+        ./linux/bank.sh
         ```
     -   Manual:
         ```sh
@@ -184,7 +184,7 @@ Each CLI file represents a different role in the banking system.
         ```
     -   Linux/macOS 🐧:
         ```sh
-        bash linux/branch.sh
+        ./linux/branch.sh
         ```
     -   Manual:
         ```sh
@@ -213,7 +213,7 @@ Each CLI file represents a different role in the banking system.
         ```
     -   Linux/macOS 🐧:
         ```sh
-        bash linux/atm.sh
+        ./linux/atm.sh
         ```
     -   Manual:
         ```sh
